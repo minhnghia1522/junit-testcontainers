@@ -1,12 +1,34 @@
 package com.example.demo.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
+
+import org.seasar.doma.BatchInsert;
+import org.seasar.doma.Dao;
+import org.seasar.doma.Insert;
+import org.seasar.doma.Select;
+import org.seasar.doma.Update;
+import org.seasar.doma.boot.ConfigAutowireable;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.Employee;
 
-@Repository
-public interface IEmployeeRepository extends JpaRepository<Employee, Integer> {
+@Dao
+@ConfigAutowireable
+@Transactional
+public interface IEmployeeRepository {
+	@Update
+	int update(Employee employee);
 
+	@Insert
+    int insert(Employee employee);
+
+	@BatchInsert
+	int[] insertAll(List<Employee> employees);
+
+	@Select
+	Employee findById(Integer Id);
+
+	@Select
+	List<Employee> findAllEmployee();
 
 }

@@ -4,7 +4,7 @@
 
 -- DROP TABLE public.employees;
 
-CREATE TABLE public.employees (
+CREATE TABLE public.employee (
 	employee_id int4 NOT NULL,
 	full_name varchar(30) NULL,
 	email varchar(30) NULL,
