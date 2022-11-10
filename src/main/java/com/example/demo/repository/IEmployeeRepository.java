@@ -20,7 +20,7 @@ public interface IEmployeeRepository {
 	int update(Employee employee);
 
 	@Insert
-    int insert(Employee employee);
+	int insert(Employee employee);
 
 	@BatchInsert
 	int[] insertAll(List<Employee> employees);
