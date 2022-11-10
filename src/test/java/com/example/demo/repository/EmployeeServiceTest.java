@@ -12,6 +12,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.seasar.doma.jdbc.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -41,9 +42,9 @@ public class EmployeeServiceTest extends AbstractPostgreSQLContainer {
 		employee.setDepartment("Offshore");
 		employee.setPosition("Developer");
 		employee.setPhone("0423658975");
-		EmployeeDto dto = service.createEmployeee(employee);
-
-		assertEquals(employee.getEmployeeId(), dto.employeeId);
+		int result = service.createEmployeee(employee);
+		assertEquals(1, result);
+		
 	}
 
 	@DisplayName("Test-Get-By-Id")

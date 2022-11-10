@@ -1,19 +1,19 @@
 package com.example.demo.model;
 
+
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.seasar.doma.Column;
+import org.seasar.doma.Entity;
+import org.seasar.doma.Id;
 
 import com.example.demo.dto.EmployeeDto;
 
+
+
 @Entity
-@Table(name = "employees")
 public class Employee {
-	
-	
+
 	public Employee() {
 		super();
 	}
@@ -47,7 +47,7 @@ public class Employee {
 	private String department;
 
 	public EmployeeDto toDto() {
-	return new EmployeeDto(employeeId,fullName,email,position,birthday,phone,department);
+		return new EmployeeDto(employeeId, fullName, email, position, birthday, phone, department);
 	}
 
 	public Integer getEmployeeId() {
@@ -105,6 +105,5 @@ public class Employee {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	
-	
+
 }
