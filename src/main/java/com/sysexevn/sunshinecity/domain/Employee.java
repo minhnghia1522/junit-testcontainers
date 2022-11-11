@@ -1,19 +1,23 @@
 package com.sysexevn.sunshinecity.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.GeneratedValue;
 import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
+import org.seasar.doma.Metamodel;
+import org.seasar.doma.Transient;
 import org.springframework.beans.BeanUtils;
 
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
 
 import lombok.Data;
 
-@Entity
+@Entity(metamodel = @Metamodel)
 @Data
 public class Employee {
 
@@ -39,6 +43,8 @@ public class Employee {
 
 	@Column(name = "department")
 	private String department;
+	@Transient
+	private List<EmployeeRole> employeeRole = new ArrayList<>();
 
 	public Employee(Integer employeeId, String fullName, String email, String position, Date birthday, String phone,
 			String department) {
