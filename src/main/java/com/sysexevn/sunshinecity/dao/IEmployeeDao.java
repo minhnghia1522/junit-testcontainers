@@ -1,6 +1,7 @@
 package com.sysexevn.sunshinecity.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
@@ -27,7 +28,7 @@ public interface IEmployeeDao {
 	int[] insertAll(List<Employee> employees);
 
 	@Select
-	Employee findById(Integer Id);
+	Optional<Employee> findById(Integer Id);
 
 	@Select
 	List<Employee> findAllEmployee();
