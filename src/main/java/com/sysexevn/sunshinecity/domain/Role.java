@@ -2,8 +2,6 @@ package com.sysexevn.sunshinecity.domain;
 
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
-import org.seasar.doma.GeneratedValue;
-import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
 import org.seasar.doma.Metamodel;
 import org.springframework.beans.BeanUtils;
@@ -16,7 +14,6 @@ import lombok.Data;
 @Data
 public class Role {
 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	@Column(name = "role_id")
 	private Integer roleId;

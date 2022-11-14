@@ -19,8 +19,6 @@ import lombok.Data;
 @Table(name = "employee_role")
 public class EmployeeRole {
 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Id
 	@Column(name = "role_id")
 	private Integer roleId;
 
