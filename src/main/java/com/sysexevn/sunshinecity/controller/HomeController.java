@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HomeController {
+
 	@GetMapping("/home")
 	public ResponseEntity<?> home() {
 		return ResponseEntity.ok("Login successfully!!! &#128526;");

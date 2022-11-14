@@ -21,8 +21,7 @@ public class UserDetailServiceConfig implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		EmployeeDto employee = employeeService.getByEmail(username);
 		UserDetails user = User.withUsername(employee.getEmail()).password(passwordEncoder(employee.getPassWord()))
-				.roles(employee.getEmployeeRole().stream().map(x -> x.getRole()).toArray(String[]::new))
-				.build();
+				.roles(employee.getEmployeeRole().stream().map(x -> x.getRole()).toArray(String[]::new)).build();
 		return user;
 	}
 
