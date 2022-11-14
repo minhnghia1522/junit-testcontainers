@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.sysexevn.sunshinecity.dao.IEmployeeDao;
 import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
+import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.IEmployeeService;
 
 @Service
@@ -32,7 +33,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	public EmployeeDto getById(Integer id) {
 		Optional<Employee> employeeResult = employeeDao.findById(id);
 		if (employeeResult.isEmpty()) {
-			throw new RuntimeException(" not found");
+			throw new NotFoundException();
 		}
 		return employeeResult.get().toDto();
 	}
@@ -40,7 +41,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	public EmployeeDto getByEmail(String email) {
 		Optional<Employee> employeeResult = employeeDao.findByEmail(email);
 		if (employeeResult.isEmpty()) {
-			throw new RuntimeException(" not found");
+			throw new NotFoundException();
 		}
 		return employeeResult.get().toDto();
 	}
