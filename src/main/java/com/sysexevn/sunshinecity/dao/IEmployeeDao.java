@@ -1,6 +1,7 @@
 package com.sysexevn.sunshinecity.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
@@ -31,23 +32,26 @@ public interface IEmployeeDao {
 	@BatchInsert
 	int[] insertAll(List<Employee> employees);
 
-	default Employee findById(Integer id) {
+	default Optional<Employee> findById(Integer id) {
 		Employee_ employee = new Employee_();
 		EmployeeRole_ employeeRole = new EmployeeRole_();
 		Role_ role = new Role_();
 		Entityql entityql = new Entityql(Config.get(this));
 		List<Employee> list = entityql.from(employee)
 				.innerJoin(employeeRole, on -> on.eq(employee.employeeId, employeeRole.employeeId))
-				.innerJoin(role, on -> on.eq(employeeRole.roleId, role.roleId)).where(c -> c.eq(employee.employeeId, id))
-				.associate(role, employeeRole, (a, b) -> {
+				.innerJoin(role, on -> on.eq(employeeRole.roleId, role.roleId))
+				.where(c -> c.eq(employee.employeeId, id)).associate(role, employeeRole, (a, b) -> {
 					b.setRole(a.getRoleName());
 				}).associate(employee, employeeRole, (a, b) -> {
 					a.getEmployeeRole().add(b);
 				}).fetch();
-		return list.get(0);
+		if (list.isEmpty()) {
+			return Optional.empty();
+		}
+		return Optional.of(list.get(0));
 	}
 
-	default Employee findByEmail(String email) {
+	default Optional<Employee> findByEmail(String email) {
 		Employee_ employee = new Employee_();
 		EmployeeRole_ employeeRole = new EmployeeRole_();
 		Role_ role = new Role_();
@@ -60,7 +64,10 @@ public interface IEmployeeDao {
 				}).associate(employee, employeeRole, (a, b) -> {
 					a.getEmployeeRole().add(b);
 				}).fetch();
-		return list.get(0);
+		if (list.isEmpty()) {
+			return Optional.empty();
+		}
+		return Optional.of(list.get(0));
 	}
 
 	@Select

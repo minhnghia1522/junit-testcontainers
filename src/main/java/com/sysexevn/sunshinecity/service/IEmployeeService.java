@@ -2,8 +2,6 @@ package com.sysexevn.sunshinecity.service;
 
 import java.util.List;
 
-import org.springframework.security.core.userdetails.User;
-
 import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
 
