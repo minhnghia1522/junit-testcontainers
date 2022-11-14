@@ -24,24 +24,25 @@ public class EmployeeController {
 
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getById(@PathVariable("id") int id) {
+	public ResponseEntity<EmployeeDto> getById(@PathVariable("id") int id) {
 		EmployeeDto employee = service.getById(id);
 		if (employee == null) {
-			return (ResponseEntity<?>) ResponseEntity.status(404);
+			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(employee);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/getAll")
-	public ResponseEntity<?> getAll() {
+	public ResponseEntity<List<EmployeeDto>> getAll() {
 		List<EmployeeDto> employees = service.getAll();
 		return ResponseEntity.ok(employees);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody EmployeeDto dto) {
+	public ResponseEntity<Void> create(@RequestBody EmployeeDto dto) {
 		service.createEmployeee(dto);
 		return ResponseEntity.ok().build();
 	}
+
 }
