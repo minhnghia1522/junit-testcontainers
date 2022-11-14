@@ -2,6 +2,7 @@ package com.sysexevn.sunshinecity.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.sysexevn.sunshinecity.dao.IEmployeeDao;
 import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
+import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.IEmployeeService;
 
 @Service
@@ -29,8 +31,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	public EmployeeDto getById(Integer id) {
-		Employee employeeResult = employeeDao.findById(id);
-		return employeeResult.toDto();
+		Optional<Employee> employeeResult = employeeDao.findById(id);
+		if (employeeResult.isEmpty()) {
+			throw new NotFoundException();
+		}
+		return employeeResult.get().toDto();
 	}
 
 	public List<EmployeeDto> getAll() {

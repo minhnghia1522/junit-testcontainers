@@ -18,6 +18,8 @@
 		<java.version>17</java.version>
 		<testcontainers.version>1.17.4</testcontainers.version>
 		<doma.version>2.53.1</doma.version>
+		<docker.host>tcp://127.0.0.1:2375</docker.host>
+		<docker.client.strategy>org.testcontainers.dockerclient.EnvironmentAndSystemPropertyClientProviderStrategy</docker.client.strategy>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -124,6 +126,17 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>-Dspring.profiles.active=test</argLine>
+					<environmentVariables>
+						<DOCKER_CLIENT_STRATEGY>${docker.client.strategy}</DOCKER_CLIENT_STRATEGY>
+						<DOCKER_HOST>${docker.host}</DOCKER_HOST>
+					</environmentVariables>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

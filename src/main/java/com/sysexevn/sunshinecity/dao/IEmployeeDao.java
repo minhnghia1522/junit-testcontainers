@@ -1,6 +1,7 @@
 package com.sysexevn.sunshinecity.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
@@ -31,7 +32,7 @@ public interface IEmployeeDao {
 	@BatchInsert
 	int[] insertAll(List<Employee> employees);
 
-	default Employee findById(Integer id) {
+	Employee findById(Integer id) {
 		Employee_ employee = new Employee_();
 		EmployeeRole_ employeeRole = new EmployeeRole_();
 		Entityql entityql = new Entityql(Config.get(this));
