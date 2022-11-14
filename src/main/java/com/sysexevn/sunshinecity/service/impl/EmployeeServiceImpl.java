@@ -20,14 +20,14 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Autowired
 	private IEmployeeDao employeeDao;
 
-	public int createEmployeee(EmployeeDto employeeDto) {
+	public Employee createEmployeee(EmployeeDto employeeDto) {
 		Employee domain = new Employee();
 		BeanUtils.copyProperties(employeeDto, domain);
-		return employeeDao.insert(domain);
+		return employeeDao.insert(domain).getEntity();
 	}
 
-	public int[] saveAll(List<Employee> employees) {
-		return employeeDao.insertAll(employees);
+	public List<Employee> saveAll(List<Employee> employees) {
+		return employeeDao.insertAll(employees).getEntities();
 	}
 
 	public EmployeeDto getById(Integer id) {

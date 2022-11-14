@@ -15,10 +15,16 @@ import org.springframework.beans.BeanUtils;
 
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity(metamodel = @Metamodel)
-@Data
+@Entity(metamodel = @Metamodel, immutable = true)
+@AllArgsConstructor()
+@NoArgsConstructor
+@Getter
+@Setter
 public class Employee {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,24 +49,9 @@ public class Employee {
 
 	@Column(name = "department")
 	private String department;
+	
 	@Transient
-	private List<EmployeeRole> employeeRole = new ArrayList<>();
-
-	public Employee(Integer employeeId, String fullName, String email, String position, Date birthday, String phone,
-			String department) {
-		super();
-		this.employeeId = employeeId;
-		this.fullName = fullName;
-		this.email = email;
-		this.position = position;
-		this.birthday = birthday;
-		this.phone = phone;
-		this.department = department;
-	}
-
-	public Employee() {
-		super();
-	}
+	private final List<EmployeeRole> employeeRole = new ArrayList<>();
 
 	public EmployeeDto toDto() {
 		var result = new EmployeeDto();
