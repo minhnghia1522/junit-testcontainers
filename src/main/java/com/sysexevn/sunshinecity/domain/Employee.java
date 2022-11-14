@@ -11,9 +11,6 @@ import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
 import org.seasar.doma.Metamodel;
 import org.seasar.doma.Transient;
-import org.springframework.beans.BeanUtils;
-
-import com.sysexevn.sunshinecity.dto.EmployeeDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,14 +46,8 @@ public class Employee {
 
 	@Column(name = "department")
 	private String department;
-	
+
 	@Transient
 	private final List<EmployeeRole> employeeRole = new ArrayList<>();
-
-	public EmployeeDto toDto() {
-		var result = new EmployeeDto();
-		BeanUtils.copyProperties(this, result);
-		return result;
-	}
 
 }

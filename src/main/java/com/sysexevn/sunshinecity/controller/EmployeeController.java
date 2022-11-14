@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
 import com.sysexevn.sunshinecity.service.IEmployeeService;
 
@@ -38,8 +37,8 @@ public class EmployeeController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Employee> create(@RequestBody EmployeeDto dto) {
-		Employee employee = service.createEmployeee(dto);
+	public ResponseEntity<EmployeeDto> create(@RequestBody EmployeeDto dto) {
+		EmployeeDto employee = service.createEmployeee(dto);
 		return ResponseEntity.ok(employee);
 	}
 
