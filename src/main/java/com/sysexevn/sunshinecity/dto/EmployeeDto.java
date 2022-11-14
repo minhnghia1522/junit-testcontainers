@@ -1,6 +1,9 @@
 package com.sysexevn.sunshinecity.dto;
 
 import java.util.Date;
+import java.util.List;
+
+import com.sysexevn.sunshinecity.domain.EmployeeRole;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,4 +22,5 @@ public class EmployeeDto {
 	private Date birthday;
 	private String phone;
 	private String department;
+	private List<EmployeeRole> employeeRole;
 }
