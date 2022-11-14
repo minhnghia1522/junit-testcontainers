@@ -32,6 +32,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		Employee employeeResult = employeeDao.findById(id);
 		return employeeResult.toDto();
 	}
+	
+	public EmployeeDto getByEmail(String email) {
+		Employee employeeResult = employeeDao.findByEmail(email);
+		return employeeResult.toDto();
+	}
 
 	public List<EmployeeDto> getAll() {
 		List<EmployeeDto> listEmployeeDto = new ArrayList<>();

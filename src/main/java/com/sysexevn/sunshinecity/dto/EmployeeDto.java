@@ -22,5 +22,6 @@ public class EmployeeDto {
 	private Date birthday;
 	private String phone;
 	private String department;
+	private String passWord;
 	private List<EmployeeRole> employeeRole;
 }

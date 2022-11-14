@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ public class EmployeeController {
 	@Autowired
 	public IEmployeeService service;
 
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable("id") int id) {
 		EmployeeDto employee = service.getById(id);
@@ -30,6 +33,7 @@ public class EmployeeController {
 		return ResponseEntity.ok(employee);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping("/getAll")
 	public ResponseEntity<?> getAll() {
 		List<EmployeeDto> employees = service.getAll();

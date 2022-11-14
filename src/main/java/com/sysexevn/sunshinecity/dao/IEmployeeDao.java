@@ -8,14 +8,14 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
+import org.seasar.doma.jdbc.Config;
+import org.seasar.doma.jdbc.criteria.Entityql;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sysexevn.sunshinecity.domain.Employee;
-import com.sysexevn.sunshinecity.domain.Employee_;
 import com.sysexevn.sunshinecity.domain.EmployeeRole_;
-import com.sysexevn.sunshinecity.dto.EmployeeDto;
-import org.seasar.doma.jdbc.Config;
-import org.seasar.doma.jdbc.criteria.Entityql;
+import com.sysexevn.sunshinecity.domain.Employee_;
+import com.sysexevn.sunshinecity.domain.Role_;
 
 @Dao
 @ConfigAutowireable
@@ -34,9 +34,30 @@ public interface IEmployeeDao {
 	default Employee findById(Integer id) {
 		Employee_ employee = new Employee_();
 		EmployeeRole_ employeeRole = new EmployeeRole_();
+		Role_ role = new Role_();
 		Entityql entityql = new Entityql(Config.get(this));
-		List<Employee> list = entityql.from(employee).innerJoin(employeeRole, on -> on.eq(employee.employeeId, employeeRole.employeeId))
-				.where(c -> c.eq(employee.employeeId, id)).associate(employee, employeeRole, (a, b) -> {
+		List<Employee> list = entityql.from(employee)
+				.innerJoin(employeeRole, on -> on.eq(employee.employeeId, employeeRole.employeeId))
+				.innerJoin(role, on -> on.eq(employeeRole.roleId, role.roleId)).where(c -> c.eq(employee.employeeId, id))
+				.associate(role, employeeRole, (a, b) -> {
+					b.setRole(a.getRoleName());
+				}).associate(employee, employeeRole, (a, b) -> {
+					a.getEmployeeRole().add(b);
+				}).fetch();
+		return list.get(0);
+	}
+
+	default Employee findByEmail(String email) {
+		Employee_ employee = new Employee_();
+		EmployeeRole_ employeeRole = new EmployeeRole_();
+		Role_ role = new Role_();
+		Entityql entityql = new Entityql(Config.get(this));
+		List<Employee> list = entityql.from(employee)
+				.innerJoin(employeeRole, on -> on.eq(employee.employeeId, employeeRole.employeeId))
+				.innerJoin(role, on -> on.eq(employeeRole.roleId, role.roleId)).where(c -> c.eq(employee.email, email))
+				.associate(role, employeeRole, (a, b) -> {
+					b.setRole(a.getRoleName());
+				}).associate(employee, employeeRole, (a, b) -> {
 					a.getEmployeeRole().add(b);
 				}).fetch();
 		return list.get(0);
