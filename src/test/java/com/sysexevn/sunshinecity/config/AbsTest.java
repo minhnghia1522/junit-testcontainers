@@ -18,6 +18,12 @@ public class AbsTest {
 	@Container
 	public static PostgreSQLContainer<?> conatiner = PostgresqlContainer.getInstance();
 
+//	@Value("${app.clean-database-after-test}")
+//	public Boolean isClean;
+//
+//	@Autowired
+//	public JdbcTemplate jdbcTemplate;
+
 	@DynamicPropertySource
 	static void properties(DynamicPropertyRegistry registry) {
 		registry.add("spring.datasource.url", conatiner::getJdbcUrl);
@@ -25,9 +31,15 @@ public class AbsTest {
 		registry.add("spring.datasource.password", conatiner::getPassword);
 	}
 
-//	@BeforeEach
-//	void resetDatabase() {
-////		h2Util.resetDatabase();
-//		conatiner.
+//	protected void resetDatabase() {
+//		if (isClean) {
+//			jdbcTemplate.queryForList(
+//					"select 'truncate table \"' || tablename || '\" cascade;' from pg_tables where schemaname='public';\n",
+//					String.class).forEach(jdbcTemplate::update);
+//			jdbcTemplate.queryForList(
+//					"select 'drop sequence if exists \"' || relname || '\" cascade;'from pg_class where relkind='S';\n",
+//					String.class).forEach(jdbcTemplate::update);
+//		}
+//
 //	}
 }

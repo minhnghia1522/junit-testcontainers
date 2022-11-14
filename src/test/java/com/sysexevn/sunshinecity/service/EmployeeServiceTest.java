@@ -9,23 +9,27 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.sysexevn.sunshinecity.config.AbsTest;
 import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
 import com.sysexevn.sunshinecity.exception.NotFoundException;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class EmployeeServiceTest extends AbsTest {
+//@TestInstance(Lifecycle.PER_CLASS)
+public class EmployeeServiceTest {
 
 	@Autowired
 	public IEmployeeService service;
 
+//	@BeforeAll
+//	public void resetData() {
+//		this.resetDatabase();
+//	}
+
 	@DisplayName("Test-Create-Employee")
-	@Test
+//	@Test
 	@Order(1)
 	public void testCreate() {
 		EmployeeDto employee = new EmployeeDto();
@@ -41,7 +45,7 @@ public class EmployeeServiceTest extends AbsTest {
 	}
 
 	@DisplayName("Test-Get-By-Id")
-	@Test
+//	@Test
 	@Order(2)
 	public void testGetById() {
 		Employee employee = new Employee();
@@ -58,7 +62,7 @@ public class EmployeeServiceTest extends AbsTest {
 	}
 
 	@DisplayName("Test-Get-List")
-	@Test
+//	@Test
 	@Order(3)
 	public void testGetList() {
 		EmployeeDto employee = new EmployeeDto();
@@ -70,7 +74,7 @@ public class EmployeeServiceTest extends AbsTest {
 	}
 
 	@DisplayName("Test-Get-Id-Not-Found")
-	@Test
+//	@Test
 	@Order(4)
 	public void testGetIdNotFound() {
 		assertThrows(NotFoundException.class, () -> service.getById(55));
