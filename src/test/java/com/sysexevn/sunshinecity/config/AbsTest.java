@@ -24,4 +24,10 @@ public class AbsTest {
 		registry.add("spring.datasource.username", conatiner::getUsername);
 		registry.add("spring.datasource.password", conatiner::getPassword);
 	}
+
+//	@BeforeEach
+//	void resetDatabase() {
+////		h2Util.resetDatabase();
+//		conatiner.
+//	}
 }
