@@ -1,6 +1,8 @@
 package com.sysexevn.sunshinecity.controller;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,18 +46,40 @@ public class PostController {
 	@PostMapping("/post/excel/upload")
 	public ResponseEntity<OutputResponse<PostDTO>> insertPostFromExcelUpload(@RequestParam("file") MultipartFile file)
 			throws IOException {
+		
+		long startTotal = System.currentTimeMillis();
+		
 		OutputResponse<PostDTO> out = new OutputResponse<>();
 		// upload file
 		if (file != null && !file.isEmpty()) {
+			
+			long startSaveFile = System.currentTimeMillis();
 			String generatedFilename = uploadFileService.storeFile(file, "excel");
+			long endSaveFile = System.currentTimeMillis();
+			
+			long startReadFile = System.currentTimeMillis();
+			List<PostDTO> listSave =  PostReadExcel.read("src/main/resources/static/" + generatedFilename);
+			long endReadFile = System.currentTimeMillis();
+			
+			long startSaveDB = System.currentTimeMillis();
 			List<PostDTO> result = postService
-					.saveAll(PostReadExcel.read("src/main/resources/static/" + generatedFilename));
+					.saveAll(listSave);
+			long endSaveDB = System.currentTimeMillis();
+			
 			if (result.isEmpty())
 				out.setMessage("can not save excel to database!");
 			else
 				out.setMessage("read excel success!");
-			out.setData(result);
+			//out.setData(result);
 			out.setMessage("upload file success!");
+			// calculator time execute
+			
+			long endTotal = System.currentTimeMillis();
+			NumberFormat formatter = new DecimalFormat("#0.00000");
+			System.out.println("*** Thời gian khi lưu file excel vào đĩa: " + formatter.format((endSaveFile - startSaveFile) / 1000d) + " seconds");
+			System.out.println("*** Thời gian đọc file excel: " + formatter.format((endReadFile - startReadFile) / 1000d) + " seconds");
+			System.out.println("*** Thời gian lưu dữ liệu vào database: " + formatter.format((endSaveDB - startSaveDB) / 1000d) + " seconds");
+			System.out.println("*** Tổng thời gian thực thi của API: " + formatter.format((endTotal - startTotal) / 1000d) + " seconds");
 			return ResponseEntity.ok(out);
 		}
 		out.setMessage("upload file fail!");
