@@ -25,20 +25,21 @@ public class PostServiceTest extends AbsTest {
 
 	@Autowired
 	IPostService postService;
+	
+	private static Integer idExist = -1;
 
 	@DisplayName("Test-Create-Post")
 	@Test
 	@Order(1)
 	public void testCreate() {
 		PostDTO post = new PostDTO();
-		post.setId(1);
 		post.setTitle("test tiêu đề post");
 		post.setPostName("test tên post");
 		post.setPostDescription("test mô tả post");
 		post.setCreatedAt(new Date());
 		post.setUpdatedAt(new Date());
-		int result = postService.createPost(post);
-		assertEquals(1, result);
+		PostDTO result = postService.createPost(post);
+		assertEquals("test tiêu đề post", result.getTitle());
 	}
 	
 	@DisplayName("Test-Update-Post")
@@ -46,14 +47,13 @@ public class PostServiceTest extends AbsTest {
 	@Order(2)
 	public void testUpdate() {
 		PostDTO post = new PostDTO();
-		post.setId(1);
 		post.setTitle("test tiêu đề post update");
 		post.setPostName("test tên post update");
 		post.setPostDescription("test mô tả post update");
 		post.setCreatedAt(new Date());
 		post.setUpdatedAt(new Date());
-		int result = postService.updatePost(post);
-		assertEquals(1, result);
+		PostDTO result = postService.updatePost(post);
+		assertEquals("test tiêu đề post update", result.getTitle());
 	}
 	
 	@DisplayName("Test-Select-All-Post")
@@ -61,13 +61,13 @@ public class PostServiceTest extends AbsTest {
 	@Order(3)
 	public void testSelectAll() {
 		PostDTO post = new PostDTO();
-		post.setId(2);
 		post.setTitle("test tiêu đề post 2");
 		post.setPostName("test tên post 2");
 		post.setPostDescription("test mô tả post 2");
 		post.setCreatedAt(new Date());
 		post.setUpdatedAt(new Date());
-		postService.createPost(post);
+		PostDTO result = postService.createPost(post);
+		PostServiceTest.idExist = result.getId(); // for test case below
 		List<PostDTO> listPost = postService.getAll();
 		assertEquals(2, listPost.size());
 	}
@@ -76,7 +76,7 @@ public class PostServiceTest extends AbsTest {
 	@Test
 	@Order(4)
 	public void testSelectId() {
-		PostDTO post = postService.getById(2);
+		PostDTO post = postService.getById(idExist);
 		assertEquals("test tiêu đề post 2", post.getTitle());
 	}
 	

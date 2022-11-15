@@ -2,10 +2,10 @@ package com.sysexevn.sunshinecity.controller;
 
 import static com.sysexevn.sunshinecity.utils.CommonUtils.asJsonString;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,12 +33,13 @@ public class PostControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
+	private static Integer autoId = 16;
+	
 	@DisplayName("Test-Add-Post-Controller")
 	@Test
 	@Order(1)
 	public void testCreate() throws Exception {
 		PostDTO dto = new PostDTO();
-		dto.setId(1);
 		dto.setPostName("post name test");
 		dto.setPostDescription("post description test");
 		dto.setTitle("post title test");
@@ -50,7 +51,7 @@ public class PostControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 		String resultDOW = result.getResponse().getContentAsString();
-		assertNotNull(resultDOW.contains("success"));
+		assertNotNull(resultDOW.contains("success"));	
 	}
 	
 	@DisplayName("Test-Update-Post-Controller")
@@ -58,11 +59,10 @@ public class PostControllerTest {
 	@Order(2)
 	public void testUpdate() throws Exception {
 		PostDTO dto = new PostDTO();
-		dto.setId(1);
 		dto.setPostName("post name test update");
 		dto.setPostDescription("post description test update");
 		dto.setTitle("post title test update");
-		MvcResult result = this.mockMvc.perform(put("/post")
+		MvcResult result = this.mockMvc.perform(put("/post/" + autoId)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(asJsonString(dto)))
@@ -88,7 +88,7 @@ public class PostControllerTest {
 	@Test
 	@Order(4)
 	public void testGetPost() throws Exception{
-		MvcResult result = this.mockMvc.perform(get("/post/1")).andDo(print()).andExpect(status().isOk())
+		MvcResult result = this.mockMvc.perform(get("/post/" + autoId)).andDo(print()).andExpect(status().isOk())
 				.andReturn();
 		String resultDOW = result.getResponse().getContentAsString();
 		assertNotNull(resultDOW.contains("success"));
@@ -99,11 +99,10 @@ public class PostControllerTest {
 	@Order(4)
 	public void testDeletePost() throws Exception{
 		PostDTO dto = new PostDTO();
-		dto.setId(1);
 		dto.setPostName("post name test update");
 		dto.setPostDescription("post description test update");
 		dto.setTitle("post title test update");
-		MvcResult result = this.mockMvc.perform(delete("/post")
+		MvcResult result = this.mockMvc.perform(delete("/post/" + autoId)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(asJsonString(dto)))

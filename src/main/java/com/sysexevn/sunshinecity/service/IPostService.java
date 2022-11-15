@@ -6,10 +6,10 @@ import com.sysexevn.sunshinecity.dto.PostDTO;
 
 public interface IPostService {
 
-	int createPost(PostDTO post);
-	int updatePost(PostDTO post);
-	int deletePost(PostDTO post);
-	int[] saveAll(List<PostDTO> posts);
+	PostDTO createPost(PostDTO post);
+	PostDTO updatePost(PostDTO post);
+	PostDTO deletePost(PostDTO post);
+	List<PostDTO> saveAll(List<PostDTO> posts);
 	PostDTO getById(Integer id);
 	List<PostDTO> getAll();
 	void deleteAllPost();

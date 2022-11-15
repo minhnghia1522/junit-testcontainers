@@ -4,15 +4,25 @@ import java.util.Date;
 
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
+import org.seasar.doma.GeneratedValue;
+import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
+import org.seasar.doma.Metamodel;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Data
+@Entity(immutable = true, metamodel = @Metamodel)
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Post {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Column
@@ -29,18 +39,4 @@ public class Post {
 
 	@Column(name = "updated_at")
 	private Date updatedAt;
-
-	public Post(Integer id, String title, String postName, String postDescription, Date createdAt, Date updatedAt) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.postName = postName;
-		this.postDescription = postDescription;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-	}
-
-	public Post() {
-		super();
-	}
 }

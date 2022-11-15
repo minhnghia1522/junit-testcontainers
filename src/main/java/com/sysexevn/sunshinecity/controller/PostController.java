@@ -25,34 +25,39 @@ public class PostController {
 	private IPostService postService;
 
 	@PostMapping("/post")
-	public ResponseEntity<OutputResponse<Integer>> insertPost(@RequestBody PostDTO dto) {
-		Integer id = postService.createPost(dto);
-		OutputResponse<Integer> out = new OutputResponse<>();
+	public ResponseEntity<OutputResponse<PostDTO>> insertPost(@RequestBody PostDTO dto) {
+		PostDTO result = postService.createPost(dto);
+		OutputResponse<PostDTO> out = new OutputResponse<>();
 		out.setMessage("add post success!");
-		out.setData(Collections.singletonList(id));
+		out.setData(Collections.singletonList(result));
 		return ResponseEntity.ok(out);
 	}
 
-	@PutMapping("/post")
-	public ResponseEntity<OutputResponse<Integer>> updatePost(@RequestBody PostDTO dto) {
-		OutputResponse<Integer> out = new OutputResponse<>();
-		if (postService.existPost(dto.getId())) {
-			Integer id = postService.updatePost(dto);
+	@PutMapping("/post/{id}")
+	public ResponseEntity<OutputResponse<PostDTO>> updatePost(	@PathVariable("id") Integer id,
+																@RequestBody PostDTO dto) {
+		PostDTO dtoExist = postService.getById(id);
+		OutputResponse<PostDTO> out = new OutputResponse<>();
+		if (dtoExist != null) {
+			dto.setId(id);
+			PostDTO result = postService.updatePost(dto);
 			out.setMessage("update post success!");
-			out.setData(Collections.singletonList(id));
+			out.setData(Collections.singletonList(result));
 			return ResponseEntity.ok(out);
 		}
 		out.setMessage("post id not found!");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(out);
 	}
 
-	@DeleteMapping("/post")
-	public ResponseEntity<OutputResponse<Integer>> deletePost(@RequestBody PostDTO dto) {
-		OutputResponse<Integer> out = new OutputResponse<>();
-		if (postService.existPost(dto.getId())) {
-			Integer id = postService.deletePost(dto);
+	@DeleteMapping("/post/{id}")
+	public ResponseEntity<OutputResponse<PostDTO>> deletePost(@PathVariable("id") Integer id) {
+		PostDTO dto = postService.getById(id);
+		OutputResponse<PostDTO> out = new OutputResponse<>();
+		if (dto != null) {
+			dto.setId(id);
+			PostDTO result = postService.deletePost(dto);
 			out.setMessage("delete post success!");
-			out.setData(Collections.singletonList(id));
+			out.setData(Collections.singletonList(result));
 			return ResponseEntity.ok(out);
 		}
 		out.setMessage("post id nout found!");
