@@ -33,7 +33,7 @@ public class PostControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
-	private static Integer autoId = 18;
+	private static Integer autoId = 20;
 	
 	@DisplayName("Test-Add-Post-Controller")
 	@Test
