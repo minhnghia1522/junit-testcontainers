@@ -15,7 +15,9 @@
 	<properties>
 		<java.version>17</java.version>
 		<testcontainers.version>1.17.4</testcontainers.version>
+		<poi.version>4.1.2</poi.version>
 		<doma.version>2.53.1</doma.version>
+		<commonsio.version>2.6</commonsio.version>
 		<docker.host>tcp://127.0.0.1:2375</docker.host>
 		<docker.client.strategy>org.testcontainers.dockerclient.EnvironmentAndSystemPropertyClientProviderStrategy</docker.client.strategy>
 	</properties>
@@ -79,7 +81,16 @@
 			<artifactId>postgresql</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commonsio.version}</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

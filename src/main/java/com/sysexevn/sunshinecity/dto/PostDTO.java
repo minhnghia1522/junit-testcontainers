@@ -17,4 +17,18 @@ public class PostDTO {
 	private String postDescription;
 	private Date createdAt;
 	private Date updatedAt;
+	private Integer postTypeId;
+	private Integer acceptedAnswerId;
+	private Integer parentId;
+	private Integer score;
+	private Integer viewCount;
+	private String body;
+	private Integer ownerUserId;
+	private String ownerDisplayName;
+	private String tags;
+	private Integer answerCount;
+	private Integer commentCount;
+	private Integer favoriteCount;
+	private Date closedDate;
+	private Date communityOwnerDate;
 }

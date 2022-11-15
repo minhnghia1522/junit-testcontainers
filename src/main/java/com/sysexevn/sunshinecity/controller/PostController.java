@@ -1,5 +1,6 @@
 package com.sysexevn.sunshinecity.controller;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,17 +13,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sysexevn.sunshinecity.dto.PostDTO;
 import com.sysexevn.sunshinecity.response.OutputResponse;
 import com.sysexevn.sunshinecity.service.IPostService;
+import com.sysexevn.sunshinecity.service.IUploadFileService;
+import com.sysexevn.sunshinecity.service.impl.PostReadExcel;
 
 @RestController
 public class PostController {
 
 	@Autowired
 	private IPostService postService;
+
+	@Autowired
+	private IUploadFileService uploadFileService;
 
 	@PostMapping("/post")
 	public ResponseEntity<OutputResponse<PostDTO>> insertPost(@RequestBody PostDTO dto) {
@@ -33,9 +41,38 @@ public class PostController {
 		return ResponseEntity.ok(out);
 	}
 
+	@PostMapping("/post/excel/upload")
+	public ResponseEntity<OutputResponse<PostDTO>> insertPostFromExcelUpload(@RequestParam("file") MultipartFile file)
+			throws IOException {
+		OutputResponse<PostDTO> out = new OutputResponse<>();
+		// upload file
+		if (file != null && !file.isEmpty()) {
+			String generatedFilename = uploadFileService.storeFile(file, "excel");
+			List<PostDTO> result = postService
+					.saveAll(PostReadExcel.read("src/main/resources/static/" + generatedFilename));
+			if (result.isEmpty())
+				out.setMessage("can not save excel to database!");
+			else
+				out.setMessage("read excel success!");
+			out.setData(result);
+			out.setMessage("upload file success!");
+			return ResponseEntity.ok(out);
+		}
+		out.setMessage("upload file fail!");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(out);
+	}
+
+	@DeleteMapping("/post/deleteAll")
+	public ResponseEntity<OutputResponse<PostDTO>> deleteAllPost() {
+		OutputResponse<PostDTO> out = new OutputResponse<>();
+		postService.deleteAllPost();
+		out.setMessage("delete all post success!");
+		return ResponseEntity.ok(out);
+	}
+
 	@PutMapping("/post/{id}")
-	public ResponseEntity<OutputResponse<PostDTO>> updatePost(	@PathVariable("id") Integer id,
-																@RequestBody PostDTO dto) {
+	public ResponseEntity<OutputResponse<PostDTO>> updatePost(@PathVariable("id") Integer id,
+			@RequestBody PostDTO dto) {
 		PostDTO dtoExist = postService.getById(id);
 		OutputResponse<PostDTO> out = new OutputResponse<>();
 		if (dtoExist != null) {

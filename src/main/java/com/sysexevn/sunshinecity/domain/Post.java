@@ -39,4 +39,47 @@ public class Post {
 
 	@Column(name = "updated_at")
 	private Date updatedAt;
+	
+	@Column(name = "post_type_id")
+	private Integer postTypeId;
+	
+	@Column(name = "accepted_answer_id")
+	private Integer acceptedAnswerId;
+	
+	@Column(name = "parent_id")
+	private Integer parentId;
+	
+	@Column(name = "score")
+	private Integer score;
+	
+	@Column(name = "view_count")
+	private Integer viewCount;
+	
+	@Column(name = "body")
+	private String body;
+	
+	@Column(name = "owner_user_id")
+	private Integer ownerUserId;
+	
+	@Column(name = "owner_display_name")
+	private String ownerDisplayName;
+	
+	@Column(name = "tags")
+	private String tags;
+	
+	@Column(name = "answer_count")
+	private Integer answerCount;
+	
+	@Column(name = "comment_count")
+	private Integer commentCount;
+	
+	@Column(name = "favorite_count")
+	private Integer favoriteCount;
+	
+	@Column(name = "closed_date")
+	private Date closedDate;
+	
+	@Column(name = "community_owner_date")
+	private Date communityOwnerDate;
+	
 }
