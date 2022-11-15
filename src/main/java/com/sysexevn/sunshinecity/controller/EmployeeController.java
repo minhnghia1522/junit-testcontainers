@@ -37,9 +37,9 @@ public class EmployeeController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> create(@RequestBody EmployeeDto dto) {
-		service.createEmployeee(dto);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<EmployeeDto> create(@RequestBody EmployeeDto dto) {
+		EmployeeDto employee = service.createEmployeee(dto);
+		return ResponseEntity.ok(employee);
 	}
 
 }

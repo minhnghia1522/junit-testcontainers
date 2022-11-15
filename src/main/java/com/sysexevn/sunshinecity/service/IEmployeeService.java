@@ -7,9 +7,9 @@ import com.sysexevn.sunshinecity.dto.EmployeeDto;
 
 public interface IEmployeeService {
 
-	int createEmployeee(EmployeeDto employee);
+	EmployeeDto createEmployeee(EmployeeDto employee);
 
-	int[] saveAll(List<Employee> employees);
+	List<Employee> saveAll(List<Employee> employees);
 
 	EmployeeDto getById(Integer id);
 

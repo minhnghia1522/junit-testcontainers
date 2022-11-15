@@ -1,1 +1,0 @@
-select * from employee where employee_id = /*Id*/10
