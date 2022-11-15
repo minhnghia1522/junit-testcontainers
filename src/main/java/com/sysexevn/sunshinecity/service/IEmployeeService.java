@@ -5,7 +5,7 @@ import java.util.List;
 import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
 
-public interface IEmployeeService {
+public interface IEmployeeService  {
 
 	EmployeeDto createEmployeee(EmployeeDto employee);
 
