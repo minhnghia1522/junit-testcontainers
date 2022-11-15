@@ -155,6 +155,23 @@ public class PostReadExcel {
 							}
 							break;
 						}
+						case 18: {
+							if (cell.getCellType() == CellType.STRING) {
+								@SuppressWarnings("deprecation")
+								Date date = new Date(cell.getStringCellValue());
+								dto.setClosedDate(date);
+							}
+							break;
+						}
+						case 19: {
+							if (cell.getCellType() == CellType.STRING) {
+								@SuppressWarnings("deprecation")
+								Date date = new Date(cell.getStringCellValue());
+								dto.setCommunityOwnerDate(date);
+							}
+							break;
+						}
+						
 					}
 				}
 				list.add(dto);
