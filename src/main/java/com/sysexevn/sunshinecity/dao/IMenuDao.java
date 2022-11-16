@@ -10,6 +10,8 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
+import org.seasar.doma.jdbc.BatchResult;
+import org.seasar.doma.jdbc.Result;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sysexevn.sunshinecity.domain.Menu;
@@ -18,18 +20,15 @@ import com.sysexevn.sunshinecity.domain.Menu;
 @ConfigAutowireable
 @Transactional
 public interface IMenuDao {
-	
+
 	@Update
-	int update(Menu menu);
+	Result<Menu> update(Menu menu);
 
 	@Insert
-	int insert(Menu menu);
-	
-	@Delete
-    int delete(Menu menu);
+	Result<Menu> insert(Menu menu);
 
-	@BatchInsert
-	int[] insertAll(List<Menu> menu);
+	@Delete
+	Result<Menu> delete(Menu menu);
 
 	@Select
 	Optional<Menu> findById(Integer Id);
@@ -37,5 +36,7 @@ public interface IMenuDao {
 	@Select
 	List<Menu> findAllMenu();
 	
+	@BatchInsert
+	BatchResult<Menu> insertAll(List<Menu> menu);
 
 }

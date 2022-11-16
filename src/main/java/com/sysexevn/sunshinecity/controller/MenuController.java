@@ -13,48 +13,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sysexevn.sunshinecity.domain.Menu;
 import com.sysexevn.sunshinecity.dto.MenuDto;
 import com.sysexevn.sunshinecity.service.IMenuService;
 
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
-	
+
 	@Autowired
 	public IMenuService service;
 
 	@GetMapping("/{id}")
 	public ResponseEntity<MenuDto> getById(@PathVariable("id") int id) {
 		MenuDto menu = service.getById(id);
-		if (menu == null) {
-			return ResponseEntity.notFound().build();
-		}
 		return ResponseEntity.ok(menu);
 	}
-	
+
 	@GetMapping("/getAll")
 	public ResponseEntity<List<MenuDto>> getAll() {
 		List<MenuDto> menu = service.getAll();
 		return ResponseEntity.ok(menu);
 	}
-	
+
 	@PostMapping("/addmenu")
-	public ResponseEntity<Void> create(@RequestBody MenuDto dto) {
-		service.createMenu(dto);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<MenuDto> create(@RequestBody MenuDto dto) {
+		MenuDto menu = service.createMenu(dto);
+		return ResponseEntity.ok(menu);
 	}
-	
+
 	@DeleteMapping("/delete")
-	public ResponseEntity<Void> delete(@RequestBody MenuDto dto) {
-		service.deleteMenu(dto);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<MenuDto> delete(@RequestBody MenuDto dto) {
+		MenuDto menu = service.deleteMenu(dto);
+		return ResponseEntity.ok(menu);
 	}
+
 	@PutMapping("/updatemenu")
 	public ResponseEntity<Void> update(@RequestBody MenuDto dto) {
 		service.updateMenu(dto);
 		return ResponseEntity.ok().build();
 	}
-	
-//	
-//	
+
+	@PostMapping("/CreatAll")
+	public ResponseEntity<Void> createAll(@RequestBody List<Menu> listMenu) {
+		service.saveAll(listMenu);
+		return ResponseEntity.ok().build();
+	}
 }

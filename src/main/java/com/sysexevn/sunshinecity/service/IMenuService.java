@@ -2,19 +2,18 @@ package com.sysexevn.sunshinecity.service;
 
 import java.util.List;
 
-
 import com.sysexevn.sunshinecity.domain.Menu;
 import com.sysexevn.sunshinecity.dto.MenuDto;
 
 public interface IMenuService {
 	
-	int createMenu(MenuDto menu);
+	MenuDto createMenu(MenuDto menu);
 	
-	int updateMenu(MenuDto menu);
+	List<Menu> saveAll(List<Menu> menus);
 	
-	int deleteMenu(MenuDto menu);
-
-	int[] saveAll(List<Menu> menu);
+	MenuDto updateMenu(MenuDto menu);
+	
+	MenuDto deleteMenu(MenuDto menu);
 
 	MenuDto getById(Integer id);
 

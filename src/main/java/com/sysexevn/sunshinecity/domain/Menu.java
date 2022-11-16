@@ -7,16 +7,18 @@ import org.seasar.doma.Entity;
 import org.seasar.doma.GeneratedValue;
 import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
-import org.seasar.doma.Table;
-import org.springframework.beans.BeanUtils;
+import org.seasar.doma.Metamodel;
 
-import com.sysexevn.sunshinecity.dto.MenuDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import lombok.Data;
-
-@Entity
-@Data
-@Table(name = "menu")
+@Entity(metamodel = @Metamodel, immutable = true)
+@AllArgsConstructor()
+@NoArgsConstructor
+@Getter
+@Setter
 public class Menu {
 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,22 +38,5 @@ public class Menu {
 	@Column(name = "update_at")
 	private Date updateAt;
 
-	public Menu(Integer menuId, String menuName, String menuPath, Date createdAt, Date updateAt) {
-		super();
-		this.menuId = menuId;
-		this.menuName = menuName;
-		this.menuPath = menuPath;
-		this.createdAt = createdAt;
-		this.updateAt = updateAt;
-	}
 
-	public Menu() {
-		super();
-	}
-
-	public MenuDto toDto() {
-		var result = new MenuDto();
-		BeanUtils.copyProperties(this, result);
-		return result;
-	}
 }
