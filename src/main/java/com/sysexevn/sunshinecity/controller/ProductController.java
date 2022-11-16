@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sysexevn.sunshinecity.dto.ProductDto;
-import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.IProductService;
 
 @RestController
@@ -46,9 +44,6 @@ public class ProductController {
 	@PatchMapping
 	public ResponseEntity<?> update(@RequestBody ProductDto p) {
 		ProductDto result = service.update(p);
-		if (ObjectUtils.isEmpty(result)) {
-			throw new NotFoundException();
-		}
 		return ResponseEntity.ok(result);
 	}
 
