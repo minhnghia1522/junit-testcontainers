@@ -36,7 +36,7 @@ public class UploadFileService implements IUploadFileService {
 	}
 
 	// check file is excel
-	private boolean isExcelFile(MultipartFile file) {
+	private boolean isExcelOrCSVFile(MultipartFile file) {
 		String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
 		return Arrays.asList(new String[] { "xlsx", "xls", "csv" }).contains(fileExtension.trim().toLowerCase());
 	}
@@ -49,7 +49,7 @@ public class UploadFileService implements IUploadFileService {
 			if (file.isEmpty())
 				throw new RuntimeException();
 			// check file
-			if (!isExcelFile(file))
+			if (!isExcelOrCSVFile(file))
 				throw new RuntimeException();
 			// check size
 //			float fileSizeInMegabytes = file.getSize() / 1_000_000.0f;

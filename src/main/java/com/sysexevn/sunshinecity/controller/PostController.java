@@ -111,9 +111,9 @@ public class PostController {
 			long endSaveDB = System.currentTimeMillis();
 			
 			if (result.isEmpty())
-				out.setMessage("can not save excel to database!");
+				out.setMessage("can not save csv to database!");
 			else
-				out.setMessage("read excel success!");
+				out.setMessage("read csv success!");
 			out.setMessage("upload file success!");
 			
 			// calculator time execute
