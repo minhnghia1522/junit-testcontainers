@@ -3,6 +3,7 @@ package com.sysexevn.sunshinecity.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.seasar.doma.jdbc.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,23 +46,20 @@ public class ProductServiceImp implements IProductService {
 
 	@Override
 	public ProductDto update(ProductDto pDto) {
-		if (isExist(pDto.getId())) {
-			return mapper.convert(repository.update(mapper.convert(pDto)).getEntity());
+		Result<Product> result = repository.update(mapper.convert(pDto));
+		if (result.getCount() > 0) {
+			return mapper.convert(result.getEntity());
 		}
 		throw new NotFoundException();
 	}
 
 	@Override
 	public void delete(int id) {
-		if (isExist(id)) {
-			Product p = new Product();
-			p.setId(id);
-			repository.delete(p).getEntity();
+		Product p = new Product();
+		p.setId(id);
+		Result<Product> result = repository.delete(p);
+		if (result.getCount() < 1) {
+			throw new NotFoundException();
 		}
-		throw new NotFoundException();
-	}
-
-	private boolean isExist(int id) {
-		return repository.selectById(id).isPresent();
 	}
 }
