@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import com.sysexevn.sunshinecity.dto.PostDTO;
 
 @Service
-public class PostReadExcel {
+public class PostReadExcelService {
 
 	public static List<PostDTO> read(String fileName) throws IOException {
 		List<PostDTO> list = new ArrayList<>();

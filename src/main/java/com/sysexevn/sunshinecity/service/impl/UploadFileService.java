@@ -38,7 +38,7 @@ public class UploadFileService implements IUploadFileService {
 	// check file is excel
 	private boolean isExcelFile(MultipartFile file) {
 		String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
-		return Arrays.asList(new String[] { "xlsx", "xls" }).contains(fileExtension.trim().toLowerCase());
+		return Arrays.asList(new String[] { "xlsx", "xls", "csv" }).contains(fileExtension.trim().toLowerCase());
 	}
 
 	@Override

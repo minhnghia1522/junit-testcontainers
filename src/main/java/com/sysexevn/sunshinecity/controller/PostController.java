@@ -23,7 +23,8 @@ import com.sysexevn.sunshinecity.dto.PostDTO;
 import com.sysexevn.sunshinecity.response.OutputResponse;
 import com.sysexevn.sunshinecity.service.IPostService;
 import com.sysexevn.sunshinecity.service.IUploadFileService;
-import com.sysexevn.sunshinecity.service.impl.PostReadExcel;
+import com.sysexevn.sunshinecity.service.impl.PostReadCSVService;
+import com.sysexevn.sunshinecity.service.impl.PostReadExcelService;
 
 @RestController
 public class PostController {
@@ -58,7 +59,7 @@ public class PostController {
 			long endSaveFile = System.currentTimeMillis();
 			
 			long startReadFile = System.currentTimeMillis();
-			List<PostDTO> listSave =  PostReadExcel.read("src/main/resources/static/" + generatedFilename);
+			List<PostDTO> listSave =  PostReadExcelService.read("src/main/resources/static/" + generatedFilename);
 			long endReadFile = System.currentTimeMillis();
 			
 			long startSaveDB = System.currentTimeMillis();
@@ -78,6 +79,48 @@ public class PostController {
 			NumberFormat formatter = new DecimalFormat("#0.00000");
 			System.out.println("*** Thời gian khi lưu file excel vào đĩa: " + formatter.format((endSaveFile - startSaveFile) / 1000d) + " seconds");
 			System.out.println("*** Thời gian đọc file excel: " + formatter.format((endReadFile - startReadFile) / 1000d) + " seconds");
+			System.out.println("*** Thời gian lưu dữ liệu vào database: " + formatter.format((endSaveDB - startSaveDB) / 1000d) + " seconds");
+			System.out.println("*** Tổng thời gian thực thi của API: " + formatter.format((endTotal - startTotal) / 1000d) + " seconds");
+			return ResponseEntity.ok(out);
+		}
+		out.setMessage("upload file fail!");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(out);
+	}
+	
+	@PostMapping("/post/csv/upload")
+	public ResponseEntity<OutputResponse<PostDTO>> insertPostFromCSVUpload(@RequestParam("file") MultipartFile file)
+			throws IOException {
+		
+		long startTotal = System.currentTimeMillis();
+		
+		OutputResponse<PostDTO> out = new OutputResponse<>();
+		// upload file
+		if (file != null && !file.isEmpty()) {
+			
+			long startSaveFile = System.currentTimeMillis();
+			String generatedFilename = uploadFileService.storeFile(file, "csv");
+			long endSaveFile = System.currentTimeMillis();
+			
+			long startReadFile = System.currentTimeMillis();
+			List<PostDTO> listSave =  PostReadCSVService.read("src/main/resources/static/" + generatedFilename);
+			long endReadFile = System.currentTimeMillis();
+			
+			long startSaveDB = System.currentTimeMillis();
+			List<PostDTO> result = postService
+					.saveAll(listSave);
+			long endSaveDB = System.currentTimeMillis();
+			
+			if (result.isEmpty())
+				out.setMessage("can not save excel to database!");
+			else
+				out.setMessage("read excel success!");
+			out.setMessage("upload file success!");
+			
+			// calculator time execute
+			long endTotal = System.currentTimeMillis();
+			NumberFormat formatter = new DecimalFormat("#0.00000");
+			System.out.println("*** Thời gian khi lưu file csv vào đĩa: " + formatter.format((endSaveFile - startSaveFile) / 1000d) + " seconds");
+			System.out.println("*** Thời gian đọc file csv: " + formatter.format((endReadFile - startReadFile) / 1000d) + " seconds");
 			System.out.println("*** Thời gian lưu dữ liệu vào database: " + formatter.format((endSaveDB - startSaveDB) / 1000d) + " seconds");
 			System.out.println("*** Tổng thời gian thực thi của API: " + formatter.format((endTotal - startTotal) / 1000d) + " seconds");
 			return ResponseEntity.ok(out);
