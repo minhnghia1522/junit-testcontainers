@@ -1,4 +1,5 @@
 package com.sysexevn.sunshinecity.exception;
+
 import java.util.Locale;
 
 import org.springframework.context.MessageSource;

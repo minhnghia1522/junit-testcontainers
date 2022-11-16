@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.sysexevn.sunshinecity.exception.error.Error;
-
+import com.sysexevn.sunshinecity.exception.response.BaseSuccessResponse;
+import com.sysexevn.sunshinecity.exception.success.Success;
 
 @ControllerAdvice
 @Order(value = 1)
@@ -54,9 +55,33 @@ public class BaseExceptionHandler {
 	}
 
 	private ResponseEntity<Error> handleException(Exception exception) {
-		// log.error("An error occured: ", exception);
 		return new ResponseEntity<>(Error.builder().code("server_error").message(
 				"An error occured on the server when processing the URL. Please contact the system administrator.")
 				.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
+	private ResponseEntity<Success> handleResponse(Exception exception) {
+		return new ResponseEntity<>(Success.builder().code("server_error").message(
+				"An error occured on the server when processing the URL. Please contact the system administrator.")
+				.build(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@ExceptionHandler(value = BaseSuccessResponse.class)
+	public ResponseEntity<Success> exceptions(BaseSuccessResponse exception) {
+		Success success = exception.getSuccess();
+		if (ObjectUtils.isEmpty(success)) {
+			return handleResponse(exception);
+		}
+
+		if (success.hasSuccess()) {
+			return new ResponseEntity<Success>(success, exception.getStatus());
+		}
+
+		if (ObjectUtils.isEmpty(success.getMessage())) {
+			String message = messageSource.getMessage(success.getCode(), success.getParams(), Locale.US);
+			success.setMessage(message);
+		}
+		return new ResponseEntity<Success>(success, exception.getStatus());
+	}
+
 }
