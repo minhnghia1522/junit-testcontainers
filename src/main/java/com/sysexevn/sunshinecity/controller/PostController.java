@@ -45,88 +45,100 @@ public class PostController {
 	}
 
 	@PostMapping("/post/excel/upload")
-	public ResponseEntity<OutputResponse<PostDTO>> insertPostFromExcelUpload(@RequestParam("file") MultipartFile file)
-			throws IOException {
-		
+	public ResponseEntity<OutputResponse<PostDTO>> insertPostFromExcelUpload(
+			@RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+
 		long startTotal = System.currentTimeMillis();
-		
+
 		OutputResponse<PostDTO> out = new OutputResponse<>();
 		// upload file
 		if (file != null && !file.isEmpty()) {
-			
 			long startSaveFile = System.currentTimeMillis();
 			String generatedFilename = uploadFileService.storeFile(file, "excel");
 			long endSaveFile = System.currentTimeMillis();
-			
+
 			long startReadFile = System.currentTimeMillis();
-			List<PostDTO> listSave =  PostReadExcelService.read("src/main/resources/static/" + generatedFilename);
+			List<PostDTO> listSave = PostReadExcelService.read("src/main/resources/static/" + generatedFilename);
 			long endReadFile = System.currentTimeMillis();
-			
+			if(listSave == null || listSave.isEmpty()) {
+				out.setMessage("file excel is empty!");
+				uploadFileService.deleteFile(generatedFilename);
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
+			}
+
 			long startSaveDB = System.currentTimeMillis();
-			List<PostDTO> result = postService
-					.saveAll(listSave);
+			postService.saveAll(listSave);
 			long endSaveDB = System.currentTimeMillis();
-			
-			if (result.isEmpty())
-				out.setMessage("can not save excel to database!");
-			else
-				out.setMessage("read excel success!");
-			//out.setData(result);
+
+			// out.setData(result);
 			out.setMessage("upload file success!");
+
 			// calculator time execute
-			
 			long endTotal = System.currentTimeMillis();
 			NumberFormat formatter = new DecimalFormat("#0.00000");
-			System.out.println("*** Thời gian khi lưu file excel vào đĩa: " + formatter.format((endSaveFile - startSaveFile) / 1000d) + " seconds");
-			System.out.println("*** Thời gian đọc file excel: " + formatter.format((endReadFile - startReadFile) / 1000d) + " seconds");
-			System.out.println("*** Thời gian lưu dữ liệu vào database: " + formatter.format((endSaveDB - startSaveDB) / 1000d) + " seconds");
-			System.out.println("*** Tổng thời gian thực thi của API: " + formatter.format((endTotal - startTotal) / 1000d) + " seconds");
+			System.out.println("*** Thời gian khi lưu file excel vào đĩa: "
+					+ formatter.format((endSaveFile - startSaveFile) / 1000d) + " seconds");
+			System.out.println("*** Thời gian đọc file excel: "
+					+ formatter.format((endReadFile - startReadFile) / 1000d) + " seconds");
+			System.out.println("*** Thời gian lưu dữ liệu vào database: "
+					+ formatter.format((endSaveDB - startSaveDB) / 1000d) + " seconds");
+			System.out.println("*** Tổng thời gian thực thi của API: "
+					+ formatter.format((endTotal - startTotal) / 1000d) + " seconds");
+			// delete file
+			uploadFileService.deleteFile(generatedFilename);
 			return ResponseEntity.ok(out);
 		}
 		out.setMessage("upload file fail!");
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(out);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
 	}
-	
+
 	@PostMapping("/post/csv/upload")
-	public ResponseEntity<OutputResponse<PostDTO>> insertPostFromCSVUpload(@RequestParam("file") MultipartFile file)
-			throws IOException {
-		
+	public ResponseEntity<OutputResponse<PostDTO>> insertPostFromCSVUpload(
+			@RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+
 		long startTotal = System.currentTimeMillis();
-		
+
 		OutputResponse<PostDTO> out = new OutputResponse<>();
 		// upload file
 		if (file != null && !file.isEmpty()) {
-			
+
 			long startSaveFile = System.currentTimeMillis();
 			String generatedFilename = uploadFileService.storeFile(file, "csv");
 			long endSaveFile = System.currentTimeMillis();
-			
+
 			long startReadFile = System.currentTimeMillis();
-			List<PostDTO> listSave =  PostReadCSVService.read("src/main/resources/static/" + generatedFilename);
+			List<PostDTO> listSave = PostReadCSVService.read("src/main/resources/static/" + generatedFilename);
 			long endReadFile = System.currentTimeMillis();
-			
+			if(listSave.isEmpty()) {
+				out.setMessage("file csv is empty!");
+				uploadFileService.deleteFile(generatedFilename);
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
+			}
+
 			long startSaveDB = System.currentTimeMillis();
-			List<PostDTO> result = postService
-					.saveAll(listSave);
+			postService.saveAll(listSave);
 			long endSaveDB = System.currentTimeMillis();
-			
-			if (result.isEmpty())
-				out.setMessage("can not save csv to database!");
-			else
-				out.setMessage("read csv success!");
+
 			out.setMessage("upload file success!");
-			
+
 			// calculator time execute
 			long endTotal = System.currentTimeMillis();
 			NumberFormat formatter = new DecimalFormat("#0.00000");
-			System.out.println("*** Thời gian khi lưu file csv vào đĩa: " + formatter.format((endSaveFile - startSaveFile) / 1000d) + " seconds");
-			System.out.println("*** Thời gian đọc file csv: " + formatter.format((endReadFile - startReadFile) / 1000d) + " seconds");
-			System.out.println("*** Thời gian lưu dữ liệu vào database: " + formatter.format((endSaveDB - startSaveDB) / 1000d) + " seconds");
-			System.out.println("*** Tổng thời gian thực thi của API: " + formatter.format((endTotal - startTotal) / 1000d) + " seconds");
+			System.out.println("*** Thời gian khi lưu file csv vào đĩa: "
+					+ formatter.format((endSaveFile - startSaveFile) / 1000d) + " seconds");
+			System.out.println("*** Thời gian đọc file csv: " + formatter.format((endReadFile - startReadFile) / 1000d)
+					+ " seconds");
+			System.out.println("*** Thời gian lưu dữ liệu vào database: "
+					+ formatter.format((endSaveDB - startSaveDB) / 1000d) + " seconds");
+			System.out.println("*** Tổng thời gian thực thi của API: "
+					+ formatter.format((endTotal - startTotal) / 1000d) + " seconds");
+			// delete file
+			System.out.println(generatedFilename);
+			uploadFileService.deleteFile(generatedFilename);
 			return ResponseEntity.ok(out);
 		}
 		out.setMessage("upload file fail!");
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(out);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
 	}
 
 	@DeleteMapping("/post/deleteAll")
@@ -134,6 +146,14 @@ public class PostController {
 		OutputResponse<PostDTO> out = new OutputResponse<>();
 		postService.deleteAllPost();
 		out.setMessage("delete all post success!");
+		return ResponseEntity.ok(out);
+	}
+
+	@PostMapping("/post/insertAll")
+	public ResponseEntity<OutputResponse<PostDTO>> insertAll(@RequestBody List<PostDTO> dtos) {
+		OutputResponse<PostDTO> out = new OutputResponse<>();
+		postService.saveAll(dtos);
+		out.setMessage("insert all posts success!");
 		return ResponseEntity.ok(out);
 	}
 
@@ -150,7 +170,7 @@ public class PostController {
 			return ResponseEntity.ok(out);
 		}
 		out.setMessage("post id not found!");
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(out);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
 	}
 
 	@DeleteMapping("/post/{id}")
@@ -165,7 +185,7 @@ public class PostController {
 			return ResponseEntity.ok(out);
 		}
 		out.setMessage("post id nout found!");
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(out);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
 	}
 
 	@GetMapping("/getAllPost")
@@ -183,13 +203,13 @@ public class PostController {
 	@GetMapping("/post/{id}")
 	public ResponseEntity<OutputResponse<PostDTO>> getPost(@PathVariable("id") Integer id) {
 		OutputResponse<PostDTO> out = new OutputResponse<PostDTO>();
-		try {
+		if (postService.existPost(id)) {
 			out.setMessage("get post success!");
 			out.setData(Collections.singletonList(postService.getById(id)));
 			return ResponseEntity.ok(out);
-		} catch (Exception e) {
-			out.setMessage("get post not found!");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
 		}
+		out.setMessage("get post not found!");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
+
 	}
 }

@@ -35,154 +35,136 @@ public class PostReadExcelService {
 				while (cellIterator.hasNext()) {
 					Cell cell = cellIterator.next();
 					switch (cell.getColumnIndex()) {
-						// id auto generate
-//						case 0: {
-//							if (cell.getCellType() == CellType.NUMERIC) {
-//								dto.setId((int) cell.getNumericCellValue());
-//								System.out.print(dto.getId());
-//							}
-//							break;
-//						}
-						case 1: {
-							if (cell.getCellType() == CellType.STRING) {
-								dto.setTitle(cell.toString());
-								//System.out.print(" - " + dto.getTitle());
-							}
-							break;
+					case 1: {
+						if (cell.getCellType() == CellType.STRING) {
+							dto.setTitle(cell.toString());
 						}
-						case 2: {
-							if (cell.getCellType() == CellType.STRING) {
-								dto.setPostName(cell.toString());
-								//System.out.print(" - " + dto.getPostName());
-							}
-							break;
+						break;
+					}
+					case 2: {
+						if (cell.getCellType() == CellType.STRING) {
+							dto.setPostName(cell.toString());
 						}
-						case 3: {
-							if (cell.getCellType() == CellType.STRING) {
-								dto.setPostDescription(cell.toString());
-								//System.out.print(" - " + dto.getPostDescription());
-							}
-							break;
+						break;
+					}
+					case 3: {
+						if (cell.getCellType() == CellType.STRING) {
+							dto.setPostDescription(cell.toString());
 						}
-						case 4: {
-							if (cell.getCellType() == CellType.STRING) {
-								@SuppressWarnings("deprecation")
-								Date date = new Date(cell.getStringCellValue());
-								// DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-								dto.setCreatedAt(date);
-								//System.out.print(" - " + dto.getCreatedAt());
-							}
-							break;
+						break;
+					}
+					case 4: {
+						if (cell.getCellType() == CellType.STRING) {
+							@SuppressWarnings("deprecation")
+							Date date = new Date(cell.getStringCellValue());
+							// DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+							dto.setCreatedAt(date);
 						}
-						case 5: {
-							if (cell.getCellType() == CellType.STRING) {
-								@SuppressWarnings("deprecation")
-								Date date = new Date(cell.getStringCellValue());
-								dto.setUpdatedAt(date);
-								//System.out.print(" - " + dto.getUpdatedAt());
-							}
-							break;
+						break;
+					}
+					case 5: {
+						if (cell.getCellType() == CellType.STRING) {
+							@SuppressWarnings("deprecation")
+							Date date = new Date(cell.getStringCellValue());
+							dto.setUpdatedAt(date);
 						}
-						case 6: {
-							if (cell.getCellType() == CellType.NUMERIC) {
-								dto.setPostTypeId((int) cell.getNumericCellValue());
-							}
-							break;
+						break;
+					}
+					case 6: {
+						if (cell.getCellType() == CellType.NUMERIC) {
+							dto.setPostTypeId((int) cell.getNumericCellValue());
 						}
-						case 7: {
-							if (cell.getCellType() == CellType.NUMERIC) {
-								dto.setAcceptedAnswerId((int) cell.getNumericCellValue());
-							}
-							break;
+						break;
+					}
+					case 7: {
+						if (cell.getCellType() == CellType.NUMERIC) {
+							dto.setAcceptedAnswerId((int) cell.getNumericCellValue());
 						}
-						case 8: {
-							if (cell.getCellType() == CellType.NUMERIC) {
-								dto.setParentId((int) cell.getNumericCellValue());
-							}
-							break;
+						break;
+					}
+					case 8: {
+						if (cell.getCellType() == CellType.NUMERIC) {
+							dto.setParentId((int) cell.getNumericCellValue());
 						}
-						case 9: {
-							if (cell.getCellType() == CellType.NUMERIC) {
-								dto.setScore((int) cell.getNumericCellValue());
-							}
-							break;
+						break;
+					}
+					case 9: {
+						if (cell.getCellType() == CellType.NUMERIC) {
+							dto.setScore((int) cell.getNumericCellValue());
 						}
-						case 10: {
-							if (cell.getCellType() == CellType.NUMERIC) {
-								dto.setViewCount((int) cell.getNumericCellValue());
-							}
-							break;
+						break;
+					}
+					case 10: {
+						if (cell.getCellType() == CellType.NUMERIC) {
+							dto.setViewCount((int) cell.getNumericCellValue());
 						}
-						case 11: {
-							if (cell.getCellType() == CellType.STRING) {
-								dto.setBody(cell.toString());
-							}
-							break;
+						break;
+					}
+					case 11: {
+						if (cell.getCellType() == CellType.STRING) {
+							dto.setBody(cell.toString());
 						}
-						case 12: {
-							if (cell.getCellType() == CellType.NUMERIC) {
-								dto.setOwnerUserId((int) cell.getNumericCellValue());
-							}
-							break;
+						break;
+					}
+					case 12: {
+						if (cell.getCellType() == CellType.NUMERIC) {
+							dto.setOwnerUserId((int) cell.getNumericCellValue());
 						}
-						case 13: {
-							if (cell.getCellType() == CellType.STRING) {
-								dto.setOwnerDisplayName(cell.toString());
-							}
-							break;
+						break;
+					}
+					case 13: {
+						if (cell.getCellType() == CellType.STRING) {
+							dto.setOwnerDisplayName(cell.toString());
 						}
-						case 14: {
-							if (cell.getCellType() == CellType.STRING) {
-								dto.setTags(cell.toString());
-							}
-							break;
+						break;
+					}
+					case 14: {
+						if (cell.getCellType() == CellType.STRING) {
+							dto.setTags(cell.toString());
 						}
-						case 15: {
-							if (cell.getCellType() == CellType.NUMERIC) {
-								dto.setAnswerCount((int) cell.getNumericCellValue());
-							}
-							break;
+						break;
+					}
+					case 15: {
+						if (cell.getCellType() == CellType.NUMERIC) {
+							dto.setAnswerCount((int) cell.getNumericCellValue());
 						}
-						case 16: {
-							if (cell.getCellType() == CellType.NUMERIC) {
-								dto.setCommentCount((int) cell.getNumericCellValue());
-							}
-							break;
+						break;
+					}
+					case 16: {
+						if (cell.getCellType() == CellType.NUMERIC) {
+							dto.setCommentCount((int) cell.getNumericCellValue());
 						}
-						case 17: {
-							if (cell.getCellType() == CellType.NUMERIC) {
-								dto.setFavoriteCount((int) cell.getNumericCellValue());
-							}
-							break;
+						break;
+					}
+					case 17: {
+						if (cell.getCellType() == CellType.NUMERIC) {
+							dto.setFavoriteCount((int) cell.getNumericCellValue());
 						}
-						case 18: {
-							if (cell.getCellType() == CellType.STRING) {
-								@SuppressWarnings("deprecation")
-								Date date = new Date(cell.getStringCellValue());
-								dto.setClosedDate(date);
-							}
-							break;
+						break;
+					}
+					case 18: {
+						if (cell.getCellType() == CellType.STRING) {
+							@SuppressWarnings("deprecation")
+							Date date = new Date(cell.getStringCellValue());
+							dto.setClosedDate(date);
 						}
-						case 19: {
-							if (cell.getCellType() == CellType.STRING) {
-								@SuppressWarnings("deprecation")
-								Date date = new Date(cell.getStringCellValue());
-								dto.setCommunityOwnerDate(date);
-							}
-							break;
+						break;
+					}
+					case 19: {
+						if (cell.getCellType() == CellType.STRING) {
+							@SuppressWarnings("deprecation")
+							Date date = new Date(cell.getStringCellValue());
+							dto.setCommunityOwnerDate(date);
 						}
-						
+						break;
+					}
 					}
 				}
 				list.add(dto);
-				//System.out.println("\n");
 			}
+			return list;
+		} catch (Exception e) {
+			return null;
 		}
-		return list;
-	}
-
-	public static void main(String[] args) throws IOException {
-		List<PostDTO> result = read("C:\\Users\\duy-anhp\\Desktop\\data.xlsx");
-		System.out.println(result);
 	}
 }
