@@ -18,6 +18,7 @@
 		<poi.version>4.1.2</poi.version>
 		<doma.version>2.53.1</doma.version>
 		<commonsio.version>2.6</commonsio.version>
+		<commonscsv.version>1.9.0</commonscsv.version>
 		<docker.host>tcp://127.0.0.1:2375</docker.host>
 		<docker.client.strategy>org.testcontainers.dockerclient.EnvironmentAndSystemPropertyClientProviderStrategy</docker.client.strategy>
 	</properties>
@@ -90,6 +91,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>${commonsio.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>${commonscsv.version}</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
