@@ -1,9 +1,12 @@
 package com.sysexevn.sunshinecity.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sysexevn.sunshinecity.dto.PostDTO;
+import com.sysexevn.sunshinecity.poi.PoiAdvance;
 import com.sysexevn.sunshinecity.response.OutputResponse;
 import com.sysexevn.sunshinecity.service.IPostService;
 import com.sysexevn.sunshinecity.service.IUploadFileService;
@@ -31,6 +35,9 @@ public class PostController {
 
 	@Autowired
 	private IUploadFileService uploadFileService;
+	
+	@Autowired
+	private PoiAdvance poiAdvance;
 
 	@PostMapping("/post")
 	public ResponseEntity<OutputResponse<PostDTO>> insertPost(@RequestBody PostDTO dto) {
@@ -48,14 +55,19 @@ public class PostController {
 		// upload file
 		if (file != null && !file.isEmpty()) {
 			String generatedFilename = uploadFileService.storeFile(file, "excel");
-			List<PostDTO> result = postService
-					.saveAll(PostReadExcel.read("src/main/resources/static/" + generatedFilename));
-			if (result.isEmpty())
-				out.setMessage("can not save excel to database!");
-			else
-				out.setMessage("read excel success!");
-			out.setData(result);
-			out.setMessage("upload file success!");
+			String fileName = "src/main/resources/static/" + generatedFilename;
+//			List<PostDTO> result = postService
+//					.saveAll(PostReadExcel.read("src/main/resources/static/" + generatedFilename));
+			FileInputStream inputStream = new FileInputStream(new File(fileName));
+			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+			poiAdvance.read(workbook, PostDTO.class);
+//			if (result.isEmpty()) {
+//				out.setMessage("can not save excel to database!");
+//			} else {
+//				out.setMessage("read excel success!");
+//			}
+//			out.setData(result);
+//			out.setMessage("upload file success!");
 			return ResponseEntity.ok(out);
 		}
 		out.setMessage("upload file fail!");
