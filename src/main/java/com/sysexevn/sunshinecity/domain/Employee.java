@@ -51,7 +51,7 @@ public class Employee {
 	private List<EmployeeRole> employeeRole = new ArrayList<>();
 
 	public Employee(Integer employeeId, String fullName, String email, String position, Date birthday, String phone,
-			String department) {
+			String department, String passWord) {
 		super();
 		this.employeeId = employeeId;
 		this.fullName = fullName;
@@ -60,6 +60,7 @@ public class Employee {
 		this.birthday = birthday;
 		this.phone = phone;
 		this.department = department;
+		this.passWord = passWord;
 	}
 
 	public Employee() {

@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sysexevn.sunshinecity.dao.IEmployeeDao;
@@ -23,6 +24,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	public int createEmployeee(EmployeeDto employeeDto) {
 		Employee domain = new Employee();
 		BeanUtils.copyProperties(employeeDto, domain);
+		domain.setPassWord(new BCryptPasswordEncoder().encode(domain.getPassWord()));
 		return employeeDao.insert(domain);
 	}
 

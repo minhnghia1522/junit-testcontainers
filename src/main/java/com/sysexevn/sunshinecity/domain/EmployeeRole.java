@@ -2,20 +2,24 @@ package com.sysexevn.sunshinecity.domain;
 
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
-import org.seasar.doma.GeneratedValue;
-import org.seasar.doma.GenerationType;
-import org.seasar.doma.Id;
 import org.seasar.doma.Metamodel;
 import org.seasar.doma.Table;
 import org.seasar.doma.Transient;
 import org.springframework.beans.BeanUtils;
 
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
+import com.sysexevn.sunshinecity.dto.EmployeeRoleDto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity(metamodel = @Metamodel)
-@Data
+@Entity(metamodel = @Metamodel, immutable = true)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "employee_role")
 public class EmployeeRole {
 
@@ -28,14 +32,16 @@ public class EmployeeRole {
 	@Transient
 	private String role;
 
-	public EmployeeRole() {
-		super();
-	}
-
-	public EmployeeDto toDto() {
-		var result = new EmployeeDto();
+	public EmployeeRoleDto toDto() {
+		var result = new EmployeeRoleDto();
 		BeanUtils.copyProperties(this, result);
 		return result;
+	}
+
+	public EmployeeRole(Integer roleId, Integer employeeId) {
+		super();
+		this.roleId = roleId;
+		this.employeeId = employeeId;
 	}
 
 }
