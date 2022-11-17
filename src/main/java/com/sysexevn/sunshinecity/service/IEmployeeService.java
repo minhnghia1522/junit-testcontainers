@@ -14,4 +14,6 @@ public interface IEmployeeService  {
 	EmployeeDto getById(Integer id);
 
 	List<EmployeeDto> getAll();
+
+	EmployeeDto getByEmail(String username);
 }

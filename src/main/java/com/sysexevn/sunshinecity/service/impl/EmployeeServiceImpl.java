@@ -41,6 +41,14 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return converter.convert(employeeResult.get());
 	}
 
+	public EmployeeDto getByEmail(String email) {
+		Optional<Employee> employeeResult = employeeDao.findByEmail(email);
+		if (employeeResult.isEmpty()) {
+			throw new NotFoundException();
+		}
+		return employeeResult.get().toDto();
+	}
+
 	public List<EmployeeDto> getAll() {
 		List<EmployeeDto> listEmployeeDto = new ArrayList<>();
 		employeeDao.findAllEmployee().forEach(employee -> listEmployeeDto.add(converter.convert(employee)));

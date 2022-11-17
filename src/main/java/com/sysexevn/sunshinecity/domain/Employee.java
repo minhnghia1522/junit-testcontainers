@@ -47,6 +47,9 @@ public class Employee {
 	@Column(name = "department")
 	private String department;
 
+	@Column(name = "pass_word")
+	private String passWord;
+
 	@Transient
 	private final List<EmployeeRole> employeeRole = new ArrayList<>();
 

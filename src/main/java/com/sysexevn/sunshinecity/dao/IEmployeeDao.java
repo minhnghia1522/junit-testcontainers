@@ -13,11 +13,14 @@ import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Result;
 import org.seasar.doma.jdbc.criteria.Entityql;
+import org.seasar.doma.jdbc.Config;
+import org.seasar.doma.jdbc.criteria.Entityql;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.domain.EmployeeRole_;
 import com.sysexevn.sunshinecity.domain.Employee_;
+import com.sysexevn.sunshinecity.domain.Role_;
 
 @Dao
 @ConfigAutowireable
@@ -36,10 +39,33 @@ public interface IEmployeeDao {
 	default Optional<Employee> findById(Integer id) {
 		Employee_ employee = new Employee_();
 		EmployeeRole_ employeeRole = new EmployeeRole_();
+		Role_ role = new Role_();
 		Entityql entityql = new Entityql(Config.get(this));
 		List<Employee> list = entityql.from(employee)
 				.innerJoin(employeeRole, on -> on.eq(employee.employeeId, employeeRole.employeeId))
-				.where(c -> c.eq(employee.employeeId, id)).associate(employee, employeeRole, (a, b) -> {
+				.innerJoin(role, on -> on.eq(employeeRole.roleId, role.roleId))
+				.where(c -> c.eq(employee.employeeId, id)).associate(role, employeeRole, (a, b) -> {
+					b.setRole(a.getRoleName());
+				}).associate(employee, employeeRole, (a, b) -> {
+					a.getEmployeeRole().add(b);
+				}).fetch();
+		if (list.isEmpty()) {
+			return Optional.empty();
+		}
+		return Optional.of(list.get(0));
+	}
+
+	default Optional<Employee> findByEmail(String email) {
+		Employee_ employee = new Employee_();
+		EmployeeRole_ employeeRole = new EmployeeRole_();
+		Role_ role = new Role_();
+		Entityql entityql = new Entityql(Config.get(this));
+		List<Employee> list = entityql.from(employee)
+				.innerJoin(employeeRole, on -> on.eq(employee.employeeId, employeeRole.employeeId))
+				.innerJoin(role, on -> on.eq(employeeRole.roleId, role.roleId)).where(c -> c.eq(employee.email, email))
+				.associate(role, employeeRole, (a, b) -> {
+					b.setRole(a.getRoleName());
+				}).associate(employee, employeeRole, (a, b) -> {
 					a.getEmployeeRole().add(b);
 				}).fetch();
 		if (list.isEmpty()) {
