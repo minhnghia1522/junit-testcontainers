@@ -41,10 +41,10 @@ public class OAuthController {
 	private String jwtSecret;
 
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody LoginUserDto loginUserPojo) throws AuthenticationException, Exception {
+	public ResponseEntity<?> login(@RequestBody LoginUserDto loginUserDto) throws AuthenticationException, Exception {
 		// Tạo chuỗi authentication từ username và password
 		Authentication authentication = authenticationConfiguration.getAuthenticationManager().authenticate(
-				new UsernamePasswordAuthenticationToken(loginUserPojo.getEmail(), loginUserPojo.getPassWord()));
+				new UsernamePasswordAuthenticationToken(loginUserDto.getEmail(), loginUserDto.getPassWord()));
 		// Set chuỗi authentication đó cho UserPrincipal
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		if (authentication != null) {

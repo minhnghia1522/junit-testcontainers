@@ -22,7 +22,7 @@ import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 public class WebSecurityConfig {
 
 	@Autowired
-	UserDetailServiceConfig customUserDetailService;
+	CustomUserDetailService customUserDetailService;
 
 	@Bean
 	public JwtAuthenticationFilter jwtAuthenticationFilter() {

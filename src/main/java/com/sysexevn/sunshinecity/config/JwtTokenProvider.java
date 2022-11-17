@@ -35,17 +35,15 @@ public class JwtTokenProvider {
 		CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
-		logger.info("email: " + userPrincipal.getUsername() + ", id: " + userPrincipal.getId() + ", name: "
-				+ authentication.getName() + ", iussuedAt: " + now.getTime() + ", Exp: " + expiryDate.getTime());
 		// mã hóa token
-		return Jwts.builder().setSubject(Long.toString(userPrincipal.getId())).setIssuedAt(now)
+		return Jwts.builder().setSubject(userPrincipal.getUsername()).setIssuedAt(now)
 				.setExpiration(expiryDate).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 	}
 
-	// Lấy id_user từ token đã được mã hóa
-	public int getUserIdFromJWT(String token) {
+	// Lấy userName từ token đã được mã hóa
+	public String getUserFromJWT(String token) {
 		Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-		return (int) Long.parseLong(claims.getSubject());
+		return claims.getSubject();
 	}
 
 	// check token

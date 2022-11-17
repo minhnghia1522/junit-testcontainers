@@ -39,6 +39,12 @@ public class CustomUserDetails implements UserDetails {
 		this.authorities = authorities;
 	}
 
+	public CustomUserDetails(UserDetails user) {
+		this.password = user.getPassword();
+		this.username = user.getUsername();
+		this.authorities = user.getAuthorities();
+	}
+
 	public static CustomUserDetails create(EmployeeDto employeeDto) {
 		List<GrantedAuthority> authorities = employeeDto.getEmployeeRole().stream()
 				.map(x -> new SimpleGrantedAuthority(x.getRole())).collect(Collectors.toList());
