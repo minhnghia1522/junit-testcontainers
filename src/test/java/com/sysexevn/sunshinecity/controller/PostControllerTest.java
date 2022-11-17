@@ -3,8 +3,8 @@ package com.sysexevn.sunshinecity.controller;
 import static com.sysexevn.sunshinecity.utils.CommonUtils.asJsonString;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -182,18 +182,15 @@ public class PostControllerTest {
 		assertNotNull(resultDOW.contains("empty"));
 	}
 
-	@SuppressWarnings("deprecation")
 	@DisplayName("Test-Upload-File-Excel")
 	@Test
 	@Order(11)
 	public void testUploadFileExcel() throws Exception {
 		MultipartFile file = new MockMultipartFile("file", "/static/data_test/data_test.xlsx",
 				"application/vnd.ms-excel", new ClassPathResource("/static/data_test/data_test.xlsx").getInputStream());
-		this.mockMvc.perform(fileUpload("/post/excel/upload").file((MockMultipartFile) file))
-				.andExpect(status().isOk());
+		this.mockMvc.perform(multipart("/post/excel/upload").file((MockMultipartFile) file)).andExpect(status().isOk());
 	}
 
-	@SuppressWarnings("deprecation")
 	@DisplayName("Test-Upload-File-CSV")
 	@Test
 	@Order(12)
@@ -201,10 +198,9 @@ public class PostControllerTest {
 		MultipartFile file = new MockMultipartFile("file", "/static/data_test/data_test_csv.csv",
 				"application/vnd.ms-excel",
 				new ClassPathResource("/static/data_test/data_test_csv.csv").getInputStream());
-		this.mockMvc.perform(fileUpload("/post/csv/upload").file((MockMultipartFile) file)).andExpect(status().isOk());
+		this.mockMvc.perform(multipart("/post/csv/upload").file((MockMultipartFile) file)).andExpect(status().isOk());
 	}
 
-	@SuppressWarnings("deprecation")
 	@DisplayName("Test-Upload-File-Excel-Fail")
 	@Test
 	@Order(13)
@@ -213,11 +209,10 @@ public class PostControllerTest {
 				"application/vnd.ms-excel",
 				new ClassPathResource("/static/data_test/data_test_fail.xlsx").getInputStream());
 		// when
-		this.mockMvc.perform(fileUpload("/post/excel/upload").file((MockMultipartFile) file))
+		this.mockMvc.perform(multipart("/post/excel/upload").file((MockMultipartFile) file))
 				.andExpect(status().isBadRequest());
 	}
 
-	@SuppressWarnings("deprecation")
 	@DisplayName("Test-Upload-File-CSV-Fail")
 	@Test
 	@Order(14)
@@ -225,11 +220,10 @@ public class PostControllerTest {
 		MultipartFile file = new MockMultipartFile("file_adfsdfsadfsadfsad", "/static/data_test/data_test_csv_fail.csv",
 				"application/vnd.ms-excel",
 				new ClassPathResource("/static/data_test/data_test_csv_fail.csv").getInputStream());
-		this.mockMvc.perform(fileUpload("/post/csv/upload").file((MockMultipartFile) file))
+		this.mockMvc.perform(multipart("/post/csv/upload").file((MockMultipartFile) file))
 				.andExpect(status().isBadRequest());
 	}
 
-	@SuppressWarnings("deprecation")
 	@DisplayName("Test-Upload-File-Excel-Empty-File-Fail")
 	@Test
 	@Order(15)
@@ -237,11 +231,10 @@ public class PostControllerTest {
 		MultipartFile file = new MockMultipartFile("file", "/static/data_test/data_test_fail.xlsx",
 				"application/vnd.ms-excel",
 				new ClassPathResource("/static/data_test/data_test_fail.xlsx").getInputStream());
-		this.mockMvc.perform(fileUpload("/post/excel/upload").file((MockMultipartFile) file))
+		this.mockMvc.perform(multipart("/post/excel/upload").file((MockMultipartFile) file))
 				.andExpect(status().isBadRequest());
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	@DisplayName("Test-Upload-File-CSV-Empty-File-Fail")
 	@Test
 	@Order(16)
@@ -249,7 +242,7 @@ public class PostControllerTest {
 		MultipartFile file = new MockMultipartFile("file", "/static/data_test/data_test_csv_fail.csv",
 				"application/vnd.ms-excel",
 				new ClassPathResource("/static/data_test/data_test_csv_fail.csv").getInputStream());
-		this.mockMvc.perform(fileUpload("/post/csv/upload").file((MockMultipartFile) file))
+		this.mockMvc.perform(multipart("/post/csv/upload").file((MockMultipartFile) file))
 				.andExpect(status().isBadRequest());
 	}
 
