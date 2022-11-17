@@ -13,7 +13,7 @@ public interface IMenuService {
 	
 	MenuDto updateMenu(MenuDto menu);
 	
-	MenuDto deleteMenu(MenuDto menu);
+	int deleteMenu(Integer id);
 
 	MenuDto getById(Integer id);
 

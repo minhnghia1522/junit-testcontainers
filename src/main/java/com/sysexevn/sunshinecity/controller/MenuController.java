@@ -3,6 +3,7 @@ package com.sysexevn.sunshinecity.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,9 @@ public class MenuController {
 	@GetMapping("/{id}")
 	public ResponseEntity<MenuDto> getById(@PathVariable("id") int id) {
 		MenuDto menu = service.getById(id);
+		if (menu == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//ResponseEntity.notFound().build();
+		}
 		return ResponseEntity.ok(menu);
 	}
 
@@ -42,16 +46,15 @@ public class MenuController {
 		return ResponseEntity.ok(menu);
 	}
 
-	@DeleteMapping("/delete")
-	public ResponseEntity<MenuDto> delete(@RequestBody MenuDto dto) {
-		MenuDto menu = service.deleteMenu(dto);
-		return ResponseEntity.ok(menu);
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<Integer> delete(@PathVariable("id") int id) {
+		return ResponseEntity.ok(service.deleteMenu(id));
 	}
 
 	@PutMapping("/updatemenu")
-	public ResponseEntity<Void> update(@RequestBody MenuDto dto) {
-		service.updateMenu(dto);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<MenuDto> update(@RequestBody MenuDto dto) {
+		MenuDto menu = service.updateMenu(dto);
+		return ResponseEntity.ok(menu);
 	}
 
 	@PostMapping("/CreatAll")

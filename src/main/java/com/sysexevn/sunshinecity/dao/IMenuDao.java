@@ -27,8 +27,8 @@ public interface IMenuDao {
 	@Insert
 	Result<Menu> insert(Menu menu);
 
-	@Delete
-	Result<Menu> delete(Menu menu);
+	@Delete(sqlFile = true)
+	int delete(Integer Id);
 
 	@Select
 	Optional<Menu> findById(Integer Id);

@@ -35,10 +35,8 @@ public class MenuServiceImpl implements IMenuService {
 		return converter.convert(result.getEntity());
 	}
 
-	public MenuDto deleteMenu(MenuDto menu) {
-		Menu domain = converter.convert(menu);
-		Result<Menu> result = menuDao.delete(domain);
-		return converter.convert(result.getEntity());
+	public int deleteMenu(Integer id) {
+		return  menuDao.delete(id);
 	}
 
 	public MenuDto getById(Integer id) {
