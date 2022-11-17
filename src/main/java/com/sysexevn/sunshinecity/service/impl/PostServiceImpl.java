@@ -27,14 +27,20 @@ public class PostServiceImpl implements IPostService {
 	@Override
 	public PostDTO createPost(PostDTO post) {
 
-		Post postInsert = converter.convertToDomain(post);
-		Result<Post> resultInsert = postDAO.insertUseDSL(postInsert);
-		post = converter.convertToDTO(resultInsert.getEntity());
+		if (post != null) {
+			Post postInsert = converter.convertToDomain(post);
+			Result<Post> resultInsert = postDAO.insertUseDSL(postInsert);
+			post = converter.convertToDTO(resultInsert.getEntity());
+		}
 		return post;
 	}
 
 	@Override
 	public PostDTO updatePost(PostDTO post) {
+
+		// test logic
+		if(post.getId() == null || postDAO.count(post.getId()) <= 0) 
+			return null;
 
 		Post postUpdate = converter.convertToDomain(post);
 		Result<Post> resultUpdate = postDAO.updateUseDSL(postUpdate);
@@ -45,6 +51,11 @@ public class PostServiceImpl implements IPostService {
 	@Override
 	public PostDTO deletePost(PostDTO post) {
 
+		// test logic
+		if (post.getId() == null || postDAO.count(post.getId()) <= 0) {
+			return null;
+		}
+		
 		Post postDelete = converter.convertToDomain(post);
 		Result<Post> resultDelete = postDAO.deleteUseDSL(postDelete);
 		post = converter.convertToDTO(resultDelete.getEntity());
