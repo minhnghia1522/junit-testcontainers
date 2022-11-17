@@ -11,14 +11,17 @@ import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
 import org.seasar.doma.Metamodel;
 import org.seasar.doma.Transient;
-import org.springframework.beans.BeanUtils;
 
-import com.sysexevn.sunshinecity.dto.EmployeeDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import lombok.Data;
-
-@Entity(metamodel = @Metamodel)
-@Data
+@Entity(metamodel = @Metamodel, immutable = true)
+@AllArgsConstructor()
+@NoArgsConstructor
+@Getter
+@Setter
 public class Employee {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,28 +51,6 @@ public class Employee {
 	private String passWord;
 
 	@Transient
-	private List<EmployeeRole> employeeRole = new ArrayList<>();
-
-	public Employee(Integer employeeId, String fullName, String email, String position, Date birthday, String phone,
-			String department) {
-		super();
-		this.employeeId = employeeId;
-		this.fullName = fullName;
-		this.email = email;
-		this.position = position;
-		this.birthday = birthday;
-		this.phone = phone;
-		this.department = department;
-	}
-
-	public Employee() {
-		super();
-	}
-
-	public EmployeeDto toDto() {
-		var result = new EmployeeDto();
-		BeanUtils.copyProperties(this, result);
-		return result;
-	}
+	private final List<EmployeeRole> employeeRole = new ArrayList<>();
 
 }

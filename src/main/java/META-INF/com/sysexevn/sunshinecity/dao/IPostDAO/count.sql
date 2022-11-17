@@ -1,0 +1,1 @@
+select count(*) from post where id = /*id*/-999

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
+import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.IEmployeeService;
 
 @RestController
@@ -24,10 +26,10 @@ public class EmployeeController {
 
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/{id}")
-	public ResponseEntity<EmployeeDto> getById(@PathVariable("id") int id) {
+	public ResponseEntity<EmployeeDto> getById(@PathVariable("id") int id)  throws NotFoundException{
 		EmployeeDto employee = service.getById(id);
 		if (employee == null) {
-			return ResponseEntity.notFound().build();
+			throw new NotFoundException();
 		}
 		return ResponseEntity.ok(employee);
 	}
@@ -40,9 +42,9 @@ public class EmployeeController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> create(@RequestBody EmployeeDto dto) {
-		service.createEmployeee(dto);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<EmployeeDto> create(@RequestBody EmployeeDto dto) {
+		EmployeeDto employee = service.createEmployeee(dto);
+		return ResponseEntity.ok(employee);
 	}
 
 }

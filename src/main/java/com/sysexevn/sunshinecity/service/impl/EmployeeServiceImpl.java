@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sysexevn.sunshinecity.converter.EmployeeConverter;
 import com.sysexevn.sunshinecity.dao.IEmployeeDao;
 import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
@@ -20,14 +20,17 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Autowired
 	private IEmployeeDao employeeDao;
 
-	public int createEmployeee(EmployeeDto employeeDto) {
-		Employee domain = new Employee();
-		BeanUtils.copyProperties(employeeDto, domain);
-		return employeeDao.insert(domain);
+	@Autowired
+	private EmployeeConverter converter;
+
+	public EmployeeDto createEmployeee(EmployeeDto employeeDto) {
+		Employee domain = converter.convert(employeeDto);
+		EmployeeDto result = converter.convert(domain);
+		return result;
 	}
 
-	public int[] saveAll(List<Employee> employees) {
-		return employeeDao.insertAll(employees);
+	public List<Employee> saveAll(List<Employee> employees) {
+		return employeeDao.insertAll(employees).getEntities();
 	}
 
 	public EmployeeDto getById(Integer id) {
@@ -35,7 +38,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		if (employeeResult.isEmpty()) {
 			throw new NotFoundException();
 		}
-		return employeeResult.get().toDto();
+		return converter.convert(employeeResult.get());
 	}
 
 	public EmployeeDto getByEmail(String email) {
@@ -48,7 +51,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	public List<EmployeeDto> getAll() {
 		List<EmployeeDto> listEmployeeDto = new ArrayList<>();
-		employeeDao.findAllEmployee().forEach(employee -> listEmployeeDto.add(employee.toDto()));
+		employeeDao.findAllEmployee().forEach(employee -> listEmployeeDto.add(converter.convert(employee)));
 		return listEmployeeDto;
 	}
+	
+	
 }
