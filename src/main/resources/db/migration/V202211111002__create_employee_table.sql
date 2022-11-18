@@ -8,3 +8,4 @@ CREATE TABLE public.employee
    phone bpchar (10) NULL,
    department varchar (30) NULL
 );
+

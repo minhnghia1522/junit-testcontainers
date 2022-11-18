@@ -19,8 +19,8 @@ import com.sysexevn.sunshinecity.domain.Role;
 @Transactional
 public interface IRoleDao {
 
-	@Update
-	Result<Role> update(Role role);
+//	@Update
+//	Result<Role> update(Role role);
 
 	@Insert
 	Result<Role> insert(Role role);

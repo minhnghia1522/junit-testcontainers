@@ -19,8 +19,8 @@ import com.sysexevn.sunshinecity.domain.EmployeeRole;
 @Transactional
 public interface IEmployeeRoleDao {
 
-	@Update
-	Result<EmployeeRole> update(EmployeeRole employeeRole);
+//	@Update
+//	Result<EmployeeRole> update(EmployeeRole employeeRole);
 
 	@Insert
 	Result<EmployeeRole> insert(EmployeeRole employeeRole);

@@ -9,6 +9,10 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
+import org.seasar.doma.jdbc.BatchResult;
+import org.seasar.doma.jdbc.Config;
+import org.seasar.doma.jdbc.Result;
+import org.seasar.doma.jdbc.criteria.Entityql;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.criteria.Entityql;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +27,14 @@ import com.sysexevn.sunshinecity.domain.Role_;
 @Transactional
 public interface IEmployeeDao {
 
-	@Update
-	int update(Employee employee);
+	//@Update
+//	Result<Employee> update(Employee employee);
 
 	@Insert
-	int insert(Employee employee);
+	Result<Employee> insert(Employee employee);
 
 	@BatchInsert
-	int[] insertAll(List<Employee> employees);
+	BatchResult<Employee> insertAll(List<Employee> employees);
 
 	default Optional<Employee> findById(Integer id) {
 		Employee_ employee = new Employee_();

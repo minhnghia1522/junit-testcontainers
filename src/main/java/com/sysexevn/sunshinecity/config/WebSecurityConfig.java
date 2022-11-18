@@ -40,7 +40,7 @@ public class WebSecurityConfig {
 		http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.exceptionHandling().authenticationEntryPoint(authenticationEntry)
 				.defaultAccessDeniedHandlerFor(customAccessDeniedHandler, AnyRequestMatcher.INSTANCE).and()
-				.authorizeRequests().antMatchers().permitAll().antMatchers("/oauth/login").permitAll().anyRequest()
+				.authorizeRequests().antMatchers().permitAll().antMatchers("/oauth/login","/employee/create").permitAll().anyRequest()
 				.authenticated();
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		return http.build();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sysexevn.sunshinecity.config.JwtAuthenticationFilter;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
+import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.IEmployeeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +31,10 @@ public class EmployeeController {
 
 	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping("/{id}")
-	public ResponseEntity<EmployeeDto> getById(@PathVariable("id") int id) {
+	public ResponseEntity<EmployeeDto> getById(@PathVariable("id") int id)  throws NotFoundException{
 		EmployeeDto employee = service.getById(id);
 		if (employee == null) {
-			return ResponseEntity.notFound().build();
+			throw new NotFoundException();
 		}
 		
 		log.info(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
@@ -46,11 +48,10 @@ public class EmployeeController {
 		return ResponseEntity.ok(employees);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping("/create")
-	public ResponseEntity<Integer> create(@RequestBody EmployeeDto dto) {
-		Integer tt = service.createEmployeee(dto);
-		return ResponseEntity.ok(tt);
+	public ResponseEntity<EmployeeDto> create(@RequestBody EmployeeDto dto) {
+		EmployeeDto result = service.createEmployee(dto);
+		return ResponseEntity.ok(result);
 	}
 
 }
