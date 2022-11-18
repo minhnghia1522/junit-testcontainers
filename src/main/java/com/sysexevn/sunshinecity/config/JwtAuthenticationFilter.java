@@ -1,6 +1,7 @@
 package com.sysexevn.sunshinecity.config;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -38,12 +39,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			String jwt = getJwtFromRequest(request);
 			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
 				String userName = tokenProvider.getUserFromJWT(jwt);
-				EmployeeDto employeeDto = service.getByEmail(userName);
-				CustomUserDetails userDetails = CustomUserDetails.builder().username(employeeDto.getEmail())
+				EmployeeDto employeeDto = service.getByUsername(userName);
+				List<SimpleGrantedAuthority> authorities = service.authorities(employeeDto);
+				CustomUserDetails userDetails = CustomUserDetails.builder().username(employeeDto.getUsername())
 						.id(employeeDto.getId()).password(passwordEncoder(employeeDto.getPassword()))
-						.authorities(employeeDto.getEmployeeRole().stream()
-								.map(x -> new SimpleGrantedAuthority(x.getRole())).toList())
-						.build();
+						.authorities(authorities).build();
 				if (userDetails != null) {
 					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 							userDetails, null, userDetails.getAuthorities());

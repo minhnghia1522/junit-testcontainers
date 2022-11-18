@@ -29,8 +29,9 @@ import com.sysexevn.sunshinecity.service.IRoleService;
 @AutoConfigureMockMvc
 public class EmployeeControllerTest extends AbsTest {
 
-//	@Autowired
-//	private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
+
 //
 //	@Autowired
 //	private IEmployeeRoleService employeeRoleService;
@@ -53,23 +54,38 @@ public class EmployeeControllerTest extends AbsTest {
 //		employeeRoleService.create(e);
 //	}
 //
-//	@Test
-//	@Order(1)
-//	@WithMockUser(username = "tan-duoc@system-exe.com.vn", password = "12345", authorities = "ADMIN")
-//	public void TestCreateUser() throws Exception {
-//		this.setupData();
-//		EmployeeDto employee = new EmployeeDto();
-//		employee.setFullName("Tan Duoc");
-//		employee.setEmail("tan-duoc@system-exe.com.vn");
-//		employee.setBirthday(new Date());
-//		employee.setDepartment("Offshore");
-//		employee.setPosition("Developer");
-//		employee.setPhone("0423658975");
-//		employee.setPassWord("12345");
-//		mockMvc.perform(post("/employee/create").accept(MediaType.APPLICATION_JSON)
-//				.contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(employee))).andDo(print())
-//				.andExpect(status().isOk()).andExpect(jsonPath("$").value(1));
-//	}
+	@Test
+	@Order(1)
+	@WithMockUser(username = "dummy_name", password = "dummy_password", authorities = "ADMIN")
+	public void testCreateUser_Success() throws Exception {
+		EmployeeDto employee = EmployeeDto.builder()//
+				.username("dummy_name")//
+				.password("12345")//
+				.position("Developer")//
+				.phone("0423658975")//
+				.build();
+		mockMvc.perform(//
+				post("/employee/create")//
+						.accept(MediaType.APPLICATION_JSON)//
+						.contentType(MediaType.APPLICATION_JSON_VALUE)//
+						.content(asJsonString(employee)))
+				.andDo(print())//
+				.andExpect(status().isOk())//
+				.andExpect(jsonPath("$.fullName").value(employee.getFullName()))
+				.andExpect(jsonPath("$.position").value(employee.getPosition()))
+				.andExpect(jsonPath("$.phone").value(employee.getPhone()));
+	}
+
+	@Test
+	@WithMockUser(username = "dummy_name", password = "dummy_password", authorities = "USER")
+	public void testCreateUser_Throw_Forbidden() throws Exception {
+		mockMvc.perform(//
+				post("/employee/create")//
+						.accept(MediaType.APPLICATION_JSON)//
+						.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andDo(print())//
+				.andExpect(status().is4xxClientError());
+	}
 //
 //	public void createUser() throws Exception {
 //		EmployeeDto dto = new EmployeeDto();

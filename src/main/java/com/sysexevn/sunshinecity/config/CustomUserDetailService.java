@@ -1,5 +1,7 @@
 package com.sysexevn.sunshinecity.config;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,12 +19,10 @@ public class CustomUserDetailService implements UserDetailsService {
 
 	@Override
 	public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		EmployeeDto employee = employeeService.getByEmail(username);
-		CustomUserDetails user = CustomUserDetails.builder().username(employee.getEmail()).id(employee.getId())
-				.password(employee.getPassword())
-				.authorities(
-						employee.getEmployeeRole().stream().map(x -> new SimpleGrantedAuthority(x.getRole())).toList())
-				.build();
+		EmployeeDto employee = employeeService.getByUsername(username);
+		List<SimpleGrantedAuthority> authorities = employeeService.authorities(employee);
+		CustomUserDetails user = CustomUserDetails.builder().username(employee.getUsername()).id(employee.getId())
+				.password(employee.getPassword()).authorities(authorities).build();
 		return new CustomUserDetails(user);
 	}
 }

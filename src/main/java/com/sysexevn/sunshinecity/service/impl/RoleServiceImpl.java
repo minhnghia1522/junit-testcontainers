@@ -52,4 +52,10 @@ public class RoleServiceImpl implements IRoleService {
 		return optional.get();
 	}
 
+	@Override
+	public List<String> getRoleNameByIds(List<Integer> ids) {
+		List<Role> roles = roleDao.findIdIn(ids);
+		return roles.stream().map(Role::getName).toList();
+	}
+
 }

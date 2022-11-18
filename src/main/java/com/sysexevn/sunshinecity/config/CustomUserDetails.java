@@ -1,15 +1,11 @@
 package com.sysexevn.sunshinecity.config;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sysexevn.sunshinecity.dto.EmployeeDto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -23,10 +19,10 @@ public class CustomUserDetails implements UserDetails {
 	private static final long serialVersionUID = 6061471039161264021L;
 
 	private int id;
-	
+
 	@JsonIgnore
 	private String username;
-	
+
 	@JsonIgnore
 	private String password;
 
@@ -45,13 +41,6 @@ public class CustomUserDetails implements UserDetails {
 		this.password = user.getPassword();
 		this.username = user.getUsername();
 		this.authorities = user.getAuthorities();
-	}
-
-	public static CustomUserDetails create(EmployeeDto employeeDto) {
-		List<GrantedAuthority> authorities = employeeDto.getEmployeeRole().stream()
-				.map(x -> new SimpleGrantedAuthority(x.getRole())).collect(Collectors.toList());
-		return new CustomUserDetails(employeeDto.getId(), employeeDto.getFullName(), employeeDto.getPassword(),
-				authorities);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.seasar.doma.jdbc.Result;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import com.sysexevn.sunshinecity.dao.IEmployeeDao;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
 import com.sysexevn.sunshinecity.dto.SignUpDto;
 import com.sysexevn.sunshinecity.entity.Employee;
+import com.sysexevn.sunshinecity.entity.EmployeeRole;
 import com.sysexevn.sunshinecity.entity.Role;
 import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.IEmployeeRoleService;
@@ -59,12 +61,18 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return converter.convert(employeeResult.get());
 	}
 
-	public EmployeeDto getByEmail(String email) {
-		Optional<Employee> employeeResult = employeeDao.findByEmail(email);
+	public EmployeeDto getByUsername(String username) {
+		Optional<Employee> employeeResult = employeeDao.findByUsername(username);
 		if (employeeResult.isEmpty()) {
 			throw new NotFoundException();
 		}
-		return converter.convert(employeeResult.get());
+		Employee employee = employeeResult.get();
+		EmployeeDto dto = converter.convert(employee);
+		// get list role
+		List<Integer> idRoles = employee.getEmployeeRole().stream().map(EmployeeRole::getRoleId).toList();
+		List<String> roles = iRoleService.getRoleNameByIds(idRoles);
+		dto.setRoles(roles);
+		return dto;
 	}
 
 	public List<EmployeeDto> getAll() {
@@ -85,5 +93,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 		// create role for user
 		iEmployeeRoleService.create(role.getId(), result.getEntity().getId());
+	}
+
+	@Override
+	public List<SimpleGrantedAuthority> authorities(EmployeeDto employee) {
+		List<SimpleGrantedAuthority> authorities = employee.getRoles().stream().map(r -> new SimpleGrantedAuthority(r))
+				.toList();
+		return authorities;
 	}
 }

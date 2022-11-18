@@ -4,7 +4,6 @@ import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Metamodel;
 import org.seasar.doma.Table;
-import org.seasar.doma.Transient;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,9 +19,6 @@ public class EmployeeRole {
 
 	@Column(name = "employee_id")
 	private Integer employeeId;
-
-	@Transient
-	private String role;
 
 	public EmployeeRole(Integer roleId, Integer employeeId) {
 		super();

@@ -36,4 +36,8 @@ public interface IRoleDao {
 	@Select(fetchSize = 1)
 	@Sql("select * from role where name = /* roleName*/0")
 	Optional<Role> findByRoleName(String roleName);
+
+	@Select
+	@Sql("select * from role where id in /* rolesName */('')")
+	List<Role> findIdIn(List<Integer> rolesName);
 }

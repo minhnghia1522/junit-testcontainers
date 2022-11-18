@@ -46,7 +46,7 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginUserDto loginUserDto) throws AuthenticationException, Exception {
 		Authentication authentication = authenticationConfiguration.getAuthenticationManager().authenticate(
-				new UsernamePasswordAuthenticationToken(loginUserDto.getEmail(), loginUserDto.getPassword()));
+				new UsernamePasswordAuthenticationToken(loginUserDto.getUsername(), loginUserDto.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		if (authentication != null) {
 			String jwt = tokenProvider.generateToken(authentication);

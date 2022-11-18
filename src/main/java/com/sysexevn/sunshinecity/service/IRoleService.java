@@ -15,4 +15,6 @@ public interface IRoleService {
 	RoleDto update(Role role);
 
 	Role getRoleByEnum(RoleEnum roleEnum);
+	
+	List<String> getRoleNameByIds(List<Integer> ids);
 }

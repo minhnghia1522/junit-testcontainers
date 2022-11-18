@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 
-import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -65,22 +64,22 @@ public class EmployeeServiceTest {
 
 	}
 
-	@DisplayName("Test-Get-By-Id")
-//	@Test
-	@Order(2)
-	public void testGetById() {
-		Employee employee = new Employee();
-		employee.setFullName("Tan Duoc");
-		employee.setEmail("tan-duoc@system-exe.com.vn");
-		employee.setBirthday(new Date());
-		employee.setDepartment("Offshore");
-		employee.setPosition("Developer");
-		employee.setPhone("0423658975");
-
-		EmployeeDto dto = service.getById(1);
-
-		assertEquals(employee.getFullName(), dto.getFullName());
-	}
+//	@DisplayName("Test-Get-By-Id")
+////	@Test
+//	@Order(2)
+//	public void testGetById() {
+//		Employee employee = new Employee();
+//		employee.setFullName("Tan Duoc");
+//		employee.setEmail("tan-duoc@system-exe.com.vn");
+//		employee.setBirthday(new Date());
+//		employee.setDepartment("Offshore");
+//		employee.setPosition("Developer");
+//		employee.setPhone("0423658975");
+//
+//		EmployeeDto dto = service.getById(1);
+//
+//		assertEquals(employee.getFullName(), dto.getFullName());
+//	}
 
 	@DisplayName("Test-Get-List")
 //	@Test

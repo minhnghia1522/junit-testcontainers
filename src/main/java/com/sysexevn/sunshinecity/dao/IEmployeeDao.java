@@ -39,7 +39,7 @@ public interface IEmployeeDao {
 	@Sql("select * from employee where id = /*id*/0")
 	Optional<Employee> findById(Integer id);
 
-	default Optional<Employee> findByEmail(String email) {
+	default Optional<Employee> findByUsername(String username) {
 		Employee_ employee = new Employee_();
 		EmployeeRole_ employeeRole = new EmployeeRole_();
 		Role_ role = new Role_();
@@ -47,10 +47,8 @@ public interface IEmployeeDao {
 		List<Employee> list = entityql.from(employee)//
 				.innerJoin(employeeRole, on -> on.eq(employee.id, employeeRole.employeeId))//
 				.innerJoin(role, on -> on.eq(employeeRole.roleId, role.id))//
-				.where(c -> c.eq(employee.email, email))//
-				.associate(role, employeeRole, (a, b) -> {
-					b.setRole(a.getName());
-				}).associate(employee, employeeRole, (a, b) -> {
+				.where(c -> c.eq(employee.username, username))//
+				.associate(employee, employeeRole, (a, b) -> {
 					a.getEmployeeRole().add(b);
 				}).fetch();
 		if (list.isEmpty()) {
