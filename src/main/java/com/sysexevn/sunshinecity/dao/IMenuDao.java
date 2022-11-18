@@ -21,12 +21,6 @@ import com.sysexevn.sunshinecity.entity.Menu;
 @Transactional
 public interface IMenuDao {
 
-	@Update
-	Result<Menu> update(Menu menu);
-
-	@Insert
-	Result<Menu> insert(Menu menu);
-
 	@Delete(sqlFile = true)
 	int delete(Integer Id);
 
@@ -38,5 +32,11 @@ public interface IMenuDao {
 	
 	@BatchInsert
 	BatchResult<Menu> insertAll(List<Menu> menu);
+	
+	@Update
+	Result<Menu> update(Menu menu);
+
+	@Insert
+	Result<Menu> insert(Menu menu);
 
 }

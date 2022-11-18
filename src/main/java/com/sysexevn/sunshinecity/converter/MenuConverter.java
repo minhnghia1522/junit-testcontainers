@@ -1,5 +1,7 @@
 package com.sysexevn.sunshinecity.converter;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -14,5 +16,9 @@ public interface MenuConverter {
 	Menu convert(MenuDto sourceOrder);
 
 	MenuDto convert(Menu sourceCode);
+	
+	List<Menu> convertListEntity(List<MenuDto> sourceOrder);
+
+	List<MenuDto> convertListDto(List<Menu> sourceCode);
 
 }
