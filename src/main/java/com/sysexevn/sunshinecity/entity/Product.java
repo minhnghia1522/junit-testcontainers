@@ -1,4 +1,4 @@
-package com.sysexevn.sunshinecity.domain;
+package com.sysexevn.sunshinecity.entity;
 
 import java.math.BigDecimal;
 

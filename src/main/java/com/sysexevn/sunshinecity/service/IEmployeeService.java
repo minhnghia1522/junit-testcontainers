@@ -2,12 +2,11 @@ package com.sysexevn.sunshinecity.service;
 
 import java.util.List;
 
-import org.seasar.doma.jdbc.Result;
-
-import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
+import com.sysexevn.sunshinecity.dto.SignUpDto;
+import com.sysexevn.sunshinecity.entity.Employee;
 
-public interface IEmployeeService  {
+public interface IEmployeeService {
 
 	EmployeeDto createEmployee(EmployeeDto employee);
 
@@ -18,4 +17,6 @@ public interface IEmployeeService  {
 	List<EmployeeDto> getAll();
 
 	EmployeeDto getByEmail(String username);
+
+	void signup(SignUpDto signUpDto);
 }

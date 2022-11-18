@@ -21,8 +21,8 @@ import org.seasar.doma.jdbc.Result;
 
 import com.sysexevn.sunshinecity.converter.EmployeeConverter;
 import com.sysexevn.sunshinecity.dao.IEmployeeDao;
-import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
+import com.sysexevn.sunshinecity.entity.Employee;
 import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.impl.EmployeeServiceImpl;
 

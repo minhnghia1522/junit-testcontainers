@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.sysexevn.sunshinecity.converter.PostConverter;
 import com.sysexevn.sunshinecity.dao.IPostDAO;
-import com.sysexevn.sunshinecity.domain.Post;
 import com.sysexevn.sunshinecity.dto.PostDTO;
+import com.sysexevn.sunshinecity.entity.Post;
 import com.sysexevn.sunshinecity.service.IPostService;
 
 @Service

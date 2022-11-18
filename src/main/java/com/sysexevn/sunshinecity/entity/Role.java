@@ -1,4 +1,4 @@
-package com.sysexevn.sunshinecity.domain;
+package com.sysexevn.sunshinecity.entity;
 
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
@@ -15,15 +15,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginUser {
+public class Role {
 
 	@Id
-	@Column(name = "token")
-	private String token;
+	@Column(name = "id")
+	private Integer id;
 
-	@Column(name = "user_name")
-	private String userName;
-
-	@Column(name = "pass_word")
-	private String passWord;
+	@Column(name = "name")
+	private String name;
 }

@@ -3,8 +3,6 @@ package com.sysexevn.sunshinecity.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -20,8 +18,8 @@ public class CustomUserDetailService implements UserDetailsService {
 	@Override
 	public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		EmployeeDto employee = employeeService.getByEmail(username);
-		CustomUserDetails user = CustomUserDetails.builder().username(employee.getEmail()).id(employee.getEmployeeId())
-				.password(employee.getPassWord())
+		CustomUserDetails user = CustomUserDetails.builder().username(employee.getEmail()).id(employee.getId())
+				.password(employee.getPassword())
 				.authorities(
 						employee.getEmployeeRole().stream().map(x -> new SimpleGrantedAuthority(x.getRole())).toList())
 				.build();

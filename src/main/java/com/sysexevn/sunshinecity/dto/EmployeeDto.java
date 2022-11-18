@@ -3,7 +3,7 @@ package com.sysexevn.sunshinecity.dto;
 import java.util.Date;
 import java.util.List;
 
-import com.sysexevn.sunshinecity.domain.EmployeeRole;
+import com.sysexevn.sunshinecity.entity.EmployeeRole;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EmployeeDto {
 
-	private Integer employeeId;
+	private Integer id;
 
 	private String fullName;
 
@@ -29,6 +29,8 @@ public class EmployeeDto {
 	private String phone;
 
 	private String department;
-	private String passWord;
+	
+	private String password;
+	
 	private List<EmployeeRole> employeeRole;
 }

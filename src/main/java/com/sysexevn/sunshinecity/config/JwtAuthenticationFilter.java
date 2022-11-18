@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				String userName = tokenProvider.getUserFromJWT(jwt);
 				EmployeeDto employeeDto = service.getByEmail(userName);
 				CustomUserDetails userDetails = CustomUserDetails.builder().username(employeeDto.getEmail())
-						.id(employeeDto.getEmployeeId()).password(passwordEncoder(employeeDto.getPassWord()))
+						.id(employeeDto.getId()).password(passwordEncoder(employeeDto.getPassword()))
 						.authorities(employeeDto.getEmployeeRole().stream()
 								.map(x -> new SimpleGrantedAuthority(x.getRole())).toList())
 						.build();

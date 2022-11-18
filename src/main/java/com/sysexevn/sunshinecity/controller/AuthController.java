@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -21,13 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sysexevn.sunshinecity.config.JwtTokenProvider;
 import com.sysexevn.sunshinecity.dto.JwtResponse;
 import com.sysexevn.sunshinecity.dto.LoginUserDto;
+import com.sysexevn.sunshinecity.dto.SignUpDto;
 import com.sysexevn.sunshinecity.service.IEmployeeService;
 
 import io.jsonwebtoken.impl.DefaultClaims;
 
 @RestController
-@RequestMapping("/oauth")
-public class OAuthController {
+@RequestMapping("/auth")
+public class AuthController {
+
 	@Autowired
 	public IEmployeeService service;
 
@@ -42,13 +45,10 @@ public class OAuthController {
 
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginUserDto loginUserDto) throws AuthenticationException, Exception {
-		// Tạo chuỗi authentication từ username và password
 		Authentication authentication = authenticationConfiguration.getAuthenticationManager().authenticate(
-				new UsernamePasswordAuthenticationToken(loginUserDto.getEmail(), loginUserDto.getPassWord()));
-		// Set chuỗi authentication đó cho UserPrincipal
+				new UsernamePasswordAuthenticationToken(loginUserDto.getEmail(), loginUserDto.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		if (authentication != null) {
-			// Trả về chuỗi jwt(authentication string)
 			String jwt = tokenProvider.generateToken(authentication);
 			return ResponseEntity.ok(new JwtResponse(jwt));
 		}
@@ -63,4 +63,9 @@ public class OAuthController {
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 
+	@PostMapping("/signup")
+	public ResponseEntity<Void> signup(@RequestBody SignUpDto signUpDto) {
+		service.signup(signUpDto);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 }

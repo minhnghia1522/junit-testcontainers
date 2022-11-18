@@ -16,15 +16,19 @@ import com.sysexevn.sunshinecity.exception.error.Error;
 import com.sysexevn.sunshinecity.exception.response.BaseSuccessResponse;
 import com.sysexevn.sunshinecity.exception.success.Success;
 
+import lombok.extern.slf4j.Slf4j;
+
 @ControllerAdvice
 @Order(value = 1)
+@Slf4j
 public class BaseExceptionHandler {
-
+	
 	@Autowired
 	private MessageSource messageSource;
 
 	@ExceptionHandler(value = BaseException.class)
 	public ResponseEntity<Error> exceptions(BaseException exception) {
+		log.error(exception.getMessage(), exception);
 		Error err = exception.getError();
 
 		if (ObjectUtils.isEmpty(err)) {
@@ -45,22 +49,26 @@ public class BaseExceptionHandler {
 
 	@ExceptionHandler(value = Exception.class)
 	public ResponseEntity<Error> exceptions(Exception exception) {
+		log.error(exception.getMessage(), exception);
 		return handleException(exception);
 	}
 
 	@ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
 	public ResponseEntity<Error> exceptions(HttpRequestMethodNotSupportedException exception) {
+		log.error(exception.getMessage(), exception);
 		return new ResponseEntity<Error>(new Error("method_not_allowed", "The requested method is not allowed."),
 				HttpStatus.METHOD_NOT_ALLOWED);
 	}
 
 	private ResponseEntity<Error> handleException(Exception exception) {
+		log.error(exception.getMessage(), exception);
 		return new ResponseEntity<>(Error.builder().code("server_error").message(
 				"An error occured on the server when processing the URL. Please contact the system administrator.")
 				.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	private ResponseEntity<Success> handleResponse(Exception exception) {
+		log.error(exception.getMessage(), exception);
 		return new ResponseEntity<>(Success.builder().code("server_error").message(
 				"An error occured on the server when processing the URL. Please contact the system administrator.")
 				.build(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -68,6 +76,7 @@ public class BaseExceptionHandler {
 
 	@ExceptionHandler(value = BaseSuccessResponse.class)
 	public ResponseEntity<Success> exceptions(BaseSuccessResponse exception) {
+		log.error(exception.getMessage(), exception);
 		Success success = exception.getSuccess();
 		if (ObjectUtils.isEmpty(success)) {
 			return handleResponse(exception);

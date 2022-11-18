@@ -1,4 +1,4 @@
-package com.sysexevn.sunshinecity.domain;
+package com.sysexevn.sunshinecity.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,9 +11,6 @@ import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
 import org.seasar.doma.Metamodel;
 import org.seasar.doma.Transient;
-import org.springframework.beans.BeanUtils;
-
-import com.sysexevn.sunshinecity.dto.EmployeeDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,8 +26,8 @@ public class Employee {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	@Column(name = "employee_id")
-	private Integer employeeId;
+	@Column(name = "id")
+	private Integer id;
 
 	@Column(name = "full_name")
 	private String fullName;
@@ -51,7 +48,7 @@ public class Employee {
 	private String department;
 
 	@Column(name = "pass_word")
-	private String passWord;
+	private String password;
 
 	@Transient
 	private final List<EmployeeRole> employeeRole = new ArrayList<>();

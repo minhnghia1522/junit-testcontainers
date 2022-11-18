@@ -21,8 +21,8 @@ import org.seasar.doma.jdbc.Result;
 
 import com.sysexevn.sunshinecity.converter.ProductConverter;
 import com.sysexevn.sunshinecity.dao.IProductDao;
-import com.sysexevn.sunshinecity.domain.Product;
 import com.sysexevn.sunshinecity.dto.ProductDto;
+import com.sysexevn.sunshinecity.entity.Product;
 import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.impl.ProductServiceImp;
 

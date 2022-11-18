@@ -12,7 +12,7 @@ import org.seasar.doma.boot.ConfigAutowireable;
 import org.seasar.doma.jdbc.Result;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sysexevn.sunshinecity.domain.Product;
+import com.sysexevn.sunshinecity.entity.Product;
 
 @Dao
 @ConfigAutowireable
@@ -28,8 +28,8 @@ public interface IProductDao {
 	@Select
 	public List<Product> selectAll();
 	
-//	@Update
-//	public Result<Product> update(Product p);
+	@Update
+	public Result<Product> update(Product p);
 
 	@Delete(sqlFile = true)
 	public Result<Product> delete(Product p);

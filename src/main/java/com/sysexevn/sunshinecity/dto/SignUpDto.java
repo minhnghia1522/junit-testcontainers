@@ -1,15 +1,15 @@
 package com.sysexevn.sunshinecity.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Builder
-public class LoginUserDto {
-	private String password;
+public class SignUpDto {
+
 	private String email;
+
+	private String password;
 }

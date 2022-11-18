@@ -16,8 +16,8 @@ import org.seasar.doma.jdbc.Result;
 import org.seasar.doma.jdbc.criteria.Entityql;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sysexevn.sunshinecity.domain.Post;
-import com.sysexevn.sunshinecity.domain.Post_;
+import com.sysexevn.sunshinecity.entity.Post;
+import com.sysexevn.sunshinecity.entity.Post_;
 
 @Dao
 @ConfigAutowireable
@@ -35,8 +35,8 @@ public interface IPostDAO {
 		return result;
 	}
 
-//	@Update
-//	Result<Post> update(Post post);
+	@Update
+	Result<Post> update(Post post);
 
 	// update
 	default Result<Post> updateUseDSL(Post post) {

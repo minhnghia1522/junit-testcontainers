@@ -23,8 +23,10 @@ public class CustomUserDetails implements UserDetails {
 	private static final long serialVersionUID = 6061471039161264021L;
 
 	private int id;
+	
 	@JsonIgnore
 	private String username;
+	
 	@JsonIgnore
 	private String password;
 
@@ -48,7 +50,7 @@ public class CustomUserDetails implements UserDetails {
 	public static CustomUserDetails create(EmployeeDto employeeDto) {
 		List<GrantedAuthority> authorities = employeeDto.getEmployeeRole().stream()
 				.map(x -> new SimpleGrantedAuthority(x.getRole())).collect(Collectors.toList());
-		return new CustomUserDetails(employeeDto.getEmployeeId(), employeeDto.getFullName(), employeeDto.getPassWord(),
+		return new CustomUserDetails(employeeDto.getId(), employeeDto.getFullName(), employeeDto.getPassword(),
 				authorities);
 	}
 
