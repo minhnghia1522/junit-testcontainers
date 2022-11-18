@@ -54,10 +54,11 @@ public class MenuServiceImpl implements IMenuService {
 		return listMenuDto;
 	}
 
-	public List<MenuDto> saveAll(List<MenuDto> menus) {
-		List<Menu> listMenu = converter.convertListEntity(menus);
-		BatchResult<Menu> result = menuDao.insertAll(listMenu);
-		return converter.convertListDto(result.getEntities());
+
+	public List<MenuDto> saveAll(List<MenuDto> listMenuDto) {
+		List<Menu> listMenu = converter.convertListEntity(listMenuDto);
+		BatchResult<Menu> resutl = menuDao.insertAll(listMenu);
+		return converter.convertListDto(resutl.getEntities());
 	}
 
 }
