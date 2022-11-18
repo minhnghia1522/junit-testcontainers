@@ -2,12 +2,14 @@ package com.sysexevn.sunshinecity.service;
 
 import java.util.List;
 
+import org.seasar.doma.jdbc.Result;
+
 import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
 
 public interface IEmployeeService  {
 
-	EmployeeDto createEmployeee(EmployeeDto employee);
+	EmployeeDto createEmployee(EmployeeDto employee);
 
 	List<Employee> saveAll(List<Employee> employees);
 

@@ -58,7 +58,7 @@ public class EmployeeServiceTest {
 		lenient().when(converter.convert(employee)).thenReturn(employeeDto);
 
 		// when - action or the behaviour that we are going test
-		EmployeeDto savedEmployee = service.createEmployeee(employeeDto);
+		EmployeeDto savedEmployee = service.createEmployee(employeeDto);
 
 		// then - verify the output
 		assertThat(savedEmployee).isNotNull();
@@ -88,7 +88,7 @@ public class EmployeeServiceTest {
 	public void testGetList() {
 		EmployeeDto employee = new EmployeeDto();
 		employee.setFullName("Hoang Anh");
-		service.createEmployeee(employee);
+		service.createEmployee(employee);
 
 		List<EmployeeDto> listDtoes = service.getAll();
 		assertEquals(2, listDtoes.size());

@@ -4,9 +4,6 @@ import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Metamodel;
-import org.springframework.beans.BeanUtils;
-
-import com.sysexevn.sunshinecity.dto.RoleDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,18 +15,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class LoginUser {
 
 	@Id
-	@Column(name = "role_id")
-	private Integer roleId;
+	@Column(name = "token")
+	private String token;
 
-	@Column(name = "role_name")
-	private String roleName;
+	@Column(name = "user_name")
+	private String userName;
 
-	public RoleDto toDto() {
-		var result = new RoleDto();
-		BeanUtils.copyProperties(this, result);
-		return result;
-	}
+	@Column(name = "pass_word")
+	private String passWord;
 }

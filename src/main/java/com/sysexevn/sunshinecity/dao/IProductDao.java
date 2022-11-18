@@ -28,8 +28,8 @@ public interface IProductDao {
 	@Select
 	public List<Product> selectAll();
 	
-	@Update
-	public Result<Product> update(Product p);
+//	@Update
+//	public Result<Product> update(Product p);
 
 	@Delete(sqlFile = true)
 	public Result<Product> delete(Product p);

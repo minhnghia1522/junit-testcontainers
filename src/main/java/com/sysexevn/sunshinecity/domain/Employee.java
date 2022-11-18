@@ -11,6 +11,9 @@ import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
 import org.seasar.doma.Metamodel;
 import org.seasar.doma.Transient;
+import org.springframework.beans.BeanUtils;
+
+import com.sysexevn.sunshinecity.dto.EmployeeDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(metamodel = @Metamodel, immutable = true)
-@AllArgsConstructor()
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter

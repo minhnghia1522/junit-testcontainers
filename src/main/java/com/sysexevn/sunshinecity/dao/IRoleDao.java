@@ -1,11 +1,9 @@
 package com.sysexevn.sunshinecity.dao;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
-import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
@@ -14,29 +12,23 @@ import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.Result;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sysexevn.sunshinecity.domain.Menu;
+import com.sysexevn.sunshinecity.domain.Role;
 
 @Dao
 @ConfigAutowireable
 @Transactional
-public interface IMenuDao {
+public interface IRoleDao {
 
 //	@Update
-//	Result<Menu> update(Menu menu);
+//	Result<Role> update(Role role);
 
 	@Insert
-	Result<Menu> insert(Menu menu);
+	Result<Role> insert(Role role);
 
-	@Delete(sqlFile = true)
-	int delete(Integer Id);
-
-	@Select
-	Optional<Menu> findById(Integer Id);
-
-	@Select
-	List<Menu> findAllMenu();
-	
 	@BatchInsert
-	BatchResult<Menu> insertAll(List<Menu> menu);
+	BatchResult<Role> insertAll(List<Role> roles);
+
+	@Select
+	List<Role> findByRoleId(Integer roleId);
 
 }

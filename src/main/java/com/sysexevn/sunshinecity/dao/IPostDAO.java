@@ -35,8 +35,8 @@ public interface IPostDAO {
 		return result;
 	}
 
-	@Update
-	Result<Post> update(Post post);
+//	@Update
+//	Result<Post> update(Post post);
 
 	// update
 	default Result<Post> updateUseDSL(Post post) {
