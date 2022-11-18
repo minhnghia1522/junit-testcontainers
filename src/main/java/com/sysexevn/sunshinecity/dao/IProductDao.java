@@ -12,7 +12,7 @@ import org.seasar.doma.boot.ConfigAutowireable;
 import org.seasar.doma.jdbc.Result;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sysexevn.sunshinecity.domain.Product;
+import com.sysexevn.sunshinecity.entity.Product;
 
 @Dao
 @ConfigAutowireable

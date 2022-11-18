@@ -14,7 +14,7 @@ import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.Result;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sysexevn.sunshinecity.domain.Menu;
+import com.sysexevn.sunshinecity.entity.Menu;
 
 @Dao
 @ConfigAutowireable

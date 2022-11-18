@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sysexevn.sunshinecity.domain.Menu;
 import com.sysexevn.sunshinecity.dto.MenuDto;
+import com.sysexevn.sunshinecity.entity.Menu;
 import com.sysexevn.sunshinecity.service.IMenuService;
 
 @RestController

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.sysexevn.sunshinecity.converter.MenuConverter;
 import com.sysexevn.sunshinecity.dao.IMenuDao;
-import com.sysexevn.sunshinecity.domain.Menu;
 import com.sysexevn.sunshinecity.dto.MenuDto;
+import com.sysexevn.sunshinecity.entity.Menu;
 import com.sysexevn.sunshinecity.service.IMenuService;
 
 @Service

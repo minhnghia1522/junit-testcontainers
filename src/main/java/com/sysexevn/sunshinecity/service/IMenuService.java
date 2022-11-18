@@ -3,6 +3,7 @@ package com.sysexevn.sunshinecity.service;
 import java.util.List;
 
 import com.sysexevn.sunshinecity.dto.MenuDto;
+import com.sysexevn.sunshinecity.entity.Menu;
 
 public interface IMenuService {
 	

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.sysexevn.sunshinecity.converter.ProductConverter;
 import com.sysexevn.sunshinecity.dao.IProductDao;
-import com.sysexevn.sunshinecity.domain.Product;
 import com.sysexevn.sunshinecity.dto.ProductDto;
+import com.sysexevn.sunshinecity.entity.Product;
 import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.IProductService;
 
@@ -54,10 +54,8 @@ public class ProductServiceImp implements IProductService {
 	}
 
 	@Override
-	public void delete(int id) {
-		Product p = new Product();
-		p.setId(id);
-		Result<Product> result = repository.delete(p);
+	public void delete(ProductDto pDto) {
+		Result<Product> result = repository.delete(mapper.convert(pDto));
 		if (result.getCount() < 1) {
 			throw new NotFoundException();
 		}

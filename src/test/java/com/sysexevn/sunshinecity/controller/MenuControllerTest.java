@@ -27,8 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.sysexevn.sunshinecity.config.AbsTest;
-import com.sysexevn.sunshinecity.domain.Menu;
 import com.sysexevn.sunshinecity.dto.MenuDto;
+import com.sysexevn.sunshinecity.entity.Menu;
 
 @TestMethodOrder(OrderAnnotation.class)
 @AutoConfigureMockMvc

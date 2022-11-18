@@ -5,8 +5,8 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import com.sysexevn.sunshinecity.domain.Post;
 import com.sysexevn.sunshinecity.dto.PostDTO;
+import com.sysexevn.sunshinecity.entity.Post;
 
 @Mapper(componentModel = "spring")
 public interface PostConverter {

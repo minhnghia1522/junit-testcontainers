@@ -1,4 +1,4 @@
-package com.sysexevn.sunshinecity.domain;
+package com.sysexevn.sunshinecity.entity;
 
 import java.util.Date;
 
@@ -13,10 +13,14 @@ public class Comment {
 
 	@Id
 	private Integer id;
+
 	@Column(name = "comment_container")
+
 	private String commentContainer;
+
 	@Column(name = "created_at")
 	private Date createdAt;
+
 	@Column(name = "updated_at")
 	private Date updatedAt;
 }

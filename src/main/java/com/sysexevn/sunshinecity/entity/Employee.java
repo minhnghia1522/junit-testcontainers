@@ -1,4 +1,4 @@
-package com.sysexevn.sunshinecity.domain;
+package com.sysexevn.sunshinecity.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(metamodel = @Metamodel, immutable = true)
-@AllArgsConstructor()
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -26,14 +26,14 @@ public class Employee {
 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	@Column(name = "employee_id")
-	private Integer employeeId;
+	@Column(name = "id")
+	private Integer id;
 
 	@Column(name = "full_name")
 	private String fullName;
 
-	@Column(name = "email")
-	private String email;
+	@Column(name = "username")
+	private String username;
 
 	@Column(name = "position")
 	private String position;
@@ -47,7 +47,13 @@ public class Employee {
 	@Column(name = "department")
 	private String department;
 
+	@Column(name = "pass_word")
+	private String password;
+
 	@Transient
 	private final List<EmployeeRole> employeeRole = new ArrayList<>();
+	
+	@Transient
+	private final List<String> roles = new ArrayList<>();
 
 }
