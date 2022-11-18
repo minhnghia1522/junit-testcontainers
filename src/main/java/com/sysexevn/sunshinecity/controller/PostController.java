@@ -6,6 +6,8 @@ import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,7 @@ import com.sysexevn.sunshinecity.response.OutputResponse;
 import com.sysexevn.sunshinecity.service.IPostService;
 import com.sysexevn.sunshinecity.service.IUploadFileService;
 import com.sysexevn.sunshinecity.service.impl.PostReadCSVService;
-import com.sysexevn.sunshinecity.service.impl.PostReadExcelService;
+//import com.sysexevn.sunshinecity.service.impl.PostReadExcelService;
 
 @RestController
 public class PostController {
@@ -36,7 +38,7 @@ public class PostController {
 	private IUploadFileService uploadFileService;
 
 	@PostMapping("/post")
-	public ResponseEntity<OutputResponse<PostDTO>> insertPost(@RequestBody PostDTO dto) {
+	public ResponseEntity<OutputResponse<PostDTO>> insertPost(@RequestBody @Valid PostDTO dto) {
 		PostDTO result = postService.createPost(dto);
 		OutputResponse<PostDTO> out = new OutputResponse<>();
 		out.setMessage("add post success!");
@@ -58,16 +60,16 @@ public class PostController {
 			long endSaveFile = System.currentTimeMillis();
 
 			long startReadFile = System.currentTimeMillis();
-			List<PostDTO> listSave = PostReadExcelService.read("src/main/resources/static/" + generatedFilename);
+//			List<PostDTO> listSave = PostReadExcelService.read("src/main/resources/static/" + generatedFilename);
 			long endReadFile = System.currentTimeMillis();
-			if(listSave == null || listSave.isEmpty()) {
-				out.setMessage("file excel is empty!");
-				uploadFileService.deleteFile(generatedFilename);
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
-			}
+//			if(listSave == null || listSave.isEmpty()) {
+//				out.setMessage("file excel is empty!");
+//				uploadFileService.deleteFile(generatedFilename);
+//				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
+//			}
 
 			long startSaveDB = System.currentTimeMillis();
-			postService.saveAll(listSave);
+//			postService.saveAll(listSave);
 			long endSaveDB = System.currentTimeMillis();
 
 			// out.setData(result);
