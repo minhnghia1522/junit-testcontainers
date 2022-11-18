@@ -58,7 +58,7 @@ public class MenuController {
 	}
 
 	@PostMapping("/CreatAll")
-	public ResponseEntity<Void> createAll(@RequestBody List<Menu> listMenu) {
+	public ResponseEntity<Void> createAll(@RequestBody List<MenuDto> listMenu) {
 		service.saveAll(listMenu);
 		return ResponseEntity.ok().build();
 	}

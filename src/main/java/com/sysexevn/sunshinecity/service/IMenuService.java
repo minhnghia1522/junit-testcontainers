@@ -2,14 +2,13 @@ package com.sysexevn.sunshinecity.service;
 
 import java.util.List;
 
-import com.sysexevn.sunshinecity.domain.Menu;
 import com.sysexevn.sunshinecity.dto.MenuDto;
 
 public interface IMenuService {
 	
 	MenuDto createMenu(MenuDto menu);
 	
-	List<Menu> saveAll(List<Menu> menus);
+	List<MenuDto> saveAll(List<MenuDto> menus);
 	
 	MenuDto updateMenu(MenuDto menu);
 	

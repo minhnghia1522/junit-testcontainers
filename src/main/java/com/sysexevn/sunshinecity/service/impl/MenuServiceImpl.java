@@ -53,9 +53,17 @@ public class MenuServiceImpl implements IMenuService {
 		return listMenuDto;
 	}
 
-	public List<Menu> saveAll(List<Menu> menus) {
-		menuDao.insertAll(menus);
-		return menus;
+	public List<MenuDto> saveAll(List<MenuDto> menus) {
+		List<Menu> listMenu = new ArrayList<>();
+		List<MenuDto> result = new ArrayList<>();
+		for (MenuDto menu : menus) {
+			listMenu.add(converter.convert(menu));
+		}
+		menuDao.insertAll(listMenu);
+		for (Menu menu : listMenu) {
+			result.add(converter.convert(menu));
+		}
+		return result;
 	}
 
 }
