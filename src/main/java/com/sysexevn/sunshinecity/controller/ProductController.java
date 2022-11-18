@@ -49,9 +49,11 @@ public class ProductController {
 
 	@DeleteMapping
 	public ResponseEntity<?> delete(@RequestParam int id) {
-		service.delete(id);
+		ProductDto pDto = new ProductDto();
+		pDto.setId(id);
+		service.delete(pDto);
 		return ResponseEntity.ok("Deleted");
-		
+
 	}
 
 }

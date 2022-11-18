@@ -54,10 +54,8 @@ public class ProductServiceImp implements IProductService {
 	}
 
 	@Override
-	public void delete(int id) {
-		Product p = new Product();
-		p.setId(id);
-		Result<Product> result = repository.delete(p);
+	public void delete(ProductDto pDto) {
+		Result<Product> result = repository.delete(mapper.convert(pDto));
 		if (result.getCount() < 1) {
 			throw new NotFoundException();
 		}
