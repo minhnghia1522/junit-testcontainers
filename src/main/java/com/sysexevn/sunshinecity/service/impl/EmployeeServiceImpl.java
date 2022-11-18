@@ -68,10 +68,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}
 		Employee employee = employeeResult.get();
 		EmployeeDto dto = converter.convert(employee);
-		// get list role
-		List<Integer> idRoles = employee.getEmployeeRole().stream().map(EmployeeRole::getRoleId).toList();
-		List<String> roles = iRoleService.getRoleNameByIds(idRoles);
-		dto.setRoles(roles);
 		return dto;
 	}
 

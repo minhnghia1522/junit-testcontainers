@@ -52,5 +52,8 @@ public class Employee {
 
 	@Transient
 	private final List<EmployeeRole> employeeRole = new ArrayList<>();
+	
+	@Transient
+	private final List<String> roles = new ArrayList<>();
 
 }

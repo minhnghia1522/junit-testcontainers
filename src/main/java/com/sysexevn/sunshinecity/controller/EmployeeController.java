@@ -35,7 +35,7 @@ public class EmployeeController {
 		return ResponseEntity.ok(employee);
 	}
 
-	@PreAuthorize("hasAuthority('USER')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/getAll")
 	public ResponseEntity<List<EmployeeDto>> getAll() {
 		List<EmployeeDto> employees = service.getAll();

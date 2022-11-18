@@ -50,6 +50,8 @@ public interface IEmployeeDao {
 				.where(c -> c.eq(employee.username, username))//
 				.associate(employee, employeeRole, (a, b) -> {
 					a.getEmployeeRole().add(b);
+				}).associate(employee, role, (e, r) -> {
+					e.getRoles().add(r.getName());
 				}).fetch();
 		if (list.isEmpty()) {
 			return Optional.empty();
