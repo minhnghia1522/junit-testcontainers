@@ -1,1 +1,1 @@
-select * from menu where menu_id = /*Id*/10
+select * from menu where id = /*Id*/10

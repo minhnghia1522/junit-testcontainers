@@ -1,15 +1,10 @@
 package com.sysexevn.sunshinecity.controller;
 
 import static com.sysexevn.sunshinecity.utils.CommonUtils.asJsonString;
-import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.Date;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -21,16 +16,19 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.sysexevn.sunshinecity.config.AbsTest;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
-import com.sysexevn.sunshinecity.dto.EmployeeRoleDto;
-import com.sysexevn.sunshinecity.entity.Role;
-import com.sysexevn.sunshinecity.service.IEmployeeRoleService;
-import com.sysexevn.sunshinecity.service.IRoleService;
 
 @AutoConfigureMockMvc
 public class EmployeeControllerTest extends AbsTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	EmployeeDto employee = EmployeeDto.builder()//
+			.username("dummy_name")//
+			.password("12345")//
+			.position("Developer")//
+			.phone("0423658975")//
+			.build();
 
 //
 //	@Autowired
@@ -58,12 +56,6 @@ public class EmployeeControllerTest extends AbsTest {
 	@Order(1)
 	@WithMockUser(username = "dummy_name", password = "dummy_password", authorities = "ADMIN")
 	public void testCreateUser_Success() throws Exception {
-		EmployeeDto employee = EmployeeDto.builder()//
-				.username("dummy_name")//
-				.password("12345")//
-				.position("Developer")//
-				.phone("0423658975")//
-				.build();
 		mockMvc.perform(//
 				post("/employee/create")//
 						.accept(MediaType.APPLICATION_JSON)//
@@ -82,7 +74,8 @@ public class EmployeeControllerTest extends AbsTest {
 		mockMvc.perform(//
 				post("/employee/create")//
 						.accept(MediaType.APPLICATION_JSON)//
-						.contentType(MediaType.APPLICATION_JSON_VALUE))
+						.contentType(MediaType.APPLICATION_JSON_VALUE)//
+						.content(asJsonString(employee)))
 				.andDo(print())//
 				.andExpect(status().is4xxClientError());
 	}

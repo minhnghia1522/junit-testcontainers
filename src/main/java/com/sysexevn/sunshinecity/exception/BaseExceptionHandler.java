@@ -7,11 +7,13 @@ import org.springframework.context.MessageSource;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.sysexevn.sunshinecity.dto.ResponseDto;
 import com.sysexevn.sunshinecity.exception.error.Error;
 import com.sysexevn.sunshinecity.exception.response.BaseSuccessResponse;
 import com.sysexevn.sunshinecity.exception.success.Success;
@@ -22,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Order(value = 1)
 @Slf4j
 public class BaseExceptionHandler {
-	
+
 	@Autowired
 	private MessageSource messageSource;
 
@@ -91,6 +93,12 @@ public class BaseExceptionHandler {
 			success.setMessage(message);
 		}
 		return new ResponseEntity<Success>(success, exception.getStatus());
+	}
+
+	@ExceptionHandler(value = AccessDeniedException.class)
+	public ResponseEntity<ResponseDto<Void>> accesIsDenied(AccessDeniedException exception) {
+		ResponseDto<Void> responseDto = new ResponseDto<Void>(HttpStatus.FORBIDDEN.value(), "Access is denied");
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseDto);
 	}
 
 }

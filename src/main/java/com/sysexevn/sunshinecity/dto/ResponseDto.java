@@ -20,4 +20,9 @@ public class ResponseDto<T> {
 	private String[] params;
 	private List<Error> errors;
 	private T body;
+
+	public ResponseDto(int code, String message) {
+		this.code = code;
+		this.message = message;
+	}
 }

@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
+import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.IEmployeeService;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -59,6 +60,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			} else {
 				request.setAttribute("exception", ex);
 			}
+		} catch (NotFoundException ex) {
+			log.warn("not found user");
 		} catch (Exception ex) {
 			log.error("failed on set user authentication", ex);
 		}

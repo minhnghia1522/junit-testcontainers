@@ -17,7 +17,6 @@ import com.sysexevn.sunshinecity.dao.IEmployeeDao;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
 import com.sysexevn.sunshinecity.dto.SignUpDto;
 import com.sysexevn.sunshinecity.entity.Employee;
-import com.sysexevn.sunshinecity.entity.EmployeeRole;
 import com.sysexevn.sunshinecity.entity.Role;
 import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.IEmployeeRoleService;
@@ -43,8 +42,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private IEmployeeRoleService iEmployeeRoleService;
 
 	public EmployeeDto createEmployee(EmployeeDto employeeDto) {
-		Employee domain = new Employee();
-		BeanUtils.copyProperties(employeeDto, domain);
+		Employee domain = converter.convert(employeeDto);
 		domain.setPassword(encoder.encode(domain.getPassword()));
 		return converter.convert(employeeDao.insert(domain).getEntity());
 	}

@@ -12,10 +12,15 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class MenuDto {
-	public Integer menuId;
+
+	public Integer id;
+
 	public String menuName;
+
 	public String menuPath;
+
 	public Date createdAt;
+
 	public Date updateAt;
 
 }

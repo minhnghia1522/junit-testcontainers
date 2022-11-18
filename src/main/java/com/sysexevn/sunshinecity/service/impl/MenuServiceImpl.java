@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,9 +54,10 @@ public class MenuServiceImpl implements IMenuService {
 		return listMenuDto;
 	}
 
-	public List<Menu> saveAll(List<Menu> menus) {
-		menuDao.insertAll(menus);
-		return menus;
+	public List<MenuDto> saveAll(List<MenuDto> menus) {
+		List<Menu> menuEntitis = converter.convertListEntity(menus);
+		BatchResult<Menu> batchResult = menuDao.insertAll(menuEntitis);
+		return converter.convertListDto(batchResult.getEntities());
 	}
 
 }

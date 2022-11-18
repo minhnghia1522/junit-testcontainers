@@ -23,8 +23,8 @@ public class Menu {
 	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	@Column(name = "menu_id")
-	private Integer menuId;
+	@Column(name = "id")
+	private Integer id;
 	
 	@Column(name = "menu_name")
 	private String menuName;
@@ -37,6 +37,5 @@ public class Menu {
 	
 	@Column(name = "update_at")
 	private Date updateAt;
-
 
 }
