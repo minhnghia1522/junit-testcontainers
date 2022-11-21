@@ -2,19 +2,25 @@ package com.sysexevn.sunshinecity.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.seasar.doma.jdbc.Result;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.sysexevn.sunshinecity.converter.ProductConverter;
+import com.sysexevn.sunshinecity.converter.ProductConverterImpl;
 import com.sysexevn.sunshinecity.dao.IProductDao;
 import com.sysexevn.sunshinecity.dto.ProductDto;
 import com.sysexevn.sunshinecity.entity.Product;
@@ -29,15 +35,17 @@ public class ProductServiceTest2 {
 	@Mock
 	private IProductDao productDao;
 
-	@Autowired
-	private ProductConverter converter;
-
 	ProductDto productDto;
 
 	Product productEnity;
 
-//	@Spy
-//	private ProductConverter mapper = Mappers.getMapper(ProductConverter.class);
+	@Spy
+	private ProductConverter productConverter = Mappers.getMapper(ProductConverter.class);
+
+	@Before
+	void before() {
+		ReflectionTestUtils.setField(productConverter, "mapper", new ProductConverterImpl());
+	}
 
 	@Test
 	public void callUpdatePriceDefault() {
@@ -46,8 +54,8 @@ public class ProductServiceTest2 {
 		productEnity = new Product(1, null, null, null, BigDecimal.valueOf(50000), BigDecimal.valueOf(100000), null);
 
 		// Định nghĩa hành vi
-		lenient().when(productDao.selectById(Integer.valueOf(1))).thenReturn(Optional.of(productEnity));
-		lenient().when(productDao.updateNewPrice(productEnity)).thenReturn(new Result<Product>(1, productEnity));
+		lenient().when(productDao.selectById(anyInt())).thenReturn(Optional.of(productEnity));
+		lenient().when(productDao.update(any(Product.class))).thenReturn(new Result<Product>(1, productEnity));
 //		lenient().when(converter.convert(productDto)).thenReturn(productEnity);
 //		lenient().when(converter.convert(productEnity)).thenReturn(productDto);
 
