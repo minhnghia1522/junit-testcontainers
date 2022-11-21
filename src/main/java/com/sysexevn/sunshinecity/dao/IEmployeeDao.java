@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
+import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Sql;
@@ -28,6 +29,9 @@ public interface IEmployeeDao {
 
 	@Update
 	Result<Employee> update(Employee employee);
+	
+	@Delete
+	Result<Employee> delete(Employee employee);
 
 	@Insert
 	Result<Employee> insert(Employee employee);

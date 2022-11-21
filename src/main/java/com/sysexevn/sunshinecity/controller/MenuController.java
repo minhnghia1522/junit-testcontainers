@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sysexevn.sunshinecity.dto.MenuDto;
-import com.sysexevn.sunshinecity.entity.Menu;
 import com.sysexevn.sunshinecity.service.IMenuService;
 
 @RestController
@@ -53,8 +52,12 @@ public class MenuController {
 
 	@PutMapping("/updatemenu")
 	public ResponseEntity<MenuDto> update(@RequestBody MenuDto dto) {
-		MenuDto menu = service.updateMenu(dto);
-		return ResponseEntity.ok(menu);
+		MenuDto menuDto = service.getById(dto.getId());
+		MenuDto menuResult = null;
+		if (menuDto != null) {
+			menuResult = service.updateMenu(dto);
+		}
+		return ResponseEntity.ok(menuResult);
 	}
 
 	@PostMapping("/CreatAll")
