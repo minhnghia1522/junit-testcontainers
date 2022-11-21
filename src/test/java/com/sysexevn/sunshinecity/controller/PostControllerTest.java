@@ -37,7 +37,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
 import com.sysexevn.sunshinecity.dto.PostDTO;
 import com.sysexevn.sunshinecity.response.OutputResponse;
-import com.sysexevn.sunshinecity.utils.CommonUtils;
 
 @Testcontainers
 @SpringBootTest
