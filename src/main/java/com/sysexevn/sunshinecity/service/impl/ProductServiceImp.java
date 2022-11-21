@@ -1,6 +1,8 @@
 package com.sysexevn.sunshinecity.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.seasar.doma.jdbc.Result;
@@ -11,6 +13,7 @@ import com.sysexevn.sunshinecity.converter.ProductConverter;
 import com.sysexevn.sunshinecity.dao.IProductDao;
 import com.sysexevn.sunshinecity.dto.ProductDto;
 import com.sysexevn.sunshinecity.entity.Product;
+import com.sysexevn.sunshinecity.exception.BadRequestException;
 import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.IProductService;
 
@@ -57,6 +60,26 @@ public class ProductServiceImp implements IProductService {
 	public void delete(ProductDto pDto) {
 		Result<Product> result = repository.delete(mapper.convert(pDto));
 		if (result.getCount() < 1) {
+			throw new NotFoundException();
+		}
+	}
+
+	@Override
+	public ProductDto updateNewPrice(ProductDto newProductDto) {
+		// Check price must greater > 0
+		if (newProductDto.getNewPrice().compareTo(BigDecimal.ZERO) < 0) {
+			throw new BadRequestException();
+		}
+		Optional<Product> oldProduct = repository.selectById(newProductDto.getId());
+		// Check product is exist
+		if (oldProduct.isPresent()) {
+			if (oldProduct.get().getNewPrice() != null) {
+				newProductDto.setOldPrice(oldProduct.get().getNewPrice());
+			}
+			// update
+			Product result = repository.updateNewPrice(mapper.convert(newProductDto)).getEntity();
+			return mapper.convert(result);
+		} else {
 			throw new NotFoundException();
 		}
 	}
