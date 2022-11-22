@@ -54,9 +54,10 @@ public class MenuController {
 	public ResponseEntity<MenuDto> update(@RequestBody MenuDto dto) {
 		MenuDto menuDto = service.getById(dto.getId());
 		MenuDto menuResult = null;
-		if (menuDto != null) {
-			menuResult = service.updateMenu(dto);
+		if (menuDto == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		menuResult = service.updateMenu(dto);
 		return ResponseEntity.ok(menuResult);
 	}
 

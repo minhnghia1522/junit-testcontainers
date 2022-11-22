@@ -74,7 +74,7 @@ public class MenuControllerTest extends AbsTest {
 	}
 
 	@DisplayName("Test-Get-Menu-By-ID")
-	@Test
+//	@Test
 	@Order(2)
 	public void getMenuById() throws Exception {
 		this.mockMvc.perform(get("/menu/{id}", 1))//
@@ -83,6 +83,14 @@ public class MenuControllerTest extends AbsTest {
 		this.mockMvc.perform(get("/menu/{id}", 2))//
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.menuName").value(menuDto2.getMenuName()));
+	}
+	
+	@DisplayName("Test-Get-Menu-By-ID-Fail")
+	@Test
+	@Order(2)
+	public void getMenuById_Fail() throws Exception {
+		this.mockMvc.perform(get("/menu/{id}", 9))//
+				.andDo(print()).andExpect(status().is4xxClientError());
 	}
 
 	@DisplayName("Test-Update-Menu")
@@ -98,10 +106,24 @@ public class MenuControllerTest extends AbsTest {
 				.andExpect(status().isOk()).andExpect(jsonPath("$.id").value(menuDto1.getId()))
 				.andExpect(jsonPath("$.menuName").value(menuDto1.getMenuName())).andReturn();
 	}
+	
+	@DisplayName("Test-Update-Menu-Fail")
+	@Test
+	@Order(4)
+	public void UpdateMenu_Fail() throws Exception {
+		MenuDto menuDto = new MenuDto();
+		menuDto.setId(15);
+		menuDto.setMenuName("co112");
+		this.mockMvc.perform(put("/menu/updatemenu").accept(MediaType.APPLICATION_JSON)//
+				.contentType(MediaType.APPLICATION_JSON_VALUE)//
+				.content(asJsonString(menuDto)))//
+				.andDo(print())//
+				.andExpect(status().is4xxClientError());
+	}
 
 	@DisplayName("Test-Get-All-Menu")
 	@Test
-	@Order(4)
+	@Order(5)
 	public void getAllMenu() throws Exception {
 		this.mockMvc.perform(get("/menu/getAll")).andDo(print())//
 				.andExpect(status().isOk()).andExpect(jsonPath("$.size()").value(2));
@@ -109,7 +131,7 @@ public class MenuControllerTest extends AbsTest {
 
 	@DisplayName("Test-Delete-Menu")
 	@Test
-	@Order(5)
+	@Order(6)
 	public void deleteMenu() throws Exception {
 		int id = 1;
 		this.mockMvc.perform(delete("/menu/delete/{id}", id)).andDo(print())//
@@ -117,19 +139,26 @@ public class MenuControllerTest extends AbsTest {
 
 		this.mockMvc.perform(get("/menu/getAll")).andDo(print())//
 				.andExpect(status().isOk()).andExpect(jsonPath("$.size()").value(1));
-
+	}
+	
+	@DisplayName("Test-Delete-Menu-Fail")
+	@Test
+	@Order(7)
+	public void deleteMenu_Fail() throws Exception {
+		this.mockMvc.perform(delete("/menu/delete/{id}", 15)).andDo(print())//
+				.andExpect(status().isOk()).andExpect(jsonPath("$").value(0));
 	}
 
 	@DisplayName("Test-Get-Menu-By-Id-Is-Null")
 	@Test
-	@Order(6)
+	@Order(8)
 	public void getByIdIsNull() throws Exception {// bad request 400
 		this.mockMvc.perform(get("/menu/1")).andExpect(status().is4xxClientError());
 	}
 
 	@DisplayName("Test-Create-Menu")
 	@Test
-	@Order(7)
+	@Order(9)
 	public void createMenu() throws Exception {
 		this.mockMvc.perform(post("/menu/addmenu")//
 				.accept(MediaType.APPLICATION_JSON)//
