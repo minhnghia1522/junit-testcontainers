@@ -1,0 +1,1 @@
+select * from employee_role where role_id = /* roleId */0

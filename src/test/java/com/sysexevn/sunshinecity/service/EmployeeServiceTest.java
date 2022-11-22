@@ -4,9 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.mock;
 
-import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -18,11 +16,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.seasar.doma.jdbc.Result;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.github.javafaker.Faker;
 import com.sysexevn.sunshinecity.converter.EmployeeConverter;
 import com.sysexevn.sunshinecity.dao.IEmployeeDao;
-import com.sysexevn.sunshinecity.domain.Employee;
 import com.sysexevn.sunshinecity.dto.EmployeeDto;
+import com.sysexevn.sunshinecity.entity.Employee;
 import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.impl.EmployeeServiceImpl;
 
@@ -38,49 +38,67 @@ public class EmployeeServiceTest {
 	@Mock
 	private EmployeeConverter converter;
 
+	@Mock
+	private PasswordEncoder encoder;
+
 	private Employee employee;
 
 	private EmployeeDto employeeDto;
 
+	private Faker faker;
+
+	private String password;
+
 	@BeforeEach
 	public void setUp() {
-		employee = mock(Employee.class);
-		employeeDto = mock(EmployeeDto.class);
+		faker = new Faker();
+		password = faker.lorem().characters(10);
+
+		employee = new Employee();
+		employee.setUsername(faker.name().username());
+		employee.setPassword(password);
+
+		employeeDto = new EmployeeDto();
+		employeeDto.setUsername(faker.name().username());
+		employeeDto.setPassword(password);
+		
+		lenient().when(converter.convert(employeeDto)).thenReturn(employee);
+		lenient().when(converter.convert(employee)).thenReturn(employeeDto);
 	}
-	
+
 	@DisplayName("Test-Create-Employee")
 	@Test
 	@Order(1)
 	public void testCreate() {
 		// given - precondition or setup
 		lenient().when(employeeDao.insert(employee)).thenReturn(new Result<Employee>(1, employee));
-		lenient().when(converter.convert(employeeDto)).thenReturn(employee);
-		lenient().when(converter.convert(employee)).thenReturn(employeeDto);
+		
+		lenient().when(encoder.encode(employee.getPassword())).thenReturn(password);
 
-		// when - action or the behaviour that we are going test
-		EmployeeDto savedEmployee = service.createEmployeee(employeeDto);
+		// when - action or the behavior that we are going test
+		EmployeeDto savedEmployee = service.createEmployee(employeeDto);
 
 		// then - verify the output
 		assertThat(savedEmployee).isNotNull();
 
 	}
 
-	@DisplayName("Test-Get-By-Id")
-//	@Test
-	@Order(2)
-	public void testGetById() {
-		Employee employee = new Employee();
-		employee.setFullName("Tan Duoc");
-		employee.setEmail("tan-duoc@system-exe.com.vn");
-		employee.setBirthday(new Date());
-		employee.setDepartment("Offshore");
-		employee.setPosition("Developer");
-		employee.setPhone("0423658975");
-
-		EmployeeDto dto = service.getById(1);
-
-		assertEquals(employee.getFullName(), dto.getFullName());
-	}
+//	@DisplayName("Test-Get-By-Id")
+////	@Test
+//	@Order(2)
+//	public void testGetById() {
+//		Employee employee = new Employee();
+//		employee.setFullName("Tan Duoc");
+//		employee.setEmail("tan-duoc@system-exe.com.vn");
+//		employee.setBirthday(new Date());
+//		employee.setDepartment("Offshore");
+//		employee.setPosition("Developer");
+//		employee.setPhone("0423658975");
+//
+//		EmployeeDto dto = service.getById(1);
+//
+//		assertEquals(employee.getFullName(), dto.getFullName());
+//	}
 
 	@DisplayName("Test-Get-List")
 //	@Test
@@ -88,7 +106,7 @@ public class EmployeeServiceTest {
 	public void testGetList() {
 		EmployeeDto employee = new EmployeeDto();
 		employee.setFullName("Hoang Anh");
-		service.createEmployeee(employee);
+		service.createEmployee(employee);
 
 		List<EmployeeDto> listDtoes = service.getAll();
 		assertEquals(2, listDtoes.size());
