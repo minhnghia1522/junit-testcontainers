@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import java.util.Collections;
 import java.util.Optional;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
@@ -18,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.Result;
@@ -40,11 +38,6 @@ public class PostServiceTest {
 
 	@Mock
 	private PostConverter converter;
-
-	@Before
-	public void setUpAll() throws Exception {
-		MockitoAnnotations.openMocks(this);
-	}
 
 	Post post;
 	PostDTO postDTO;
@@ -181,12 +174,35 @@ public class PostServiceTest {
 		assertThat(postService.updatePost(postDTO)).isNull();
 	}
 
+	@DisplayName("Test-Update-Post-Fail-2")
+	@Test
+	@Order(13)
+	public void testUpdatePostFail2() {
+		// given - precondition or setup
+		when(postDAO.count(postDTO.getId())).thenReturn(0L);
+
+		// then
+		assertThat(postService.updatePost(postDTO)).isNull();
+	}
+
+	
 	@DisplayName("Test-Delete-Post-Fail")
 	@Test
 	@Order(10)
 	public void testDeletePostFail() {
 		// given - precondition or setup
 		when(postDTO.getId()).thenReturn(null);
+
+		// then
+		assertThat(postService.deletePost(postDTO)).isNull();
+	}
+	
+	@DisplayName("Test-Delete-Post-Fail")
+	@Test
+	@Order(10)
+	public void testDeletePostFail2() {
+		// given - precondition or setup
+		when(postDAO.count(postDTO.getId())).thenReturn(0L);
 
 		// then
 		assertThat(postService.deletePost(postDTO)).isNull();

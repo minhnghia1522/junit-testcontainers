@@ -120,7 +120,6 @@ public class PostControllerTest {
 		assertNotNull(resultDto);
 		assertEquals(resultDto.getMessage(), "get all post success!");
 		assertEquals(resultDto.getData().size() > 0, true);
-
 	}
 
 	@DisplayName("Test-Get-Post-By-Id-Controller")
