@@ -109,6 +109,7 @@ public class BaseExceptionHandler {
 		ResponseDto<Void> responseDto = new ResponseDto<Void>(HttpStatus.BAD_REQUEST.value(), "Invalid input");
 		List<Error> errorList = new ArrayList<>();
 		exception.getBindingResult().getFieldErrors().forEach(error -> {
+			// custom message for locale
 			Error err = Error.builder().message(error.getDefaultMessage()).build();
 			err.setParams(new String[] { error.getField() });
 			errorList.add(err);
