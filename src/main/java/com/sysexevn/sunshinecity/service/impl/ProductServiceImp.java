@@ -70,18 +70,15 @@ public class ProductServiceImp implements IProductService {
 		if (newProductDto.getNewPrice().compareTo(BigDecimal.ZERO) < 0) {
 			throw new BadRequestException();
 		}
-		Optional<Product> oldProduct = repository.selectById(newProductDto.getId());
-		// Check product is exist
-		if (oldProduct.isPresent()) {
-			if (oldProduct.get().getNewPrice() != null) {
-				newProductDto.setOldPrice(oldProduct.get().getNewPrice());
-			}
-			// update
-			Product dto = mapper.convert(newProductDto);
-			Product result = repository.update(dto).getEntity();
-			return mapper.convert(result);
-		} else {
+		Optional<Product> oldProductOptional = repository.selectById(newProductDto.getId());
+		if (oldProductOptional.isEmpty()) {
 			throw new NotFoundException();
 		}
+		Product product = oldProductOptional.get();
+		newProductDto.setOldPrice(product.getNewPrice());
+		// update
+		Product productEntity = mapper.convert(newProductDto);
+		repository.update(productEntity);
+		return newProductDto;
 	}
 }
