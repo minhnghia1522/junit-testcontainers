@@ -12,11 +12,15 @@ public interface IEmployeeService {
 
 	EmployeeDto createEmployee(EmployeeDto employee);
 
-	List<Employee> saveAll(List<Employee> employees);
+	List<EmployeeDto> saveAll(List<EmployeeDto> employees);
 
 	EmployeeDto getById(Integer id);
 
 	List<EmployeeDto> getAll();
+	
+	EmployeeDto update(EmployeeDto employee);
+	
+	EmployeeDto delete(EmployeeDto employee);
 
 	EmployeeDto getByUsername(String username);
 

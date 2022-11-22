@@ -13,6 +13,7 @@ import com.sysexevn.sunshinecity.converter.MenuConverter;
 import com.sysexevn.sunshinecity.dao.IMenuDao;
 import com.sysexevn.sunshinecity.dto.MenuDto;
 import com.sysexevn.sunshinecity.entity.Menu;
+import com.sysexevn.sunshinecity.exception.NotFoundException;
 import com.sysexevn.sunshinecity.service.IMenuService;
 
 @Service
@@ -43,7 +44,7 @@ public class MenuServiceImpl implements IMenuService {
 	public MenuDto getById(Integer id) {
 		Optional<Menu> menuResult = menuDao.findById(id);
 		if (menuResult.isEmpty()) {
-			return null;
+			throw new NotFoundException();
 		}
 		return converter.convert(menuResult.get());
 	}

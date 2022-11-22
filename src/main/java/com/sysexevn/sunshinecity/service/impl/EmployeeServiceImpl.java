@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.seasar.doma.jdbc.Result;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,10 +35,10 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private PasswordEncoder encoder;
 
 	@Autowired
-	private IRoleService iRoleService;
+	private IRoleService roleService;
 
 	@Autowired
-	private IEmployeeRoleService iEmployeeRoleService;
+	private IEmployeeRoleService employeeRoleService;
 
 	public EmployeeDto createEmployee(EmployeeDto employeeDto) {
 		Employee domain = converter.convert(employeeDto);
@@ -47,8 +46,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return converter.convert(employeeDao.insert(domain).getEntity());
 	}
 
-	public List<Employee> saveAll(List<Employee> employees) {
-		return employeeDao.insertAll(employees).getEntities();
+	public List<EmployeeDto> saveAll(List<EmployeeDto> employees) {
+		List<Employee> domain = employees.stream().map(x -> converter.convert(x)).toList();
+		return employeeDao.insertAll(domain).getEntities().stream().map(x -> converter.convert(x)).toList();
 	}
 
 	public EmployeeDto getById(Integer id) {
@@ -83,10 +83,10 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		Result<Employee> result = employeeDao.insert(employee);
 
 		// get Role
-		Role role = iRoleService.getRoleByEnum(RoleEnum.USER);
+		Role role = roleService.getRoleByEnum(RoleEnum.USER);
 
 		// create role for user
-		iEmployeeRoleService.create(role.getId(), result.getEntity().getId());
+		employeeRoleService.create(role.getId(), result.getEntity().getId());
 	}
 
 	@Override
@@ -94,5 +94,17 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		List<SimpleGrantedAuthority> authorities = employee.getRoles().stream().map(r -> new SimpleGrantedAuthority(r))
 				.toList();
 		return authorities;
+	}
+
+	@Override
+	public EmployeeDto update(EmployeeDto employeeDto) {
+		Employee employee = converter.convert(employeeDto);
+		return converter.convert(employeeDao.update(employee).getEntity());
+	}
+
+	@Override
+	public EmployeeDto delete(EmployeeDto employeeDto) {
+		Employee employee = converter.convert(employeeDto);
+		return converter.convert(employeeDao.delete(employee).getEntity());
 	}
 }

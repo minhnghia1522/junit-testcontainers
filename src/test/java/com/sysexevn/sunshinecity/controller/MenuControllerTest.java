@@ -1,31 +1,30 @@
 package com.sysexevn.sunshinecity.controller;
 
 import static com.sysexevn.sunshinecity.utils.CommonUtils.asJsonString;
-import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import com.github.javafaker.Faker;
 import com.sysexevn.sunshinecity.config.AbsTest;
@@ -42,94 +41,133 @@ public class MenuControllerTest extends AbsTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	private Faker faker = new Faker();
+	private static Faker faker = new Faker();
+	private static MenuDto menuDto1 = new MenuDto();
+	private static MenuDto menuDto2 = new MenuDto();
+	private static MenuDto menuDto3 = new MenuDto();
 
-	private MenuDto menuDto1 = MenuDto.builder().menuName(faker.name().firstName())
-			.menuPath(faker.internet().emailAddress()).createdAt(faker.date().birthday())
-			.updateAt(faker.date().birthday()).build();
+	@BeforeAll
+	public static void setup() {
+		menuDto1 = MenuDto.builder().menuName(faker.name().firstName()).menuPath(faker.internet().emailAddress())
+				.createdAt(faker.date().birthday()).updateAt(faker.date().birthday()).build();
 
-	private MenuDto menuDto2 = MenuDto.builder().menuName(faker.name().firstName())
-			.menuPath(faker.internet().emailAddress()).createdAt(faker.date().birthday())
-			.updateAt(faker.date().birthday()).build();
+		menuDto2 = MenuDto.builder().menuName(faker.name().firstName()).menuPath(faker.internet().emailAddress())
+				.createdAt(faker.date().birthday()).updateAt(faker.date().birthday()).build();
+
+		menuDto3 = MenuDto.builder().menuName(faker.name().firstName()).menuPath(faker.internet().emailAddress())
+				.createdAt(faker.date().birthday()).updateAt(faker.date().birthday()).build();
+	}
 
 	@DisplayName("Test-Save-All-Menu")
 	@Test
 	@Order(1)
 	public void postSaveAllMenu() throws Exception {
 		List<MenuDto> listDto = Arrays.asList(menuDto1, menuDto2);
-		MvcResult mvcResult =  this.mockMvc.perform(post("/menu/CreatAll").accept(MediaType.APPLICATION_JSON)//
+		String result = this.mockMvc.perform(post("/menu/CreatAll").accept(MediaType.APPLICATION_JSON)//
 				.contentType(MediaType.APPLICATION_JSON_VALUE)//
 				.content(asJsonString(listDto)))//
 				.andDo(print())//
 				.andExpect(status().isOk())//
-				.andExpect(jsonPath("$", hasSize(2))).andReturn();
-//				.andExpect(jsonPath("$.*", hasSize(2)));
+				.andExpect(jsonPath("$.size()").value(2)).andReturn().getResponse().getContentAsString();
+		menuDto1.setId(Integer.decode(new JSONArray(result).getJSONObject(0).getString("id")));
+		menuDto2.setId(Integer.decode(new JSONArray(result).getJSONObject(1).getString("id")));
 	}
 
 	@DisplayName("Test-Get-Menu-By-ID")
-	@Test
+//	@Test
 	@Order(2)
 	public void getMenuById() throws Exception {
-		this.mockMvc.perform(get("/menu/{id}", 1)).andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(get("/menu/{id}", 1))//
+				.andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.menuName").value(menuDto1.getMenuName()));
+		this.mockMvc.perform(get("/menu/{id}", 2))//
+				.andDo(print()).andExpect(status().isOk())
+				.andExpect(jsonPath("$.menuName").value(menuDto2.getMenuName()));
+	}
+	
+	@DisplayName("Test-Get-Menu-By-ID-Fail")
+	@Test
+	@Order(2)
+	public void getMenuById_Fail() throws Exception {
+		this.mockMvc.perform(get("/menu/{id}", 9))//
+				.andDo(print()).andExpect(status().is4xxClientError());
 	}
 
-//	@DisplayName("Test-Update-Menu")
-//	@Test
-//	@Order(3)
-//	public void UpdateMenu() throws Exception {
-//		MenuDto dto = new MenuDto();
-//		dto.setMenuId(4);
-//		dto.setMenuName("co111");
-//		dto.setUpdateAt(new Date());
-//		MvcResult result = this.mockMvc.perform(put("/menu/updatemenu").accept(MediaType.APPLICATION_JSON)//
-//				.contentType(MediaType.APPLICATION_JSON_VALUE)//
-//				.content(asJsonString(dto)))//
-//				.andDo(print())//
-//				.andExpect(status().isOk()).andExpect(jsonPath("$.menuId").value(dto.getMenuId()))
-//				.andExpect(jsonPath("$.menuName").value(dto.getMenuName())).andReturn();
-//		String resultDOW = result.getResponse().getContentAsString();
-//		assertNotNull(resultDOW.contains("success"));
-//	}
-//
-//	@DisplayName("Test-Get-All-Menu")
-//	@Test
-//	@Order(4)
-//	public void getAllMenu() throws Exception {
-//		this.mockMvc.perform(get("/menu/getAll")).andDo(print()).andExpect(status().isOk())
-//				.andExpect(jsonPath("$.*", hasSize(3))).andReturn().getResponse().getContentAsString();
-//	}
-//
-//	@DisplayName("Test-Delete-Menu")
-//	@Test
-//	@Order(5)
-//	public void deleteMenu() throws Exception {
-//		int id = 1;
-//		this.mockMvc.perform(delete("/menu/delete/{id}", id)).andDo(print())//
-//				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-//
-//	}
-//
-//	@DisplayName("Test-Get-Menu-By-Id-Is-Null")
-//	@Test
-//	@Order(6)
-//	public void getByIdIsNull() throws Exception {// bad request 400
-//		this.mockMvc.perform(get("/menu/1")).andExpect(status().isBadRequest()).andReturn().getResponse()
-//				.getContentAsString();
-//	}
-//
-//	@DisplayName("Test-Create-Menu")
-//	@Test
-//	@Order(7)
-//	public void createMenu() throws Exception {
-//		MenuDto dto = new MenuDto();
-//		dto.setMenuName("co111");
-//		dto.setCreatedAt(null);
-//		this.mockMvc.perform(post("/menu/addmenu").accept(MediaType.APPLICATION_JSON)//
-//				.contentType(MediaType.APPLICATION_JSON_VALUE).content(asJsonString(dto))).andExpect(status().isOk())
-//				.andExpect(jsonPath("$.menuId").value(1)).andExpect(jsonPath("$.menuName").value(dto.getMenuName()))
-//				.andDo(print()).andReturn().getResponse().getContentAsString();
-//
-//	}
+	@DisplayName("Test-Update-Menu")
+	@Test
+	@Order(3)
+	public void UpdateMenu() throws Exception {
+		menuDto1.setMenuName("co111");
+		menuDto1.setUpdateAt(new Date());
+		this.mockMvc.perform(put("/menu/updatemenu").accept(MediaType.APPLICATION_JSON)//
+				.contentType(MediaType.APPLICATION_JSON_VALUE)//
+				.content(asJsonString(menuDto1)))//
+				.andDo(print())//
+				.andExpect(status().isOk()).andExpect(jsonPath("$.id").value(menuDto1.getId()))
+				.andExpect(jsonPath("$.menuName").value(menuDto1.getMenuName())).andReturn();
+	}
+	
+	@DisplayName("Test-Update-Menu-Fail")
+	@Test
+	@Order(4)
+	public void UpdateMenu_Fail() throws Exception {
+		MenuDto menuDto = new MenuDto();
+		menuDto.setId(15);
+		menuDto.setMenuName("co112");
+		this.mockMvc.perform(put("/menu/updatemenu").accept(MediaType.APPLICATION_JSON)//
+				.contentType(MediaType.APPLICATION_JSON_VALUE)//
+				.content(asJsonString(menuDto)))//
+				.andDo(print())//
+				.andExpect(status().is4xxClientError());
+	}
+
+	@DisplayName("Test-Get-All-Menu")
+	@Test
+	@Order(5)
+	public void getAllMenu() throws Exception {
+		this.mockMvc.perform(get("/menu/getAll")).andDo(print())//
+				.andExpect(status().isOk()).andExpect(jsonPath("$.size()").value(2));
+	}
+
+	@DisplayName("Test-Delete-Menu")
+	@Test
+	@Order(6)
+	public void deleteMenu() throws Exception {
+		int id = 1;
+		this.mockMvc.perform(delete("/menu/delete/{id}", id)).andDo(print())//
+				.andExpect(status().isOk());
+
+		this.mockMvc.perform(get("/menu/getAll")).andDo(print())//
+				.andExpect(status().isOk()).andExpect(jsonPath("$.size()").value(1));
+	}
+	
+	@DisplayName("Test-Delete-Menu-Fail")
+	@Test
+	@Order(7)
+	public void deleteMenu_Fail() throws Exception {
+		this.mockMvc.perform(delete("/menu/delete/{id}", 15)).andDo(print())//
+				.andExpect(status().isOk()).andExpect(jsonPath("$").value(0));
+	}
+
+	@DisplayName("Test-Get-Menu-By-Id-Is-Null")
+	@Test
+	@Order(8)
+	public void getByIdIsNull() throws Exception {// bad request 400
+		this.mockMvc.perform(get("/menu/1")).andExpect(status().is4xxClientError());
+	}
+
+	@DisplayName("Test-Create-Menu")
+	@Test
+	@Order(9)
+	public void createMenu() throws Exception {
+		this.mockMvc.perform(post("/menu/addmenu")//
+				.accept(MediaType.APPLICATION_JSON)//
+				.contentType(MediaType.APPLICATION_JSON_VALUE)//
+				.content(asJsonString(menuDto3))).andExpect(status().isOk())//
+				.andExpect(jsonPath("$.menuName").value(menuDto3.getMenuName()));
+
+		this.mockMvc.perform(get("/menu/getAll")).andDo(print())//
+				.andExpect(status().isOk()).andExpect(jsonPath("$.size()").value(2));
+	}
 
 }
