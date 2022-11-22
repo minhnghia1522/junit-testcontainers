@@ -152,7 +152,7 @@ public class PostController {
 	}
 
 	@PostMapping("/post/insertAll")
-	public ResponseEntity<OutputResponse<PostDTO>> insertAll(@RequestBody List<PostDTO> dtos) {
+	public ResponseEntity<OutputResponse<PostDTO>> insertAll(@RequestBody @Valid List<PostDTO> dtos) {
 		OutputResponse<PostDTO> out = new OutputResponse<>();
 		postService.saveAll(dtos);
 		out.setMessage("insert all posts success!");
@@ -161,7 +161,7 @@ public class PostController {
 
 	@PutMapping("/post/{id}")
 	public ResponseEntity<OutputResponse<PostDTO>> updatePost(@PathVariable("id") Integer id,
-			@RequestBody PostDTO dto) {
+			@RequestBody @Valid PostDTO dto) {
 		PostDTO dtoExist = postService.getById(id);
 		OutputResponse<PostDTO> out = new OutputResponse<>();
 		if (dtoExist != null) {

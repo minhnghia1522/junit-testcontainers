@@ -42,9 +42,19 @@ public class PostServiceImpl implements IPostService {
 		if(post.getId() == null || postDAO.count(post.getId()) <= 0) 
 			return null;
 
-		Post postUpdate = converter.convertToDomain(post);
-		Result<Post> resultUpdate = postDAO.updateUseDSL(postUpdate);
-		post = converter.convertToDTO(resultUpdate.getEntity());
+		Optional<Post> postOld = postDAO.selectByIdUseDSL(post.getId());
+		if(postOld.isPresent()) {
+			// custom change
+			if(post.getTitle() != null)
+				postOld.get().setTitle(post.getTitle());
+			if(post.getPostName() != null)
+				postOld.get().setPostName(post.getPostName());
+			if(post.getPostDescription() != null)
+				postOld.get().setPostDescription(post.getPostDescription());
+			// update
+			Result<Post> resultUpdate = postDAO.updateUseDSL(postOld.get());
+			post = converter.convertToDTO(resultUpdate.getEntity());
+		}
 		return post;
 	}
 

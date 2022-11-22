@@ -43,4 +43,8 @@ public class PostDTO {
 	private Integer favoriteCount;
 	private Date closedDate;
 	private Date communityOwnerDate;
+	private Date createdDate;
+	private Date modifiedDate;
+	private String createdBy;
+	private String modifiedBy;
 }
