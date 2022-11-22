@@ -78,7 +78,7 @@ public class ProductServiceImp implements IProductService {
 		newProductDto.setOldPrice(product.getNewPrice());
 		// update
 		Product productEntity = mapper.convert(newProductDto);
-		repository.update(productEntity);
-		return newProductDto;
+		Product ressult = repository.update(productEntity).getEntity();
+		return mapper.convert(ressult);
 	}
 }
