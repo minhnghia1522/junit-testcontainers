@@ -1,5 +1,7 @@
 package com.sysexevn.sunshinecity.exception;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -99,6 +102,20 @@ public class BaseExceptionHandler {
 	public ResponseEntity<ResponseDto<Void>> accesIsDenied(AccessDeniedException exception) {
 		ResponseDto<Void> responseDto = new ResponseDto<Void>(HttpStatus.FORBIDDEN.value(), "Access is denied");
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responseDto);
+	}
+
+	@ExceptionHandler(value = MethodArgumentNotValidException.class)
+	public ResponseEntity<ResponseDto<Void>> invalidArgument(MethodArgumentNotValidException exception) {
+		ResponseDto<Void> responseDto = new ResponseDto<Void>(HttpStatus.BAD_REQUEST.value(), "Invalid input");
+		List<Error> errorList = new ArrayList<>();
+		exception.getBindingResult().getFieldErrors().forEach(error -> {
+			Error err = Error.builder().message(error.getDefaultMessage()).build();
+			err.setParams(new String[] { error.getField() });
+			errorList.add(err);
+		});
+
+		responseDto.setErrors(errorList);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
 	}
 
 }

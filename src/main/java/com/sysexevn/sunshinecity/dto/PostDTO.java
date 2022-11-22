@@ -2,8 +2,8 @@ package com.sysexevn.sunshinecity.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -20,10 +20,11 @@ public class PostDTO {
 	
 	private Integer id;
 	
-	@NotBlank(message = "title is not blank!")
-	@NotNull(message = "title is not null!")
-	@Size(min = 3, max = 50, message = "title length is not allowed")
+	@NotBlank(message = "{blankTitle}")
+	@Size(min = 3, max = 50, message = "{titleSize}")
 	private String title;
+	
+	@Email(message = "{emailPostName}")
 	private String postName;
 	private String postDescription;
 	private Date createdAt;
