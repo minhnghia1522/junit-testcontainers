@@ -186,7 +186,7 @@ public class PostController {
 			out.setData(Collections.singletonList(result));
 			return ResponseEntity.ok(out);
 		}
-		out.setMessage("post id nout found!");
+		out.setMessage("post id not found!");
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
 	}
 
