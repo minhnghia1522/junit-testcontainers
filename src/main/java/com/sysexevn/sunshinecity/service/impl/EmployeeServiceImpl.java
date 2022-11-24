@@ -1,6 +1,5 @@
 package com.sysexevn.sunshinecity.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,8 +46,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	public List<EmployeeDto> saveAll(List<EmployeeDto> employees) {
-		List<Employee> domain = employees.stream().map(x -> converter.convert(x)).toList();
-		return employeeDao.insertAll(domain).getEntities().stream().map(x -> converter.convert(x)).toList();
+		List<Employee> domain = converter.convertListToEntity(employees);
+		return converter.convertListToDto(employeeDao.insertAll(domain).getEntities());
 	}
 
 	public EmployeeDto getById(Integer id) {
@@ -70,8 +69,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	public List<EmployeeDto> getAll() {
-		List<EmployeeDto> listEmployeeDto = new ArrayList<>();
-		employeeDao.findAllEmployee().forEach(employee -> listEmployeeDto.add(converter.convert(employee)));
+		List<Employee> tt = employeeDao.findAllEmployee();
+		List<EmployeeDto> listEmployeeDto = converter.convertListToDto(tt);
 		return listEmployeeDto;
 	}
 
@@ -99,12 +98,21 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Override
 	public EmployeeDto update(EmployeeDto employeeDto) {
 		Employee employee = converter.convert(employeeDto);
-		return converter.convert(employeeDao.update(employee).getEntity());
+		Result<Employee> result = employeeDao.update(employee);
+		if (result.getCount() > 0) {
+			return converter.convert(result.getEntity());
+		}
+		throw new NotFoundException();
 	}
 
 	@Override
 	public EmployeeDto delete(EmployeeDto employeeDto) {
 		Employee employee = converter.convert(employeeDto);
-		return converter.convert(employeeDao.delete(employee).getEntity());
+
+		Result<Employee> result = employeeDao.delete(employee);
+		if (result.getCount() > 0) {
+			return converter.convert(result.getEntity());
+		}
+		throw new NotFoundException();
 	}
 }

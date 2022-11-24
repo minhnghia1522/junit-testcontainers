@@ -1,5 +1,7 @@
 package com.sysexevn.sunshinecity.converter;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
@@ -18,4 +20,8 @@ public interface EmployeeConverter {
 	EmployeeDto convert(Employee sourceCode);
 
 	Employee convert(SignUpDto sourceOrder);
+	
+	List<Employee> convertListToEntity(List<EmployeeDto> sourceOrder);
+	
+	List<EmployeeDto> convertListToDto(List<Employee> sourceOrder);
 }

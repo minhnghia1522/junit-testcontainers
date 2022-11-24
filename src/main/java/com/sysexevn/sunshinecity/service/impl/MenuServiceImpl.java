@@ -34,7 +34,10 @@ public class MenuServiceImpl implements IMenuService {
 	public MenuDto updateMenu(MenuDto menuDto) {
 		Menu domain = converter.convert(menuDto);
 		Result<Menu> result = menuDao.update(domain);
-		return converter.convert(result.getEntity());
+		if (result.getCount() > 0) {
+			return converter.convert(result.getEntity());
+		}
+		throw new NotFoundException();
 	}
 
 	public int deleteMenu(Integer id) {
