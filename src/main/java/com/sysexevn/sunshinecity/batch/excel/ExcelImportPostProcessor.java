@@ -1,4 +1,4 @@
-package com.sysexevn.sunshinecity.config.batch_excel;
+package com.sysexevn.sunshinecity.batch.excel;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;

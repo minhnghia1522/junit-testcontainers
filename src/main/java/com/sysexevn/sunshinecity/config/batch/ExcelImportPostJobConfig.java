@@ -1,4 +1,4 @@
-package com.sysexevn.sunshinecity.config.batch_excel;
+package com.sysexevn.sunshinecity.config.batch;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.sysexevn.sunshinecity.batch.excel.ExcelImportPostProcessor;
+import com.sysexevn.sunshinecity.batch.excel.ExcelImportPostReader;
+import com.sysexevn.sunshinecity.batch.excel.ExcelImportPostWriter;
+import com.sysexevn.sunshinecity.batch.listener.JobCompletionNotificationListener;
 import com.sysexevn.sunshinecity.dto.PostDTO;
 import com.sysexevn.sunshinecity.entity.Post;
 

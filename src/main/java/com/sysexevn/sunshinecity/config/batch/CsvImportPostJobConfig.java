@@ -1,4 +1,4 @@
-package com.sysexevn.sunshinecity.config.batch_csv;
+package com.sysexevn.sunshinecity.config.batch;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.sysexevn.sunshinecity.config.batch_excel.JobCompletionNotificationListener;
+import com.sysexevn.sunshinecity.batch.csv.CsvImportPostProcessor;
+import com.sysexevn.sunshinecity.batch.csv.CsvImportPostReader;
+import com.sysexevn.sunshinecity.batch.csv.CsvImportPostWriter;
+import com.sysexevn.sunshinecity.batch.listener.JobCompletionNotificationListener;
 import com.sysexevn.sunshinecity.dto.PostDTO;
 import com.sysexevn.sunshinecity.entity.Post;
 

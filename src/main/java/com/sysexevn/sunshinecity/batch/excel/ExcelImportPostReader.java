@@ -1,4 +1,4 @@
-package com.sysexevn.sunshinecity.config.batch_excel;
+package com.sysexevn.sunshinecity.batch.excel;
 
 import java.util.Iterator;
 import java.util.List;

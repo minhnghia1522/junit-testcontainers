@@ -1,4 +1,4 @@
-package com.sysexevn.sunshinecity.config.batch_csv;
+package com.sysexevn.sunshinecity.batch.csv;
 
 import java.util.Date;
 
