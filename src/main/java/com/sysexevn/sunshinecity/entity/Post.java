@@ -9,6 +9,8 @@ import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
 import org.seasar.doma.Metamodel;
 
+import com.sysexevn.sunshinecity.entity.listener.PostEntityListener;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -81,16 +83,6 @@ public class Post {
 
 	@Column(name = "community_owner_date")
 	private Date communityOwnerDate;
-	
-	@Column(name = "created_date")
-	private Date createdDate;
-	
-	@Column(name = "modified_date")
-	private Date modifiedDate;
-	
-	@Column(name = "created_by")
-	private String createdBy;
-	
-	@Column(name = "modified_by")
-	private String modifiedBy;
+
+	AuditingBaseEntity auditing = new AuditingBaseEntity();
 }

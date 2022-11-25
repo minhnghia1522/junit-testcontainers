@@ -1,4 +1,4 @@
-package com.sysexevn.sunshinecity.entity;
+package com.sysexevn.sunshinecity.entity.listener;
 
 import java.util.Date;
 
@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.sysexevn.sunshinecity.config.CustomUserDetails;
+import com.sysexevn.sunshinecity.entity.Post;
 
 public class PostEntityListener implements EntityListener<Post> {
 
@@ -23,15 +24,15 @@ public class PostEntityListener implements EntityListener<Post> {
 
 	@Override
 	public void preInsert(Post entity, PreInsertContext<Post> context) {
-		entity.setCreatedDate(new Date());
-		entity.setCreatedBy(getCurrentAuditorName());
+		entity.getAuditing().setCreatedDate(new Date());
+		entity.getAuditing().setCreatedBy(getCurrentAuditorName());
 		EntityListener.super.preInsert(entity, context);
 	}
 
 	@Override
 	public void preUpdate(Post entity, PreUpdateContext<Post> context) {
-		entity.setModifiedDate(new Date());
-		entity.setModifiedBy(getCurrentAuditorName());
+		entity.getAuditing().setModifiedDate(new Date());
+		entity.getAuditing().setModifiedBy(getCurrentAuditorName());
 		EntityListener.super.preUpdate(entity, context);
 	}
 

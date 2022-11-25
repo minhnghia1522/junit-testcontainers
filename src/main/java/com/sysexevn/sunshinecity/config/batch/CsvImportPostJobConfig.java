@@ -39,4 +39,5 @@ public class CsvImportPostJobConfig {
 		return stepBuilderFactory.get("csvImportPostStep").<PostDTO, Post>chunk(100).reader(reader).processor(processor)
 				.writer(writer).build();
 	}
+	
 }
