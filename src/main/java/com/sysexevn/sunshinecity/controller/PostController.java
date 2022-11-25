@@ -6,6 +6,8 @@ import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +38,7 @@ public class PostController {
 	private IUploadFileService uploadFileService;
 
 	@PostMapping("/post")
-	public ResponseEntity<OutputResponse<PostDTO>> insertPost(@RequestBody PostDTO dto) {
+	public ResponseEntity<OutputResponse<PostDTO>> insertPost(@RequestBody @Valid PostDTO dto) {
 		PostDTO result = postService.createPost(dto);
 		OutputResponse<PostDTO> out = new OutputResponse<>();
 		out.setMessage("add post success!");
@@ -150,7 +152,7 @@ public class PostController {
 	}
 
 	@PostMapping("/post/insertAll")
-	public ResponseEntity<OutputResponse<PostDTO>> insertAll(@RequestBody List<PostDTO> dtos) {
+	public ResponseEntity<OutputResponse<PostDTO>> insertAll(@RequestBody @Valid List<PostDTO> dtos) {
 		OutputResponse<PostDTO> out = new OutputResponse<>();
 		postService.saveAll(dtos);
 		out.setMessage("insert all posts success!");
@@ -159,7 +161,7 @@ public class PostController {
 
 	@PutMapping("/post/{id}")
 	public ResponseEntity<OutputResponse<PostDTO>> updatePost(@PathVariable("id") Integer id,
-			@RequestBody PostDTO dto) {
+			@RequestBody @Valid PostDTO dto) {
 		PostDTO dtoExist = postService.getById(id);
 		OutputResponse<PostDTO> out = new OutputResponse<>();
 		if (dtoExist != null) {
@@ -184,7 +186,7 @@ public class PostController {
 			out.setData(Collections.singletonList(result));
 			return ResponseEntity.ok(out);
 		}
-		out.setMessage("post id nout found!");
+		out.setMessage("post id not found!");
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(out);
 	}
 
