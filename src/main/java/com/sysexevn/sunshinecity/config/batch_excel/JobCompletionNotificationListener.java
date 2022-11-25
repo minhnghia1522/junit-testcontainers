@@ -9,7 +9,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 	@Override
 	public void afterJob(JobExecution jobExecution) {
 		if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-			System.out.println("!!! JOB READ EXCEL AND INSERT INTO DATABASE FINISHED ");
+			System.out.println("!!! BATCH JOB READ AND INSERT INTO DATABASE FINISHED ");
 		}
 	}
 }
