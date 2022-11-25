@@ -17,8 +17,11 @@ import com.sysexevn.sunshinecity.batch.listener.JobCompletionNotificationListene
 import com.sysexevn.sunshinecity.dto.PostDTO;
 import com.sysexevn.sunshinecity.entity.Post;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableBatchProcessing
+@RequiredArgsConstructor
 public class CsvImportPostJobConfig {
 
 	@Autowired
@@ -27,7 +30,7 @@ public class CsvImportPostJobConfig {
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
 
-	@Bean
+	@Bean("jobCSV")
 	public Job csvImportPostJob(Step csvImportPostStep) {
 		return jobBuilderFactory.get("csvImportPostJob").incrementer(new RunIdIncrementer())
 				.listener(new JobCompletionNotificationListener()).start(csvImportPostStep).build();

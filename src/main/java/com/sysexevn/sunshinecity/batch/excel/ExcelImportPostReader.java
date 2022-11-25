@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.StepExecution;
+import org.springframework.batch.core.annotation.BeforeStep;
 import org.springframework.batch.item.support.AbstractItemCountingItemStreamItemReader;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +18,16 @@ public class ExcelImportPostReader extends AbstractItemCountingItemStreamItemRea
 
 	private Stream<PostDTO> stream;
 	private Iterator<PostDTO> iterator;
+	private String path;
 
 	public ExcelImportPostReader() {
 		super.setName(this.getClass().getSimpleName());
+	}
+	
+	@BeforeStep
+	public void beforeStep(final StepExecution stepExecution) {
+		JobParameters parameters = stepExecution.getJobExecution().getJobParameters();
+		path = parameters.getString("path");
 	}
 
 	@Override
@@ -27,8 +37,7 @@ public class ExcelImportPostReader extends AbstractItemCountingItemStreamItemRea
 
 	@Override
 	protected void doOpen() throws Exception {
-		List<PostDTO> listPost = PostReadExcelService.read("src/main/resources/static/data_test/data_test.xlsx");
-		// List<PostDTO> listPost = PostReadExcelService.read("C:\\Users\\duy-anhp\\Desktop\\data.xlsx");
+		List<PostDTO> listPost = PostReadExcelService.read("src/main/resources/static" + path);
 		stream = listPost.stream();
 		iterator = stream.iterator();
 	}
