@@ -9,6 +9,7 @@ import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
 import org.seasar.doma.Metamodel;
 import org.seasar.doma.SequenceGenerator;
+import org.seasar.doma.Version;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,11 +17,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(metamodel = @Metamodel, immutable = true)
-@AllArgsConstructor()
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Product {
+public class Product{
 	@Id
 	@SequenceGenerator(sequence = "product_id_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -34,4 +35,7 @@ public class Product {
 	private BigDecimal newPrice;
 	@Column(name = "shop_name")
 	private String shopName;
+	@Version
+	@Column(name = "version_no")
+	public Long version;
 }

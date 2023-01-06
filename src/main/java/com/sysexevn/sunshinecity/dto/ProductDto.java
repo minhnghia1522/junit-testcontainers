@@ -19,4 +19,5 @@ public class ProductDto {
 	private BigDecimal oldPrice;
 	private BigDecimal newPrice;
 	private String shopName;
+	private Long version;
 }
