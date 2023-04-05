@@ -44,7 +44,7 @@ public class WebSecurityConfig {
 				.defaultAccessDeniedHandlerFor(customAccessDeniedHandler, AnyRequestMatcher.INSTANCE).and()
 				.authorizeRequests().antMatchers().permitAll()//
 				.antMatchers("/auth/login", "/auth/signup").permitAll()//
-				.anyRequest().authenticated();
+				.anyRequest().permitAll();
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}

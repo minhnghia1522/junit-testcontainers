@@ -23,7 +23,7 @@ public class EmployeeController {
 	@Autowired
 	public IEmployeeService service;
 
-	@PreAuthorize("hasAuthority('USER')")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<EmployeeDto> getById(@PathVariable("id") int id) throws NotFoundException {
 		EmployeeDto employee = service.getById(id);
