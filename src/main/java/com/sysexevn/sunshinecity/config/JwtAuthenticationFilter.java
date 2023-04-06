@@ -1,6 +1,7 @@
 package com.sysexevn.sunshinecity.config;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -53,9 +54,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				}
 			}
 		} catch (ExpiredJwtException ex) {
-			String isRefreshToken = request.getHeader("isRefreshToken");
+
+//			Enumeration<String> headerNames = request.getHeaderNames();
+//			while(headerNames.hasMoreElements()) {
+//			  String headerName = headerNames.nextElement();
+//			  System.out.println("Header Name - " + headerName + ", Value - " + request.getHeader(headerName));
+//			}
+
+//			String isRefreshToken = request.getHeader("isRefreshToken");
 			String requestURL = request.getRequestURL().toString();
-			if (isRefreshToken != null && isRefreshToken.equals("true") && requestURL.contains("refresh-token")) {
+			if (requestURL.contains("refresh-token")) {
 				allowForRefreshToken(ex, request);
 			} else {
 				request.setAttribute("exception", ex);

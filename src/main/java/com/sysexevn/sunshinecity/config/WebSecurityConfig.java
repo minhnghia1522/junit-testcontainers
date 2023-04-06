@@ -24,7 +24,7 @@ public class WebSecurityConfig {
 	private CustomUserDetailService customUserDetailService;
 
 	@Bean
-	public JwtAuthenticationFilter jwtAuthenticationFilter() {
+	JwtAuthenticationFilter jwtAuthenticationFilter() {
 		return new JwtAuthenticationFilter();
 	}
 
@@ -33,12 +33,12 @@ public class WebSecurityConfig {
 
 	@Autowired
 	private CustomAccessDeniedHandler customAccessDeniedHandler;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.exceptionHandling().authenticationEntryPoint(authenticationEntry)
 				.defaultAccessDeniedHandlerFor(customAccessDeniedHandler, AnyRequestMatcher.INSTANCE).and()
@@ -50,7 +50,7 @@ public class WebSecurityConfig {
 	}
 
 	@Bean
-	public DaoAuthenticationProvider authProvider() {
+	DaoAuthenticationProvider authProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 		authProvider.setUserDetailsService(customUserDetailService);
 		authProvider.setPasswordEncoder(passwordEncoder);
@@ -58,7 +58,7 @@ public class WebSecurityConfig {
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
 			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
