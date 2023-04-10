@@ -8,6 +8,7 @@ import org.seasar.doma.GeneratedValue;
 import org.seasar.doma.GenerationType;
 import org.seasar.doma.Id;
 import org.seasar.doma.Metamodel;
+import org.seasar.doma.SequenceGenerator;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,41 +20,40 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SC961 {
-	
+public class Department {
+
 	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(sequence = "department_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 	
-	@Column(name = "retirement")
-	private boolean retirement;
+	@Column(name = "sc961_id")
+	private Long sc961Id ;
+
+	@Column(name = "roll")
+	private String roll;
 	
-	@Column(name = "affiliationcompany")
-	private String affiliationCompany;
+	@Column(name = "dept")
+	private String dept;
 	
-	@Column(name = "employeenumber")
-	private String employeeNumber;
+	@Column(name = "company")
+	private String company;
 	
-	@Column(name = "userCode")
-	private String userCode;
+	@Column(name = "line_g")
+	private String lineG;
 	
-	@Column(name = "userName")
-	private String userName;
+	@Column(name = "priority")
+	private String priority;
 	
-	@Column(name = "usernamekana")
-	private String userNameKana;
+	@Column(name = "valid_start_date")
+	private Date validStartDate;
 	
-	@Column(name = "emailaddress")
-	private String emailAddress;
-	
-	@Column(name = "lastpasswordchangetime")
-	private Date lastPasswordChangeTime;
+	@Column(name = "valid_end_date")
+	private Date validEndDate;
 	
 	@Column(name = "created_at")
 	private Date createdAt;
 	
 	@Column(name = "update_at")
 	private Date updateAt;
-	
 }
