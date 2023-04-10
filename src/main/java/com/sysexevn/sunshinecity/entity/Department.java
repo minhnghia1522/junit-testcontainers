@@ -23,8 +23,8 @@ import lombok.Setter;
 public class Department {
 
 	@Id
-	@SequenceGenerator(sequence = "department_id_seq")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "sc961_id")

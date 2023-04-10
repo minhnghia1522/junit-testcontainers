@@ -54,6 +54,7 @@ public class ISC961ServiceImpl implements ISC961Service {
 
 		List<Department> departments = departmentConverter.convertListEntity(dto.getDepartmentDtos());
 		departments.forEach(deparment -> {
+			deparment.setId(null);
 			deparment.setSc961Id(saveResult.getEntity().getId());
 		});
 		departmentService.insertAll(departments);
